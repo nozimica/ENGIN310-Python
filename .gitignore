@@ -1,0 +1,4 @@
+beamer/*.pdf
+**/*.aux
+**/*.log
+**/.*.swp

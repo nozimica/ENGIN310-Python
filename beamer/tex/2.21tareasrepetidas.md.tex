@@ -1,0 +1,430 @@
+## Realizando cálculos {.fragile}
+
+Hagamos algunos cálculos simples:
+
+- Si una milla equivale a aprox. 1,609344 kilómetros.
+
+\vspace*{-1em}
+\bgncolumns
+
+\column{.5\textwidth}
+
+\bgnblocknormal[wd=.7\textwidth,centered=true]
+Transformar 6 millas a kilómetros
+\trmblocknormal
+
+\column{.5\textwidth}
+\vspace{-2ex}
+\begin{lstlisting}[linebackgroundcolor={\btLstHL<3->{2-3}}]
+>>> distMillas = 6
+>>> kmMi = 1.609344
+>>> distKm = distMillas * kmMi
+>>> distKm
+9.656064
+\end{lstlisting}
+\trmcolumns
+
+\pause
+
+\vspace{1ex}
+\bgncolumns
+\column{.5\textwidth}
+
+\bgnblocknormal[wd=.7\textwidth,centered=true]
+Transformar 0,3 millas a kilómetros
+\trmblocknormal
+
+\column{.5\textwidth}
+\vspace{-2ex}
+\begin{lstlisting}[linebackgroundcolor={\btLstHL<3->{2-3}}]
+>>> distMillas = 0.3
+>>> kmMi = 1.609344
+>>> distKm = distMillas * kmMi
+>>> distKm
+0.4828032
+\end{lstlisting}
+
+\trmcolumns
+
+\pause
+\bgnblockdanger
+OJO: ¡¡se repite casi todo en ambos cálculos!!
+\trmblockdanger
+
+## Realizando cálculos {.fragile}
+
+O por ejemplo, podríamos querer calcular el área de un círculo.
+
+\bgncolumns
+
+\column{0.5\textwidth}
+
+\bgnblocknormal[wd=.7\textwidth,centered=true]
+¿Cuánto vale el área de un círculo de radio 10 cm?
+\trmblocknormal
+
+\column{0.5\textwidth}
+\vspace{-2ex}
+\begin{lstlisting}[linebackgroundcolor={\btLstHL<3->{2-3}}]
+>>> radio = 10
+>>> PI = 3.1415
+>>> area = PI * (radio**2)
+>>> area
+314.15
+\end{lstlisting}
+
+\trmcolumns
+
+\pause
+
+\vspace{1ex}
+\bgncolumns
+
+\column{0.5\textwidth}
+
+\bgnblocknormal[wd=.7\textwidth,centered=true]
+¿Cuánto vale el área de un círculo de radio 300 cm?
+\trmblocknormal
+
+\column{0.5\textwidth}
+\vspace{-2ex}
+\begin{lstlisting}[linebackgroundcolor={\btLstHL<3->{2-3}}]
+>>> radio = 300
+>>> PI = 3.1415
+>>> area = PI * (radio**2)
+>>> area
+282735.0
+\end{lstlisting}
+
+\trmcolumns
+
+\pause
+
+\bgnblockdanger
+¡¡ también se repite casi todo !!
+\trmblockdanger
+
+## Funciones {.fragile}
+
+\bgnblocknormal[wd=.8\textwidth,centered=true]
+\bld{Funciones:} agrupando tareas que se repiten.
+\trmblocknormal
+
+\bgncolumns
+
+\column{.5\textwidth}
+
+\begin{lstlisting}
+>>> distMillas = 6
+>>> kmMi = 1.609344
+>>> distKm = distMillas * kmMi
+>>> distKm
+9.656064
+\end{lstlisting}
+
+\column{.5\textwidth}
+
+\begin{lstlisting}[style=frame01]
+>>> # Transforma un valor desde millas a kilómetros.
+>>> def mi2Km(distMillas):
+        kmMi = 1.609344
+        return distMillas * kmMi
+\end{lstlisting}
+
+\trmcolumns
+
+\pause
+
+- Una vez definidas, las funciones pueden ser usadas:
+
+\bgncolumns
+
+\column{.35\textwidth}
+
+\begin{lstlisting}
+>>> mi2Km(6)
+9.656064
+>>> mi2Km(0.3)
+0.4828032
+\end{lstlisting}
+
+\column{.65\textwidth}
+
+\bgnblocknormal[wd=.9\textwidth,centered=true]
+Las usamos tal como lo hemos hecho en matemática.
+\trmblocknormal
+
+\trmcolumns
+
+## Funciones {.fragile}
+
+\bgnblocknormal[wd=.8\textwidth,centered=true]
+\bld{Funciones:} agrupando tareas que se repiten.
+\trmblocknormal
+
+\bgncolumns
+
+\column{.5\textwidth}
+
+\begin{lstlisting}
+>>> radio = 10
+>>> PI = 3.1415
+>>> area = PI * (radio**2)
+>>> area
+314.15
+\end{lstlisting}
+
+\column{.5\textwidth}
+
+\begin{lstlisting}[style=frame01]
+>>> # Calcula el área de un círculo, dado su radio.
+>>> def areaCirculo(radio):
+        PI = 3.1415
+        return PI * (radio ** 2)
+\end{lstlisting}
+
+\trmcolumns
+
+\pause
+
+- Una vez definidas, las funciones pueden ser usadas:
+
+\bgncolumns
+
+\column{.35\textwidth}
+\begin{lstlisting}
+>>> areaCirculo(10)
+314.15000000000003
+>>> areaCirculo(2)
+12.566
+\end{lstlisting}
+
+\column{.65\textwidth}
+
+\bgnblocknormal[wd=.9\textwidth,centered=true]
+Las usamos tal como lo hemos hecho en matemática.
+\trmblocknormal
+
+\trmcolumns
+
+## Funciones {.fragile}
+
+Formalicemos el concepto de \strongText{Función}:
+
+\vfill
+\bgnblockdefinition
+\bld{Función:} Corresponde a un conjunto de instrucciones que realizan una tarea concreta.
+Puede recibir datos de entrada y puede generar salidas y/o mensajes.
+\trmblockdefinition
+
+\vfill
+
+Nos concentraremos en escribir funciones que:
+
+- Hagan una tarea muy específica.
+- Tengan definidas sus entradas y salidas.
+- Tengan bien establecido qué es lo que hace, mediante comentarios justo arriba de
+su definición.
+
+\placeLogoOpt{xshift=-5mm,yshift=-1mm}{img/factory-1f3ed.pdf}
+
+## Realizando cálculos (cont.) {.fragile}
+
+Ahora realicemos el siguiente cálculo:
+
+- Un automóvil rinde 14 km/lt.
+- Sabemos que recorrió 24 millas.
+- Queremos saber cuántos litros de combustible consumió.
+
+\vspace{-.6ex}
+\bgnblocknormal
+Podríamos hacer los cálculos paso a paso...
+\trmblocknormal
+
+\begin{onlyenv}<2->
+
+\bgncolumns
+\column{.5\textwidth}
+
+\begin{lstlisting}[linebackgroundcolor={%
+        \btLstHL<3->{3-4}%
+}]
+>>> rendKmLt = 14
+>>> distMillas = 24
+>>> kmMi = 1.609344
+>>> distKm = distMillas * kmMi
+>>> consumoLt = distKm / rendKmLt
+>>> consumoLt
+2.7588754285714288
+\end{lstlisting}
+
+\column{.05\textwidth}
+
+\column{.45\textwidth}<3->
+
+\bgnblockalert
+\footnotesize Pero eso ya está hecho, es convertir millas a km:
+\trmblockalert
+
+\begin{onlyenv}<4->
+\begin{lstlisting}[linebackgroundcolor={%
+        \btLstHL<4->{2-4}%
+}]
+# Transforma un valor desde millas a kilómetros.
+def mi2Km(distMillas):
+    kmMi = 1.609344
+    return distMillas * kmMi
+\end{lstlisting}
+\end{onlyenv}
+
+\trmcolumns
+
+\end{onlyenv}
+
+\placeLogoOpt{xshift=-15mm,yshift=-6mm}{img/truck-1f69a.pdf}
+
+## Realizando cálculos (cont.) {.fragile}
+
+- Mirémoslo nuevamente:
+
+\vspace{-2ex}
+
+\bgncolumns
+\column{.48\textwidth}
+\begin{lstlisting}[linebackgroundcolor={%
+        \btLstHL{3-4}%
+}]
+>>> rendKmLt = 14
+>>> distMillas = 24
+>>> kmMi = 1.609344
+>>> distKm = distMillas * kmMi
+>>> consumoLt = distKm / rendKmLt
+>>> consumoLt
+2.7588754285714288
+\end{lstlisting}
+
+\column{.04\textwidth}
+
+\column{.48\textwidth}
+
+\begin{lstlisting}[linebackgroundcolor={%
+        \btLstHL{2-4}%
+}]
+# Transforma un valor desde millas a kilómetros.
+def mi2Km(distMillas):
+    kmMi = 1.609344
+    return distMillas * kmMi
+\end{lstlisting}
+
+\trmcolumns
+
+\pause
+
+- Todo eso se transforma en:
+
+\vspace{-2ex}
+
+\bgncolumns
+\column{.2\textwidth}
+\column{.6\textwidth}
+\begin{lstlisting}[linebackgroundcolor={%
+        \btLstHL{3}%
+}]
+>>> rendKmLt = 14
+>>> distMillas = 24
+>>> distKm = mi2Km(distMillas)
+>>> consumoLt = distKm / rendKmLt
+>>> consumoLt
+2.7588754285714288
+\end{lstlisting}
+
+\column{.2\textwidth}
+
+\trmcolumns
+
+## Realizando cálculos (cont.) {.fragile}
+
+\bgnblocknormal
+
+- ¿Qué pasa si cambia el rendimiento?
+- ¿Qué pasa si cambian las millas recorridas?
+
+\trmblocknormal
+
+\bgncolumns
+\column{.48\textwidth}
+\begin{lstlisting}[linebackgroundcolor={%
+        \btLstHL{1-2}%
+}]
+>>> rendKmLt = 14
+>>> distMillas = 24
+>>> distKm = mi2Km(distMillas)
+>>> consumoLt = distKm / rendKmLt
+>>> consumoLt
+2.7588754285714288
+\end{lstlisting}
+
+\column{.04\textwidth}
+\column{.48\textwidth}
+\begin{lstlisting}[linebackgroundcolor={\btLstHL{1-2}}]
+>>> rendKmLt = 17
+>>> distMillas = 12
+>>> distKm = mi2Km(distMillas)
+>>> consumoLt = distKm / rendKmLt
+>>> consumoLt
+1.1360075294117649
+\end{lstlisting}
+
+\trmcolumns
+
+\bgncolumns
+\column{.48\textwidth}
+
+- Ojo: esas dos líneas son las \textbf{entradas} de un cálculo que se repite:
+
+\column{.04\textwidth}
+\column{.48\textwidth}
+\bgnblocknormal
+Calcular el consumo de litros, en función del rendimiento y lo recorrido.
+\trmblocknormal
+
+\trmcolumns
+
+## Realizando cálculos (cont.) {.fragile}
+
+\vspace*{-3ex}
+\bgncolumns
+
+\column{0.4\textwidth}
+
+\bgnblocknormal
+Para este código definimos una nueva función: \texttt{consumoVehiculo}
+\trmblocknormal
+
+\column{0.05\textwidth}
+\column{0.55\textwidth}
+
+\begin{lstlisting}
+>>> rendKmLt = 14
+>>> distMillas = 24
+>>> distKm = mi2Km(distMillas)
+>>> consumoLt = distKm / rendKmLt
+\end{lstlisting}
+
+\trmcolumns
+
+\vfill
+
+- Noten que esta función recibe \strongText{dos} entradas.
+
+\vfill
+
+\begin{lstlisting}[style=frame01]
+>>> # Calcula el consumo de combustible en litros, para un vehículo
+>>> # dado su rendimiento [km/lt] y la distancia recorrida [mi].
+>>> def consumoVehiculo(rendKmLt, distMillas):
+>>>     distKm = mi2Km(distMillas)
+>>>     consumoLt = distKm / rendKmLt
+>>>     return consumoLt
+\end{lstlisting}
+

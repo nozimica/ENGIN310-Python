@@ -1,0 +1,147 @@
+## Funciones {.fragile}
+
+\bgnenviron{<1>}{onlyenv}
+
+- Es bueno tomar nota de algunos cuidados que debemos tener con las funciones:
+
+\trmenviron{onlyenv}
+
+\bgnblocknormal
+
+\begin{enumerate}
+    \item<1-| alert@2> Como todo en Python, distinguen mayúsculas de minúsculas.
+    \item<1-| alert@3> Debe dárseles siempre los argumentos que necesita.
+\end{enumerate}
+
+\trmblocknormal
+
+\pause
+
+\bgnenviron{<2>}{onlyenv}
+\bgncolumns
+\column{.3\textwidth}
+
+\begin{lstlisting}
+>>> mi2Km(6)
+9.656064
+>>> mi2Km(0.3)
+0.4828032
+>>> mi2Km(12)
+19.312128
+\end{lstlisting}
+
+\column{.7\textwidth}
+
+\begin{lstlisting}
+>>> mk2km(12)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  NameError: name 'mk2km' is not defined
+>>>
+>>> Mk2km(12)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  NameError: name 'Mk2km' is not defined
+\end{lstlisting}
+
+\trmcolumns
+\trmenviron{onlyenv}
+
+\bgnenviron{<3>}{onlyenv}
+\bgncolumns
+\column{.3\textwidth}
+
+\begin{lstlisting}
+>>> mi2Km(6)
+9.656064
+>>> mi2Km(0.3)
+0.4828032
+>>> mi2Km(12)
+19.312128
+\end{lstlisting}
+
+\column{.7\textwidth}
+
+\begin{lstlisting}
+>>> mi2Km()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  TypeError: mi2Km() missing 1 required positional argument: 'distMillas'
+>>>
+>>> mi2Km(12, 33)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  TypeError: mi2Km() takes 1 positional argument but 2 were given
+\end{lstlisting}
+
+\trmcolumns
+\trmenviron{onlyenv}
+
+## Indentación {.fragile}
+
+- Es bueno que hablemos del concepto de \strongText{bloque}:
+
+\bgnblockdefinition
+\bld{Bloque:} Es un grupo de instrucciones que pertenecen a un mismo contexto.
+\trmblockdefinition
+
+- Ya conocemos uno de esos contextos: las \strongText{funciones}.
+
+## Indentación {.fragile}
+
+- Y al escribir en Python, ¿cómo indicamos que esas instrucciones pertenecen al mismo bloque?
+    - Escribiéndolas con la misma \strongText{indentación}.
+
+\pause
+
+\bgnblockdefinition
+\bld{Indentación:} Cantidad de espacios en blanco a la izquierda que tiene el inicio de una instrucción.
+\trmblockdefinition
+
+\vspace{2ex}
+
+\pause
+
+\bgnblockidea
+Todo el cuerpo de la función debe estar \strongText{indentado}.
+\trmblockidea
+
+
+## Indentación {.fragile}
+
+- Algunos errores posibles:
+
+\begin{lstlisting}
+>>> def mi2Km(distMillas):
+... kmMi = 1.609344
+  File "<stdin>", line 2
+    kmMi = 1.609344
+       ^
+IndentationError: expected an indented block
+>>>
+>>> def mi2Km(distMillas):
+...     kmMi = 1.609344
+...    return distMillas * kmMi
+  File "<stdin>", line 3
+    return distMillas * kmMi
+                           ^
+IndentationError: unindent does not match any outer indentation level
+\end{lstlisting}
+
+## Ejercicios {.fragile}
+
+1. Si hoy estamos a viernes, ¿a qué días de la semana estaremos en 20, 42 y 80 días?
+1. Considerando el problema anterior:
+    1. ¿cómo lo implementarías en una función?
+    1. ¿cuáles serían su(s) entrada(s), constante(s) y salida(s)?
+1. Implementa una función que dado un el precio neto de un producto, entregue su precio con IVA.
+1. Implementa una función que calcule el volumen de una esfera de radio $r$.
+    - Recuerda que la fórmula es: $\frac{4}{3}\pi r^3$.
+
+## Ejercicios {.fragile}
+
+1. Implementa una función que realice el siguiente cálculo: $\frac{a+b^2}{2*c}$
+1. Calcula la distancia (en 2 dimensiones) entre dos puntos. Considera que cada punto se representa
+como dos valores: $x_i$ e $y_i$.
+1. Para cualquier número de exactamente 2 dígitos, calcula la suma de sus dígitos.
+1. Para cualquier número de exactamente 3 dígitos, calcula la suma de sus dígitos.

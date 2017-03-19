@@ -1,0 +1,46 @@
+\documentclass[12pt,xcolor={dvipsnames,x11names},t]{beamer}
+\usepackage{engin310}
+
+\title{ENGIN310: Programación y Algoritmos}
+\subtitle{Semestre de otoño de 2017}
+\author{Nicolás Eugenio Ozimica\\[.4em]\texttt{<nozimica@fen.uchile.cl>}}
+
+\date{Apuntes de clase}
+
+\usepackage[export]{adjustbox}
+
+\begin{document}
+
+%----------- titlepage ----------------------------------------------%
+\begin{frame}[plain]
+    \centering \includegraphics[height=26mm]{img/logoFen.png}\\
+    \centering
+    \titlepage
+\end{frame}
+
+% \providecommand{\tightlist}{%
+%     \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\def\opacityblock{.3}
+
+\tikzstyle{simplestep} = [normalfig, rectangle, text width=7em, bottom color=orange!30, draw=orange!90!black!50, rounded corners=2mm]
+\tikzstyle{na} = [baseline=-0.5ex,remember picture]
+\tikzstyle{arrowInList} = [draw=blue,thick,->]
+
+\def\tightlist{}
+
+\section{Introducción al curso}
+\subsection{Algoritmos}
+\include{tex/1.01algoritmos}
+\subsection{Variables y tipos de dato}
+\include{tex/1.02variablesytipos}
+\section{Introducción a Python}
+\subsection{Expresiones simples}
+\include{tex/2.01simpleexpr}
+\subsection{Variables en Python}
+\include{tex/2.11simplevars}
+\subsection{Funciones}
+\include{tex/2.21tareasrepetidas}
+\include{tex/2.24funciones}
+\subsection{Receta de diseño}
+\include{tex/2.27recetadisenno}
+\end{document}

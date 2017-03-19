@@ -1,0 +1,182 @@
+## Manejo de variables en Python {.fragile}
+
+\begin{columns}[onlytextwidth,t]
+\column{0.5\textwidth}
+\simpleTitle{Definiendo variables}
+\vspace{-2ex}
+
+\begin{lstlisting}
+>>> a = 4
+>>> a
+4
+>>> a = 7
+>>> b = 11
+>>> r = 2.1
+>>> a
+7
+>>> print(b)
+11
+>>> a + r
+9.1
+>>> z = a + 3 * b
+>>> z
+40
+\end{lstlisting}
+
+\column{0.5\textwidth}
+\simpleTitle{Varias variables en línea}
+\vspace{-2ex}
+\begin{lstlisting}
+>>> m, n = 234, 64
+>>> m
+234
+>>> n
+64
+>>> m, n
+(234, 64)
+>>> print(m, n)
+(234, 64)
+>>>
+>>> m2, n2 = m / 10.0, n**0.5
+>>> m2, n2
+(23.4, 8.0)
+\end{lstlisting}
+\end{columns}
+
+## Manejo de variables en Python {.fragile}
+
+\begin{columns}[onlytextwidth,t]
+
+\column{0.5\textwidth}
+\simpleTitle{Intercambio de valores}
+\vspace{-2ex}
+\begin{lstlisting}
+>>> a = 10
+>>> b = -5
+>>> print(a, b)
+(10, -5)
+>>> 
+>>> aux = a
+>>> a = b
+>>> b = aux
+>>> 
+>>> print(a, b)
+(-5, 10)
+\end{lstlisting}
+
+\column{0.5\textwidth}
+\simpleTitle{Pero miren esto:}
+
+\vspace{-2ex}
+\begin{lstlisting}
+>>> a = 23
+>>> b = -12
+>>> b, a = a, b
+>>> a,b
+(-12, 23)
+\end{lstlisting}
+
+\end{columns}
+
+## Variables: malas y buenas prácticas {.fragile}
+
+\vspace{-2ex}
+\begin{columns}[onlytextwidth,t]
+\column{0.3\textwidth}
+
+\begin{lstlisting}
+>>> x = 4
+>>> y = 6
+>>> z = x * y
+>>>
+>>> z
+24
+\end{lstlisting}
+\column{0.4\textwidth}
+
+\pause
+\vspace{1ex}
+\includegraphics[width=.7\textwidth,valign=t]{img/658-emoji_android_fearful_face.png}
+\column{0.3\textwidth}
+
+% \vspace{3ex}
+\begin{footnotesize}
+    \begin{nzalertblock}
+    ¡No se sabe qué \textbf{representan} estas variables!
+    \end{nzalertblock}
+
+    \begin{nzalertblock}
+    \footnotesize No es buena idea usar sólo letras.
+    \end{nzalertblock}
+\end{footnotesize}
+\end{columns}
+
+
+\pause
+\vspace{2ex}
+
+\begin{columns}[onlytextwidth,t]
+\column{0.5\textwidth}
+\begin{lstlisting}
+>>> ancho = 4
+>>> largo = 6
+>>> area = ancho * largo
+>>>
+>>> area
+24
+\end{lstlisting}
+\column{0.5\textwidth}
+\pause
+
+\bgnblocknormal
+    Ahora sí sabemos qué está pasando...
+\trmblocknormal
+
+\bgnblocknormal
+    \footnotesize Los nombres de las variables son autoexplicativos.
+\trmblocknormal
+
+\end{columns}
+
+## Variables: repaso
+
+Repasemos el concepto de *Variable*:
+
+\vfill
+
+\bgnblockdefinition
+\bld{Variable:} Corresponde a un valor que puede cambiar a lo largo de la ejecución de un algoritmo.
+\trmblockdefinition
+
+\bgncolumns
+\column{.65\textwidth}
+
+- Se identifican con un nombre único y permanente.
+    - \underline{Conviene}: usar \bld{nombres adecuados} (evitará futuras confusiones).
+    - \underline{Recomendado}: que el nombre \bld{comience con} una letra \bld{minúscula}.
+
+\column{0.35\textwidth}
+\vspace{2ex}
+\small
+\tikz[baseline=(exp1.north)]{
+    \node[coordinate] (exp1) {};
+    \node[exampleboxblue,below=3mm of exp1] (exp2) { \texttt{total = 12} };
+    \node[exampleboxblue,below of=exp2] (exp3) { \texttt{total = -2} };
+    \node[exampleboxblue,below of=exp3] (exp4) { \texttt{total = i} };
+    \node[exampleboxgreen,right=14mm of exp1] (exp9) { \texttt{i = 0} };
+    \node[exampleboxgreen,below of=exp9] (exp8) { \texttt{i = 2} };
+    \node[exampleboxgreen,below of=exp8] (exp7) { \texttt{i = i + 1} };
+}
+\trmcolumns
+
+## Ejemplos
+
+\begin{block}{Calcular lado de un triángulo rectángulo}
+Usando tres variables para representar a los lados de un triángulo rectángulo, del
+cual conocemos sólo la hipotenusa y otro de los lados, calcular el valor
+del tercer lado.
+\end{block}
+
+\begin{block}{Calcular dígitos}
+Dado un número de 5 dígitos, obtener el primer y el último dígito.
+\end{block}

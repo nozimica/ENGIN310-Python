@@ -1,0 +1,386 @@
+\usetheme{Madrid}
+\usecolortheme{whale}
+\useinnertheme{rounded}
+\setbeamertemplate{navigation symbols}{} 
+\setbeamertemplate{footline}[frame number]{}
+
+
+\setbeamercolor{frametitle}{fg=structure.fg,bg=white}
+% \addtobeamertemplate{frametitle}{}{\topline%
+% }
+
+\defbeamertemplate*{frametitle}{Zurich theme}[1][left]
+{
+    \vskip.5ex%
+    \hspace{0em}\strut{\insertframetitle}\strut\par%
+    {%
+        \ifx\insertframesubtitle\@empty%
+        \else
+            {\usebeamerfont{framesubtitle}
+             \usebeamercolor[fg]{framesubtitle}
+            \insertframesubtitle\strut\par}%
+        \fi
+    }%
+    \vskip-6pt%
+    \rule{\textwidth\relax}{1pt}%
+}
+
+%%http://tex.stackexchange.com/questions/20654/length-between-nested-lists-in-beamer
+\setbeamertemplate{itemize/enumerate subbody begin}{\vspace{-1mm}}
+\setbeamertemplate{itemize/enumerate subbody end}{\vspace{-1mm}}
+\setbeamertemplate{itemize/enumerate subsubbody begin}{\vspace{-1mm}}
+\setbeamertemplate{itemize/enumerate subsubbody end}{\vspace{-1mm}}
+
+\usepackage{float}
+\usepackage{color}
+\usepackage{smartdiagram}
+\usesmartdiagramlibrary{additions}
+
+\newcommand{\nologo}{\setbeamertemplate{logo}{}} % command to set the logo to nothing
+
+\PassOptionsToPackage{table}{xcolor}
+
+\usepackage{booktabs}
+
+\usepackage[spanish,activeacute]{babel}
+\usepackage{fixltx2e}
+
+\usepackage{iftex}
+\ifPDFTeX
+    \usepackage[utf8]{inputenc}
+    \usepackage[T1]{fontenc}
+    \PrerenderUnicode{áéíóúÁÉÍÓÚüÜ}
+\else
+    \usepackage[utf8]{inputenc}
+    \ifXeTeX
+        \usepackage{xltxtra}
+
+        % set fonts
+        \usepackage{fontspec}
+        \setsansfont[ExternalLocation=../fonts/,
+          Ligatures=TeX,
+          BoldFont=FontinSansBold.otf,
+          BoldItalicFont=FontinSansBoldItalic.otf,
+          SmallCapsFont=FontinSansSC.otf,
+          ItalicFont=FontinSansItalic.otf]{FontinSans.otf}
+        \setbeamerfont{frametitle}{size*={18}{18},series=\bfseries}
+%        \setmonofont[Mapping=tex-text]{Inconsolatazi4}
+        %\usepackage[scaled]{beramono}
+        \setmonofont[ExternalLocation=../fonts/,
+          Scale=MatchLowercase,
+          BoldFont=DejaVuSansMono-Bold.ttf,
+          ItalicFont=DejaVuSansMono-Oblique.ttf,
+          BoldItalicFont=DejaVuSansMono-BoldOblique.ttf]{DejaVuSansMono.ttf}
+    \else
+        \usepackage{luatextra}
+    \fi
+    \defaultfontfeatures{Ligatures=TeX}
+\fi
+
+\usepackage{textcomp} % To get good bullet symbols and avoid problems.
+\usepackage[footnotesize,labelfont=bf,hang]{caption}
+\setbeamertemplate{caption}[numbered] 
+
+\usepackage{hyperref}
+\usepackage{array}
+
+\newcolumntype{C}[1]{%
+ >{\vbox to 3.4ex\bgroup\vfill\centering}%
+ m{#1}%
+ <{\egroup}}
+
+\usepackage{../_lib/ensia200.flowchart}
+\usepackage{../_lib/engin310.listings}
+\usepackage{../_lib/ensia200.common}
+
+% For inline examples
+\tikzstyle{exampleboxblue} = [draw=black!10!blue!70,thick,rectangle,rounded corners=1mm,fill=black!30!blue!20]
+\tikzstyle{exampleboxgreen} = [draw=black!60!green,thick,rectangle,rounded corners=1mm,fill=black!60!green!30]
+
+% \exampleFig{name}{type}{previosObj}{Text}{Description}
+\newcommand{\exampleFig}[5]{%
+  \node (#1) [#2, below=\nextFig of #3.center] {#4};
+  \node [textdesc, right=\nextDef of #1.center] {#5};
+}
+
+%\setbeamercolor{item projected}{fg=red}
+%\setbeamertemplate{enumerate items}[default]
+%\setbeamercolor{item projected}{fg=green}
+\setbeamercolor{uppercolor}{fg=white,bg=blue!70}
+\setbeamercolor{lowercolor}{fg=black,bg=blue!10}
+% \setbeamercolor{alerted text}{fg=blue}
+%\setbeamercolor*{enumerate item}{fg=red}
+%\setbeamercolor*{enumerate subitem}{fg=red}
+%\setbeamercolor*{enumerate subsubitem}{fg=red}
+
+% Enumerate items, ball
+\setbeamertemplate{enumerate item}
+{
+  \begin{pgfpicture}{-1ex}{-0.65ex}{1ex}{1ex}
+    \usebeamercolor[fg]{item projected}
+    {\pgftransformscale{1.75}\pgftext{\normalsize\pgfuseshading{bigsphere}}}
+    {\pgftransformshift{\pgfpoint{0pt}{0.5pt}}
+      \pgftext{\usebeamercolor[fg]{item projected}\usebeamerfont*{item projected}\insertenumlabel}}
+  \end{pgfpicture}%
+}
+
+\setbeamertemplate{enumerate subitem}
+{ 
+  \begin{pgfpicture}{-1ex}{-0.55ex}{1ex}{1ex}
+    \usebeamercolor[fg]{subitem projected}
+    {\pgftransformscale{1.4}\pgftext{\normalsize\pgfuseshading{bigsphere}}}
+    \pgftext{%
+      \usebeamercolor[fg]{item projected}%
+      \usebeamerfont*{subitem projected}%
+      \insertsubenumlabel}
+  \end{pgfpicture}%
+} 
+
+\setbeamertemplate{enumerate subsubitem}
+{ 
+  \begin{pgfpicture}{-1ex}{-0.55ex}{1ex}{1ex}
+    \usebeamercolor[fg]{subsubitem projected}
+    {\pgftransformscale{1.4}\pgftext{\normalsize\pgfuseshading{bigsphere}}}
+    \pgftext{%
+      \usebeamercolor[fg]{item projected}%
+      \usebeamerfont*{subitem projected}%
+      \insertsubsubenumlabel}
+  \end{pgfpicture}%
+}
+
+% \setbeamercolor{block body example}{fg=blue,bg=white}
+% \setbeamercolor{uppercolgreen}{fg=white,bg=green!35}
+% \setbeamercolor{postit}{fg=black,bg=yellow}
+\setbeamercolor{lowercolgreen}{fg=black,bg=green!35}
+
+% \usepackage{enumitem}
+% \setlist[itemize]{itemsep=2ex,label=\usebeamerfont*{itemize item}%
+% \usebeamercolor[fg]{itemize item}
+% \usebeamertemplate{itemize item}}
+% \setlist[itemize,2]{itemsep=0ex}
+% \setlist{topsep=3pt}
+
+
+% \let\olditem\item
+% \renewcommand{\item}{\setlength{\itemsep}{.9ex}\olditem}
+
+\setbeamersize{text margin left=6mm,text margin right=6mm}
+
+\usepackage{tabularx}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+\usepackage{ragged2e}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Increase padding for blocks.
+% http://tex.stackexchange.com/a/109798/5185
+\newlength{\nzblockpadding}%
+\setlength{\nzblockpadding}{0.5em}%
+\newlength{\nzblocktextwd}%
+\setlength{\nzblocktextwd}{\textwidth} \addtolength{\nzblocktextwd}{-2.4\nzblockpadding}
+\addtobeamertemplate{block begin}
+  {}
+  {\vspace{1ex plus 0.5ex minus 0.5ex} % Pads top of block
+     % separates paragraphs in a block
+   %\setlength{\parskip}{24pt plus 1pt minus 1pt}%
+   % \begin{adjustwidth}{2cm}{2cm}
+    \begin{columns}[t,onlytextwidth]%
+      \column{\nzblockpadding}%
+      \column{\nzblocktextwd}%
+}
+\addtobeamertemplate{block end}
+  {%\end{adjustwidth}%
+      \column{\nzblockpadding}%
+  \end{columns}
+   \vspace{2ex plus 0.5ex minus 0.5ex} % Pads bottom of block
+  }
+  {}%\vspace{10ex plus 1ex minus 1ex}} % Seperates blocks from each other
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Custom blocks
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{xkeyval}
+\makeatletter
+\define@key{nzblocks}{wd}{\def\nzblockswd{#1}}
+\define@key{nzblocks}{envname}{\edef\nzenvname{#1}}
+\define@boolkey{nzblocks}{centered}{}
+\def\nztrue{true}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \nzalertblock<>[options]
+% \nznormalblock<>[options]
+% \nzgoodblock<>[options]
+\newenvironment<>{nzalertblock}[1][]%
+  {\begin{nzblock}#2[#1]{block body alerted}}
+  {\end{nzblock}}
+\newenvironment<>{nznormalblock}[1][]%
+  {\begin{nzblock}#2[#1]{block body example}}
+  {\end{nzblock}}
+\newenvironment<>{nzgoodblock}[1][]%
+  {\begin{nzblock}#2[#1]{block body}}
+  {\end{nzblock}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \nzblockidea<>[options]
+\newenvironment<>{nzblockidea}[1][]%
+  {\begin{nzblockicon}#2[#1]{idea}}%{img/twitter-LightBulb.pdf}}%
+  {\end{nzblockicon}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \nzblockdefinition<>[options]
+\newenvironment<>{nzblockdefinition}[1][]%
+  {\begin{nzblockicon}#2[#1]{definition}}%{img/memo-1f4dd.pdf}}%
+  {\end{nzblockicon}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \nzblockedanger<>[options]
+\newenvironment<>{nzblockdanger}[1][]%
+  {\begin{nzblockicon}#2[#1]{danger}}%{img/doubleexclamation-203c.pdf}}%
+  {\end{nzblockicon}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \nzblockicon<>[options]{type}
+%
+% type: [ idea, danger, definition ]
+\newlength{\nzblocklbulbiconwd}%
+\setlength{\nzblocklbulbiconwd}{8mm}%
+\newlength{\nzblocklbulbiconcellwd}%
+\setlength{\nzblocklbulbiconcellwd}{\nzblocklbulbiconwd} \addtolength{\nzblocklbulbiconcellwd}{4mm}
+\newlength{\nzblocklbulbtextwd}%
+
+% set relations from use and {nameOfEnvironment, icon}
+\pgfkeyssetvalue{/nzblock/idea/icon}{img/twitter-LightBulb.pdf}
+\pgfkeyssetvalue{/nzblock/idea/envname}{nznormalblock}
+\pgfkeyssetvalue{/nzblock/definition/icon}{img/memo-1f4dd.pdf}
+\pgfkeyssetvalue{/nzblock/definition/envname}{nznormalblock}
+\pgfkeyssetvalue{/nzblock/danger/icon}{img/doubleexclamation-203c.pdf}
+\pgfkeyssetvalue{/nzblock/danger/envname}{nzalertblock}
+
+\newenvironment<>{nzblockicon}[2][]%
+  {%
+    \expandafter\def\expandafter\nzblockicontype{#2}%
+    \pgfkeysgetvalue{/nzblock/\nzblockicontype/envname}{\envname}%
+    \pgfkeysgetvalue{/nzblock/\nzblockicontype/icon}{\nzicon}%
+    \begin{\envname}#3[#1]
+      \setlength{\nzblocklbulbtextwd}{\textwidth}%
+      \addtolength{\nzblocklbulbtextwd}{-1\nzblocklbulbiconcellwd}
+      \vskip4bp%
+      \begin{columns}[c,onlytextwidth]%
+        \column[c]{\nzblocklbulbiconcellwd}%
+          % \vskip4bp%
+          \centering%
+          \includegraphics[width=\nzblocklbulbiconwd,valign=t]{\nzicon}%
+        \column{\nzblocklbulbtextwd}%
+          \centering%
+  }%
+  {%
+      \end{columns}%
+    \end{\envname}%
+  }
+
+\newenvironment<>{nzblock}[2][]%
+  {
+    % \vspace*{.6ex}%
+    \begingroup\setkeys{nzblocks}{wd=\textwidth,#1}%
+    \ifKV@nzblocks@centered%
+      \hfill%
+    \fi%
+    \begin{beamercolorbox}#3[wd=\nzblockswd,sep=0.3em,rounded=true,shadow=true,center]{#2}%
+    % fix top separation added to itemizes inside boxes like this
+    \setlength{\partopsep}{-3pt}%
+    % fix vertical space added because of the rounded=true
+    \vskip-6bp%
+  }
+  {%
+      \vspace{.2ex}%
+    \end{beamercolorbox}%
+    \ifKV@nzblocks@centered%
+      \hfill\hfill%
+    \fi%
+  \endgroup}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Beamer aux commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% \strongText<>{text}
+%
+% Highlights the text with both bold and blue color.
+\newcommand<>{\strongText}[1]{%
+    \textcolor#2{blue}{\textbf{#1}}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% \coordText<3->{node1}{textLeft}{node2}{textRight}
+%
+% Allows to join a node1 with text to a node2 with text
+% using an arrow.
+\newcommand<>{\coordText}[4]{%
+    \tikz[na] \node (#1) {#2};%
+    \begin{tikzpicture}[remember picture,overlay]%
+        \node#5[right=35mm of #1.west] (#3) {#4};%
+        \path[arrowInList]#5 ([xshift=25mm]#1.west) -- (#3);%
+    \end{tikzpicture}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% \placeLogo<>[width]{logoPath}
+%
+% Places a logo in the upper right corner of the slide.
+% It's a good idea to use it as the last command of the slide.
+\newcommand<>{\placeLogo}[2][.2\textwidth]{%
+    \tikz[remember picture, overlay]#3 \node[anchor=north east] at (current page.north east)
+        {\includegraphics[width=#1,valign=t]{#2}};
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% \placeLogoOpt<>[width]{nodeOptions}{logoPath}
+%
+% Places a logo in the upper right corner of the slide.
+% With its second argument it is possible to pass options directly to
+% the node holding the logo (such as [x|y]shifts.
+% It's a good idea to use it as the last command of the slide.
+\newcommand<>{\placeLogoOpt}[3][.2\textwidth]{%
+    \tikz[remember picture, overlay]#4 \node[anchor=north east,#2] at (current page.north east)
+        {\includegraphics[width=#1,valign=t]{#3}};
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Pandoc commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\bgncolumns}{\begin{columns}[t,onlytextwidth]}%
+\newcommand{\trmcolumns}{\end{columns}}%
+
+\newcommand{\bgnblockalert}[1][]{\begin{nzalertblock}[#1]}%
+\newcommand{\trmblockalert}{\end{nzalertblock}}%
+\newcommand{\bgnblocknormal}[1][]{\begin{nznormalblock}[#1]}%
+\newcommand{\trmblocknormal}{\end{nznormalblock}}%
+\newcommand{\bgnblockgood}[1][]{\begin{nzgoodblock}[#1]}%
+\newcommand{\trmblockgood}{\end{nzgoodblock}}%
+
+\newcommand{\bgnblockidea}[1][]{\begin{nzblockidea}[#1]}%
+\newcommand{\trmblockidea}{\end{nzblockidea}}%
+\newcommand{\bgnblockdefinition}[1][]{\begin{nzblockdefinition}[#1]}%
+\newcommand{\trmblockdefinition}{\end{nzblockdefinition}}%
+\newcommand{\bgnblockdanger}[1][]{\begin{nzblockdanger}[#1]}%
+\newcommand{\trmblockdanger}{\end{nzblockdanger}}%
+
+\newcommand{\bgnblock}[1]{\begin{block}{#1}}
+\newcommand{\trmblock}{\end{block}}
+
+%%% generic environment bgn/trm (when no predef option applies)
+\newcommand<>{\bgnenviron}[1]{\begin{#1}#2}
+\newcommand{\trmenviron}[1]{\end{#1}}

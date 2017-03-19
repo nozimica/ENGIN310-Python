@@ -1,0 +1,113 @@
+## Receta de diseño {.fragile}
+
+- No basta con definir una función.
+- ¡Es necesario que expliquemos qué hace!
+
+\bgnblock{Receta de diseño}
+
+\vspace{-2ex}
+
+- Qué es lo que hace.
+- Cuál o cuáles son sus entradas.
+- Cuál es su salida.
+- Al menos un ejemplo.
+- Comprobar que hace lo correcto.
+
+\vspace{-2ex}
+
+\trmblock
+
+\placeLogoOpt{xshift=-5mm,yshift=-2mm}{img/memo-1f4dd.pdf}
+
+\pause
+
+\bgnblockdanger
+Ojo: si no haces esto en las evaluaciones, tu nota bajará \textbf{considerablemente}.
+\trmblockdanger
+
+## Receta de diseño {.fragile}
+
+\bgnblock{Receta de diseño}
+\scriptsize
+
+\vspace{-3ex}
+
+- Qué es lo que hace.
+- Cuál o cuáles son sus entradas.
+- Cuál es su salida.
+- Al menos un ejemplo.
+- Comprobar que hace lo correcto.
+
+\vspace{-3ex}
+\trmblock
+
+
+\begin{onlyenv}<1>
+\begin{lstlisting}[style=frame01]
+""" mi2Km: num -> float
+Transforma un valor desde millas a kilómetros.
+Ejemplo: mi2Km(6) retorna 9.656064
+"""
+def mi2Km(distMillas):
+    kmMi = 1.609344
+    return distMillas * kmMi
+# Test
+assert mi2Km(6) == 9.656064
+\end{lstlisting}
+\end{onlyenv}
+
+\begin{onlyenv}<2>
+\begin{lstlisting}[style=frame01]
+""" areaCirculo: num -> float
+Calcula el área de un círculo, dado su radio.
+Ejemplo: areaCirculo(11) retorna 380.13239
+"""
+def areaCirculo(radio):
+    PI = 3.1415
+    return PI * (radio ** 2)
+# Test
+assert areaCirculo(16) == 804.24704
+\end{lstlisting}
+\end{onlyenv}
+
+\placeLogoOpt{xshift=-5mm,yshift=-2mm}{img/memo-1f4dd.pdf}
+
+
+## Realizando cálculos (cont.) {.fragile}
+
+\vspace*{-3ex}
+\bgncolumns
+
+\column{0.4\textwidth}
+
+\bgnblocknormal
+Para este código definimos una nueva función: \texttt{consumoVehiculo}
+\trmblocknormal
+
+\column{0.05\textwidth}
+\column{0.55\textwidth}
+
+\begin{lstlisting}
+>>> rendKmLt = 14
+>>> distMillas = 24
+>>> distKm = mi2Km(distMillas)
+>>> consumoLt = distKm / rendKmLt
+\end{lstlisting}
+
+\trmcolumns
+
+\vspace{2em}
+\begin{lstlisting}[style=frame01]
+>>> """ consumoVehiculo: num, num -> float
+>>> Calcula el consumo de combustible en litros, para un vehículo
+>>> dado su rendimiento [km/lt] y la distancia recorrida [mi].
+>>> Ejemplo: consumoVehiculo(14, 24) retorna 2.7588754285714288
+>>> """
+>>> def consumoVehiculo(rendKmLt, distMillas):
+>>>     distKm = mi2Km(distMillas)
+>>>     consumoLt = distKm / rendKmLt
+>>>     return consumoLt
+>>> assert consumoVehiculo(14, 24) == 2.7588754285714288
+>>> assert consumoVehiculo(17, 12) == 1.1360075294117649
+\end{lstlisting}
+

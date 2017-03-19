@@ -1,0 +1,53 @@
+\usepackage{tikz}
+\usetikzlibrary{calc, shapes.multipart, shapes.geometric, arrows, positioning, chains, matrix, fit, scopes, backgrounds}
+%\usetikzlibrary{shapes.geometric,shapes.arrows,decorations.pathmorphing}
+%\usetikzlibrary{matrix,chains,scopes,positioning,arrows,fit}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{main,foreground}
+
+\tikzstyle{normalfig} = [minimum width=16mm, minimum height=5mm,text centered, draw=black, top color=white, line width=1pt]
+\tikzstyle{textdesc} = [text width=76mm]
+\tikzstyle{io} = [normalfig, trapezium, trapezium left angle=70, trapezium right angle=-70, trapezium stretches=true, bottom color=blue!30, draw=blue!50!black!50]
+\tikzstyle{startstop} = [normalfig, rectangle, rounded corners=2mm, bottom color=red!30, draw=red!90!black!50]
+\tikzstyle{process} = [normalfig, rectangle, bottom color=orange!30, draw=orange!90!black!50]
+%\tikzstyle{predefprocess} = [normalfig, rectangle split, rectangle split horizontal, rectangle split parts=3, inner sep=0pt, rectangle split every empty part={}, rectangle split empty part width=2mm, bottom color=orange!30]
+\tikzstyle{decision} = [normalfig, diamond, bottom color=green!30, draw=green!70!black!50, aspect=2.6, inner sep=2pt]
+\tikzstyle{comment} = [minimum width=16mm, minimum height=5mm,text centered, top color=white, align=left, append after command={ [line width=2pt] (\tikzlastnode.north east)edge(\tikzlastnode.north west) (\tikzlastnode.north west)edge(\tikzlastnode.south west) (\tikzlastnode.south west)edge(\tikzlastnode.south east) }]
+\tikzstyle{arrow} = [thick,->,>=stealth,rounded corners=1mm,pos=0.0,draw=black!50]
+\tikzstyle{nodeTR} = [xshift=0.5em,yshift=0.5em]
+\tikzstyle{nodeTL} = [xshift=-0.5em,yshift=0.5em]
+\tikzstyle{nodeBR} = [xshift=0.6em,yshift=-0.4em]
+\tikzstyle{nodeBL} = [xshift=-0.6em,yshift=-0.2em]
+
+\tikzstyle{arrowcomment} = [thick,rounded corners=1mm,very near start,draw=black!50, densely dashed]
+\newlength{\predefprocmargin}
+\setlength{\predefprocmargin}{2mm}
+
+\newlength{\nextDef}
+\setlength{\nextDef}{20mm}
+\newlength{\nextFig}
+\setlength{\nextFig}{7mm}
+
+\tikzset{predefproc/.style={
+    normalfig,
+    bottom color=orange!30,
+    draw=orange!90!black!50,
+    rectangle,
+    inner xsep=2.0\predefprocmargin,
+    path picture={
+      \draw
+      ($(path picture bounding box.north west)+(\predefprocmargin,0mm)$) -- ($(path picture bounding box.south west)+(\predefprocmargin,0mm)$)
+      ($(path picture bounding box.north east)-(\predefprocmargin,0mm)$) -- ($(path picture bounding box.south east)-(\predefprocmargin,0mm)$);
+    }
+}}
+
+\newenvironment{flowchartTable}%
+  {\begin{tabular}[cl]{b{26mm}m{80mm}}}%
+  {\end{tabular}}
+\newenvironment{tikzflowchart}[1][]%
+  {\begin{tikzpicture}[#1,font=\sffamily\scriptsize,baseline={($(current bounding box.center)+(0,-0.5ex)$)}]}%
+  {\end{tikzpicture}}
+\newenvironment{tikzflowchartUpper}[1][]%
+  {\begin{tikzpicture}[#1,font=\sffamily\scriptsize,baseline={($(current bounding box.north)+(0,-0.5ex)$)}]}%
+  {\end{tikzpicture}}
+

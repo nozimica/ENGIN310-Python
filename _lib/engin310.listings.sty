@@ -1,0 +1,113 @@
+% \usepackage{listings}
+\usepackage{listingsutf8}
+\input{listings-python.prf}
+
+% Define Colors
+\usepackage{color}
+\definecolor{eclipseBlue}{RGB}{42,0.0,255}
+\definecolor{eclipseGreen}{RGB}{63,127,95}
+\definecolor{eclipsePurple}{RGB}{127,0,85}
+\definecolor{redError}{RGB}{209,64,58}
+% \definecolor{deepblue}{rgb}{0,0,0.5}
+% \definecolor{deepred}{rgb}{0.6,0,0}
+% \definecolor{deepgreen}{rgb}{0,0.5,0}
+ 
+% Default fixed font does not support bold face
+% \DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+% \DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+% Set Language
+\lstset{
+  language=Python,
+  style={python-idle-code},
+  basicstyle=\footnotesize\ttfamily, % Global Code Style
+  captionpos=b, % Position of the Caption (t for top, b for bottom)
+  extendedchars=true, % Allows 256 instead of 128 ASCII characters
+  tabsize=2, % number of spaces indented when discovering a tab 
+  columns=fixed, % make all characters equal width
+  keepspaces=true, % does not ignore spaces to fit width, convert tabs to spaces
+  showstringspaces=false, % lets spaces in strings appear as real spaces
+  breaklines=true, % wrap lines if they don't fit
+  % frame=trbl, % draw a frame at the top, right, left and bottom of the listing
+  % frameround=tttt, % make the frame round at all four corners
+  % framesep=4pt, % quarter circle size of the round corners
+  % numbers=left, % show line numbers at the left
+  % numberstyle=\tiny\ttfamily, % style of the line numbers
+%%
+  % commentstyle=\color{eclipseBlue}, % style of comments
+  % keywordstyle=\color{eclipseGreen}\bfseries, % style of keywords
+  % % stringstyle=\color{eclipseBlue}, % style of strings
+  % stringstyle=\color{red!50!brown},
+  % emph={TypeError},
+  % emphstyle=\color{redError}\bfseries,
+  alsoletter={>},
+  morekeywords={assert},
+  morekeywords=[2]{>>>},
+  keywordstyle=[2]{\color{magenta}},
+  % morekeywords=[3]{Traceback,{most recent call}},
+  % keywordstyle=[3]{\color{redError}},
+  morecomment=[s][\color{redError}]{Traceback\ (most}{last):},
+  morecomment=[l][\color{redError}]{TypeError:},
+  morecomment=[l][\color{redError}]{AssertionError:},
+  morecomment=[l][\color{redError}]{NameError:},
+  morecomment=[l][\color{redError}]{IndentationError:},
+  morecomment=[l][\color{redError}]{File\ "<stdin>"}
+}
+\lstdefinestyle{frame01}{frame=shadowbox,framesep=1pt,rulesepcolor=\color{gray}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Enable line highlighting in listings.
+%
+%%% http://tex.stackexchange.com/a/85628/5185
+\usepackage{lstlinebgrd}
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \btIfInRange{number}{range list}{TRUE}{FALSE}
+%
+% Test in int number <number> is element of a (comma separated) list of ranges
+% (such as: {1,3-5,7,10-12,14}) and processes <TRUE> or <FALSE> respectively
+
+\newcount\bt@rangea
+\newcount\bt@rangeb
+
+\newcommand\btIfInRange[2]{%
+    \global\let\bt@inrange\@secondoftwo%
+    \edef\bt@rangelist{#2}%
+    \foreach \range in \bt@rangelist {%
+        \afterassignment\bt@getrangeb%
+        \bt@rangea=0\range\relax%
+        \pgfmathtruncatemacro\result{ ( #1 >= \bt@rangea) && (#1 <= \bt@rangeb) }%
+        \ifnum\result=1\relax%
+            \breakforeach%
+            \global\let\bt@inrange\@firstoftwo%
+        \fi%
+    }%
+    \bt@inrange%
+}
+\newcommand\bt@getrangeb{%
+    \@ifnextchar\relax%
+        {\bt@rangeb=\bt@rangea}%
+        {\@getrangeb}%
+}
+\def\@getrangeb-#1\relax{%
+    \ifx\relax#1\relax%
+        \bt@rangeb=100000%   \maxdimen is too large for pgfmath
+    \else%
+        \bt@rangeb=#1\relax%
+    \fi%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \btLstHL<overlay spec>{range list}
+%
+% TODO BUG: \btLstHL commands can not yet be accumulated if more than one overlay spec match.
+% 
+\newcommand<>{\btLstHL}[1]{%
+  \only#2{\btIfInRange{\value{lstnumber}}{#1}{\color{orange!15}\def\lst@linebgrdcmd{\color@block}}{\def\lst@linebgrdcmd####1####2####3{}}}%
+}%
+\makeatother
+
