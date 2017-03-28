@@ -1,7 +1,8 @@
 \usepackage{tikz}
 \usetikzlibrary{calc, shapes.multipart, shapes.geometric, arrows, positioning, chains, matrix, fit, scopes, backgrounds}
+\usetikzlibrary{decorations.pathreplacing, shapes.callouts}
+\usetikzlibrary{arrows.meta}
 %\usetikzlibrary{shapes.geometric,shapes.arrows,decorations.pathmorphing}
-%\usetikzlibrary{matrix,chains,scopes,positioning,arrows,fit}
 \pgfdeclarelayer{foreground}
 \pgfsetlayers{main,foreground}
 
@@ -45,9 +46,9 @@
   {\begin{tabular}[cl]{b{26mm}m{80mm}}}%
   {\end{tabular}}
 \newenvironment{tikzflowchart}[1][]%
-  {\begin{tikzpicture}[#1,font=\sffamily\scriptsize,baseline={($(current bounding box.center)+(0,-0.5ex)$)}]}%
+  {\begin{tikzpicture}[font=\sffamily\scriptsize,baseline={($(current bounding box.center)+(0,-0.5ex)$)},#1]}%
   {\end{tikzpicture}}
 \newenvironment{tikzflowchartUpper}[1][]%
-  {\begin{tikzpicture}[#1,font=\sffamily\scriptsize,baseline={($(current bounding box.north)+(0,-0.5ex)$)}]}%
+  {\begin{tikzpicture}[font=\sffamily\scriptsize,baseline={($(current bounding box.north)+(0,-0.5ex)$)},#1]}%
   {\end{tikzpicture}}
 

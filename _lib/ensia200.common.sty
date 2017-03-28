@@ -15,16 +15,23 @@
 % \mdfsetup{splittopskip=2\topsep}
 \newcommand{\codeInput}[1]{\tikz[baseline=-0.7ex]{ \node[rectangle, fill=gray!30, inner sep=2pt, outer sep=0] (b) {\begin{small}\ttt{#1}\end{small}}; }}
 
-\newenvironment{exampleConsole}[1][4em]%
-    {\footnotesize\noindent\begin{mdframed}[leftmargin=#1,linewidth=2pt,roundcorner=10pt]\begin{alltt}}%
+\newenvironment{exampleConsole}[1][]%
+    {\footnotesize\noindent\begin{mdframed}[leftmargin=0em,skipabove=-20pt,linewidth=2pt,roundcorner=6pt,#1]\begin{alltt}}%
     {\end{alltt}\end{mdframed}}
 
 \newenvironment{exampleText}[1][]%
     {\small\noindent\begin{mdframed}[skipabove=0pt,skipbelow=0pt,leftmargin=0em,rightmargin=0em,linewidth=1pt,roundcorner=10pt,backgroundcolor=black!10,#1]}%
     {\end{mdframed}}
 
-\newcommand{\simpleTitle}[2][4mm]{%
+\newcommand{\simpleTitle}[2][0mm]{%
     \vspace{#1}
-    \textbf{#2}
+    \textcolor{structure}{\textbf{#2}}
     \vspace{2mm}
 }
+
+\usepackage{suffix}
+\WithSuffix\newcommand\simpleTitle*[2][0mm]{%
+    \vspace{#1}
+    \textcolor{structure}{\textbf{#2}}
+}
+

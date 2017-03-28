@@ -128,20 +128,28 @@ IndentationError: expected an indented block
 IndentationError: unindent does not match any outer indentation level
 \end{lstlisting}
 
-## Ejercicios {.fragile}
+## Ejercicios {.allowframebreaks}
 
-1. Si hoy estamos a viernes, ¿a qué días de la semana estaremos en 20, 42 y 80 días?
-1. Considerando el problema anterior:
-    1. ¿cómo lo implementarías en una función?
-    1. ¿cuáles serían su(s) entrada(s), constante(s) y salida(s)?
 1. Implementa una función que dado un el precio neto de un producto, entregue su precio con IVA.
 1. Implementa una función que calcule el volumen de una esfera de radio $r$.
     - Recuerda que la fórmula es: $\frac{4}{3}\pi r^3$.
-
-## Ejercicios {.fragile}
-
-1. Implementa una función que realice el siguiente cálculo: $\frac{a+b^2}{2*c}$
+1. Implementa una función que realice el siguiente cálculo: $\frac{a+b^2}{3c}$
 1. Calcula la distancia (en 2 dimensiones) entre dos puntos. Considera que cada punto se representa
 como dos valores: $x_i$ e $y_i$.
 1. Para cualquier número de exactamente 2 dígitos, calcula la suma de sus dígitos.
 1. Para cualquier número de exactamente 3 dígitos, calcula la suma de sus dígitos.
+1. Supongamos que hoy estamos a domingo:
+    - ¿cuántos días faltarán para el siguiente domingo dentro de 20 días?
+    - ¿cuántos días faltarán para el siguiente domingo dentro de 80 días?
+1. Considerando el problema anterior:
+    1. ¿cómo lo implementarías en una función?
+    1. ¿cuáles serían su(s) entrada(s), constante(s) y salida(s)?
+1. Dado un triángulo de lados $a$, $b$ y $c$, escribe una función que calcule su semiperímetro. Este
+valor corresponde a la mitad del perímetro.
+1. La \textsc{fórmula de Herón} nos permite calcular el área de un triángulo sólo usando
+el largo de sus tres lados ($a$, $b$ y $c$).
+La fórmula es: $$ area = \sqrt{s (s-a) (s-b) (s-c)} $$ donde $s$ es el semiperímetro.
+Escriba una función para calcular el área de un triángulo usando esta fórmula.
+1. Haga una función que calcule la propina a pagar, dado un $precio$ y un $porcentajePropina$.
+Debe usar \nzinlinecode{print} para desplegar primero el valor de la $propina$, y después
+el valor del $precio + propina$. Retorne también esta última suma.

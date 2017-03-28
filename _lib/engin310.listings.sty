@@ -40,6 +40,7 @@
   % stringstyle=\color{red!50!brown},
   % emph={TypeError},
   % emphstyle=\color{redError}\bfseries,
+  escapeinside={(*@}{@*)},
   alsoletter={>},
   morekeywords={assert},
   morekeywords=[2]{>>>},
@@ -48,12 +49,16 @@
   % keywordstyle=[3]{\color{redError}},
   morecomment=[s][\color{redError}]{Traceback\ (most}{last):},
   morecomment=[l][\color{redError}]{TypeError:},
-  morecomment=[l][\color{redError}]{AssertionError:},
+  morecomment=[l][\color{redError}]{AssertionError},
   morecomment=[l][\color{redError}]{NameError:},
   morecomment=[l][\color{redError}]{IndentationError:},
   morecomment=[l][\color{redError}]{File\ "<stdin>"}
 }
 \lstdefinestyle{frame01}{frame=shadowbox,framesep=1pt,rulesepcolor=\color{gray}}
+\lstdefinestyle{frame02}{frame=trbl,rulesepcolor=\color{gray}}
+
+% Command to apply this specific style for inline code
+\newcommand<>{\nzinlinecode}[1]{\lstinline[columns=fixed,basicstyle=\normalsize\ttfamily]|#1|}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

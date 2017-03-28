@@ -3,19 +3,7 @@
 - No basta con definir una función.
 - ¡Es necesario que expliquemos qué hace!
 
-\bgnblock{Receta de diseño}
-
-\vspace{-2ex}
-
-- Qué es lo que hace.
-- Cuál o cuáles son sus entradas.
-- Cuál es su salida.
-- Al menos un ejemplo.
-- Comprobar que hace lo correcto.
-
-\vspace{-2ex}
-
-\trmblock
+\muestraRecetaDisenno{}
 
 \placeLogoOpt{xshift=-5mm,yshift=-2mm}{img/memo-1f4dd.pdf}
 
@@ -25,89 +13,360 @@
 Ojo: si no haces esto en las evaluaciones, tu nota bajará \textbf{considerablemente}.
 \trmblockdanger
 
-## Receta de diseño {.fragile}
+## Receta de diseño: explicar el propósito {.fragile}
 
-\bgnblock{Receta de diseño}
-\scriptsize
+\structure{Explicar el propósito de la función significa:}
 
-\vspace{-3ex}
+1. Establecer el contrato:
+    - Establecer el nombre de la función.
+        - Escoger un nombre representativo.
+    - Indicar su(s) entrada(s)
+    - Indicar su(s) salidas(s)
+1. Comentar qué hace la función.
+1. Escribir su encabezado.
 
-- Qué es lo que hace.
-- Cuál o cuáles son sus entradas.
-- Cuál es su salida.
-- Al menos un ejemplo.
-- Comprobar que hace lo correcto.
+\vfill
 
-\vspace{-3ex}
-\trmblock
+\bgnblockdefinition
+\bld{Contrato:} Corresponde al ``compromiso'' que una función tiene con el mundo exterior,
+y que se manifiesta en cómo la pueden invocar (su nombre), sus entradas y sus salidas.
+\trmblockdefinition
+
+## Receta de diseño: explicar el propósito {.fragile}
+
+\simpleTitle{1.- Contrato: ejemplos}
+
+- Calcular el perímetro de un triángulo:
+
+\vspace{-.5em}
+\begin{lstlisting}[basicstyle=\normalsize\ttfamily]
+# (*@\tikzmark{nombreA}@*)perimetroTriangulo(*@\tikzmark{nombreB}@*): (*@\tikzmark{entradaA}@*)num num num(*@\tikzmark{entradaB}@*) -> (*@\tikzmark{salidaA}@*)num(*@\tikzmark{salidaB}@*)
+\end{lstlisting}
+
+\braceDownwardsLabel{nombreB}{nombreA}{4mm}{El nombre de la función}{6em}
+\braceDownwardsLabel{entradaB}{entradaA}{6mm}{Las entradas}{6em}
+\braceDownwardsLabel{salidaB}{salidaA}{4mm}{La salida}{6em}
+
+\vspace{3em}
+
+- Calcular el consumo de un vehículo, dado su rendimiento en [km/lt] y
+la distancia recorrida [mi].
+
+\vspace{-.5em}
+\begin{lstlisting}[basicstyle=\normalsize\ttfamily]
+# (*@\tikzmark{nombreA}@*)consumoVehiculo(*@\tikzmark{nombreB}@*): (*@\tikzmark{entradaA}@*)num num(*@\tikzmark{entradaB}@*) -> (*@\tikzmark{salidaA}@*)float(*@\tikzmark{salidaB}@*)
+\end{lstlisting}
+
+\braceDownwardsLabel{nombreB}{nombreA}{4mm}{El nombre de la función}{6em}
+\braceDownwardsLabel{entradaB}{entradaA}{6mm}{Las entradas}{6em}
+\braceDownwardsLabel{salidaB}{salidaA}{4mm}{La salida}{6em}
+
+## Receta de diseño: explicar el propósito {.fragile}
+
+\simpleTitle{1.- Contrato: descripción de entradas y salidas}
+
+Usaremos estas palabras clave al mencionar tanto las entradas como las salidas:
+
+\vfill
+
+\bgnblockdefinition
+
+\begin{tabular}{lc}
+    \toprule
+    \bld{Tipo de dato}    & \bld{Palabra clave} \\
+    \midrule
+    \bld{Tipo entero}:    & \strongText{int} \\
+    \bld{Tipo real}:      & \strongText{float} \\
+    \bld{Tipo numérico}: (ya sea entero o real) & \strongText{num} \\
+    \bld{Tipo texto}:     & \strongText{str} \\
+    \bottomrule
+\end{tabular}
+
+\trmblockdefinition
+
+\vfill
+
+## Receta de diseño: explicar el propósito {.fragile}
+
+\simpleTitle{2.- Comentar qué hace la función:}
+
+\begin{lstlisting}[linebackgroundcolor={\btLstHL{2-3}}]
+# consumoVehiculo: num num -> float
+# Calcula el consumo de combustible en litros, para un vehículo
+# dado su rendimiento [km/lt] y la distancia recorrida [mi].
+def consumoVehiculo(rendKmLt, distMillas):
+    distKm = mi2Km(distMillas)
+    consumoLt = distKm / rendKmLt
+    return consumoLt
+\end{lstlisting}
 
 
-\begin{onlyenv}<1>
-\begin{lstlisting}[style=frame01]
-""" mi2Km: num -> float
-Transforma un valor desde millas a kilómetros.
-Ejemplo: mi2Km(6) retorna 9.656064
-"""
+## Receta de diseño: explicar el propósito {.fragile}
+
+\simpleTitle{3.- Escribir su encabezado}
+
+Al tener el contrato ya establecido, entonces podemos construir el encabezado de la función:
+
+\begin{lstlisting}[linebackgroundcolor={\btLstHL{4}}]
+# consumoVehiculo: num num -> float
+# Calcula el consumo de combustible en litros, para un vehículo
+# dado su rendimiento [km/lt] y la distancia recorrida [mi].
+def consumoVehiculo(rendKmLt, distMillas):
+    distKm = mi2Km(distMillas)
+    consumoLt = distKm / rendKmLt
+    return consumoLt
+\end{lstlisting}
+
+## Receta de diseño: explicar el propósito {.fragile}
+
+\simpleTitle{3.- Escribir su encabezado}
+
+\bgnblockdefinition
+\bld{Encabezado de una función:} Es la primera línea del código que define una función, y
+en ella se establece su nombre y sus parámetros.
+\trmblockdefinition
+
+\pause
+
+\begin{lstlisting}[basicstyle=\normalsize\ttfamily,linewidth=.9\textwidth,xleftmargin=.1\textwidth]
+# perimetroTriangulo: num num num -> num
+(*@\tikzmark{defA}@*)def(*@\tikzmark{defB}@*) (*@\tikzmark{nombreA}@*)perimetroTriangulo(*@\tikzmark{nombreB}@*)((*@\tikzmark{entradaA}@*)ladoA, ladoB, ladoC(*@\tikzmark{entradaB}@*)):
+\end{lstlisting}
+
+\braceDownwardsLabel{defB}{defA}{4mm}{Define el inicio de la función}{6em}
+\braceDownwardsLabel{nombreB}{nombreA}{8mm}{El nombre de la función}{6em}
+\braceDownwardsLabel{entradaB}{entradaA}{6mm}{Los parámetros}{6em}
+
+## Receta de diseño: dar ejemplos de uso {.fragile}
+
+\bgnblockgood[wd=.8\textwidth,centered]
+    {\large \bld{Receta de diseño:}}
+    \begin{enumerate}
+        \item Explicar su propósito.
+        \item \alert{Dar ejemplos de su uso.}
+        \item Especificar el cuerpo de la función.
+        \item Comprobar que hace lo correcto.
+    \end{enumerate}
+\trmblockgood
+
+- Que aporten en el proceso de entender qué hace una función:
+
+\begin{lstlisting}[linebackgroundcolor={\btLstHL{3}}]
+# areaRectangulo: num num -> num
+# Calcula el área de un rectángulo de medidas largo y ancho
+# Ejemplo: areaRectangulo(5, 4) retorna 20
+def areaRectangulo(largo, ancho):
+\end{lstlisting}
+
+## Receta de diseño: cuerpo de la función {.fragile}
+
+\bgnblockgood[wd=.8\textwidth,centered]
+    {\large \bld{Receta de diseño:}}
+    \begin{enumerate}
+        \item Explicar su propósito.
+        \item Dar ejemplos de su uso.
+        \item \alert{Especificar el cuerpo de la función.}
+        \item Comprobar que hace lo correcto.
+    \end{enumerate}
+\trmblockgood
+
+- Esto corresponde a la programación propiamente tal de la función.
+- Son las instrucciones que llevan a cabo, fundamentalmente:
+    - El proceso de los datos de entrada.
+    - Que una vez listos, generan las salidas.
+
+## Receta de diseño: cuerpo de la función {.fragile}
+
+\simpleTitle{¿Cómo escribir el cuerpo de una función?}
+
+- Una vez bien comprendido cuál es su propósito.
+    - Definidas bien sus entradas y salidas.
+
+- Pensamos en la manera de procesar la entrada.
+    - Tener claros el o los cálculos que ello implica.
+    - Aparte de los cálculos, quizás sea necesario otros pasos adicionales.
+
+- Nunca perdiendo de vista que el objetivo es producir la salida esperada.
+    - Puede ser el resultado de un simple o complejo cálculo matemático.
+    - Puede ser el proceso de texto (que veremos más adelante).
+
+## Receta de diseño: cuerpo de la función {.fragile}
+
+\simpleTitle{Ejemplos:}
+
+\begin{lstlisting}
+# consumoVehiculo: num num -> float
+# Calcula el consumo de combustible en litros, para un vehículo
+# dado su rendimiento [km/lt] y la distancia recorrida [mi].
+# Ejemplo: consumoVehiculo(14, 24) retorna 2.7588754285714288
+def consumoVehiculo(rendKmLt, distMillas):
+    distKm = mi2Km(distMillas)
+    consumoLt = distKm / rendKmLt
+    return consumoLt
+\end{lstlisting}
+
+\bgnblockdefinition
+\nzinlinecode{return} es la palabra clave que permite (dentro de una función)
+entregar el resultado a quien la haya invocado. Después de ella, la función
+termina.
+\trmblockdefinition
+
+## Receta de diseño: cuerpo de la función {.fragile}
+
+\simpleTitle{Ejemplos:}
+
+\begin{lstlisting}
+# perimetroTriangulo: num num num -> num
+# Calcula el perímetro de un triángulo, recibiendo el valor de
+# sus tres lados: ladoA, ladoB, ladoC.
+# Ejemplo: perimetroTriangulo(3, 4, 5) retorna 12
+def perimetroTriangulo(ladoA, ladoB, ladoC):
+    return ladoA + ladoB + ladoC
+\end{lstlisting}
+
+- Y no nos olvidemos de los \nzinlinecode{str}:
+
+\begin{lstlisting}
+# repetirPalabra: str num -> str
+# Retorna un nuevo string que vale el contenido de palabra repetido
+# tantas veces como valga veces.
+# Ejemplo: repetirPalabra('pio ', 3) retorna 'pio pio pio '
+def repetirPalabra(palabra, veces):
+    return palabra * veces
+\end{lstlisting}
+
+## Receta de diseño: comprobar la función {.fragile}
+
+\bgnblockgood[wd=.8\textwidth,centered]
+    {\large \bld{Receta de diseño:}}
+    \begin{enumerate}
+        \item Explicar su propósito.
+        \item Dar ejemplos de su uso.
+        \item Especificar el cuerpo de la función.
+        \item \alert{Comprobar que hace lo correcto.}
+    \end{enumerate}
+\trmblockgood
+
+\bgnblockdefinition
+\bld{Pruebas o \textit{testing}}: Consiste en una o varias aplicaciones de los datos de entrada a la función para verificar si ésta produce lo que es esperable.
+\trmblockdefinition
+
+## Receta de diseño: comprobar la función {.fragile}
+
+- Hay que indicarle a Python que lo que estamos haciendo es una \bld{prueba}.
+
+\bgnblockidea
+Para esto, se usa la instrucción \nzinlinecode{assert}.
+\trmblockidea
+
+\pause
+
+\bgnblockdefinition
+Comportamiento de \nzinlinecode{assert}:
+\begin{footnotesize}
+\begin{tabular}{lp{0.4\textwidth}}
+    \toprule
+    \bld{Resultado de la prueba} & \bld{Reacción} \\
+    \midrule
+    La prueba sí funciona & \textcolor{structure}{No hace nada} \\
+    La prueba falla & \textcolor{alert}{Se genera un error \nzinlinecode{AssertionError}} \\
+    \bottomrule
+\end{tabular}
+\end{footnotesize}
+\trmblockdefinition
+
+\vfill
+
+- Sólo se puede hacer pruebas con valores escritos \itt{a mano}.
+
+## Receta de diseño: comprobar la función {.fragile}
+
+- \nzinlinecode{assert}: cuando la prueba sí funciona, no hace nada:
+
+\begin{lstlisting}
+>>> assert perimetroTriangulo(5, 5, 8) == 18
+\end{lstlisting}
+
+- \nzinlinecode{assert}: cuando la prueba no funciona, genera un error:
+
+\begin{lstlisting}
+>>> assert perimetroTriangulo(5, 5, 8) == 17
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AssertionError
+\end{lstlisting}
+
+\bgnblockidea
+No te olvides de usar siempre dos signos igual (\nzinlinecode{==}) al utilizar \nzinlinecode{assert}.
+\trmblockidea
+
+## Receta de diseño: hela aquí en acción {.fragile}
+
+\simpleTitle{Ejemplo 1:}
+
+- La receta completa, aplicada al cálculo del perímetro de un triángulo:
+
+\begin{lstlisting}[linewidth=.8\textwidth,xleftmargin=.1\textwidth]
+# perimetroTriangulo: num num num -> num
+# Calcula el perímetro de un triángulo, recibiendo el valor de
+# sus tres lados: ladoA, ladoB, ladoC.
+# Ejemplo: perimetroTriangulo(3, 4, 5) retorna 12
+def perimetroTriangulo(ladoA, ladoB, ladoC):
+    return ladoA + ladoB + ladoC
+assert perimetroTriangulo(3, 4, 5) == 12
+assert perimetroTriangulo(12, 15, 20) == 47
+\end{lstlisting}
+
+## Receta de diseño: hela aquí en acción {.fragile}
+
+\simpleTitle{Ejemplo 2:}
+
+- Aplicando la receta a nuestra función \ttt{mi2Km}:
+
+\begin{lstlisting}[linewidth=.8\textwidth,xleftmargin=.1\textwidth]
+# mi2Km: num -> float
+# Transforma un valor desde millas a kilómetros.
+# Ejemplo: mi2Km(6) retorna 9.656064
 def mi2Km(distMillas):
     kmMi = 1.609344
     return distMillas * kmMi
 # Test
 assert mi2Km(6) == 9.656064
 \end{lstlisting}
-\end{onlyenv}
 
-\begin{onlyenv}<2>
-\begin{lstlisting}[style=frame01]
-""" areaCirculo: num -> float
-Calcula el área de un círculo, dado su radio.
-Ejemplo: areaCirculo(11) retorna 380.13239
-"""
+## Receta de diseño: hela aquí en acción {.fragile}
+
+\simpleTitle{Ejemplo 3:}
+
+- Aplicando la receta a nuestra función \ttt{areaCirculo}:
+
+\begin{lstlisting}[linewidth=.8\textwidth,xleftmargin=.1\textwidth]
+# areaCirculo: num -> float
+# Calcula el área de un círculo, dado su radio.
+# Ejemplo: areaCirculo(11) retorna 380.13239
 def areaCirculo(radio):
     PI = 3.1415
     return PI * (radio ** 2)
 # Test
 assert areaCirculo(16) == 804.24704
 \end{lstlisting}
-\end{onlyenv}
 
-\placeLogoOpt{xshift=-5mm,yshift=-2mm}{img/memo-1f4dd.pdf}
+## Receta de diseño: hela aquí en acción {.fragile}
 
+\simpleTitle{Ejemplo 4:}
 
-## Realizando cálculos (cont.) {.fragile}
-
-\vspace*{-3ex}
-\bgncolumns
-
-\column{0.4\textwidth}
-
-\bgnblocknormal
-Para este código definimos una nueva función: \texttt{consumoVehiculo}
-\trmblocknormal
-
-\column{0.05\textwidth}
-\column{0.55\textwidth}
+- Aplicando la receta a nuestra función \ttt{areaCirculo}:
 
 \begin{lstlisting}
->>> rendKmLt = 14
->>> distMillas = 24
->>> distKm = mi2Km(distMillas)
->>> consumoLt = distKm / rendKmLt
-\end{lstlisting}
-
-\trmcolumns
-
-\vspace{2em}
-\begin{lstlisting}[style=frame01]
->>> """ consumoVehiculo: num, num -> float
->>> Calcula el consumo de combustible en litros, para un vehículo
->>> dado su rendimiento [km/lt] y la distancia recorrida [mi].
->>> Ejemplo: consumoVehiculo(14, 24) retorna 2.7588754285714288
->>> """
->>> def consumoVehiculo(rendKmLt, distMillas):
->>>     distKm = mi2Km(distMillas)
->>>     consumoLt = distKm / rendKmLt
->>>     return consumoLt
->>> assert consumoVehiculo(14, 24) == 2.7588754285714288
->>> assert consumoVehiculo(17, 12) == 1.1360075294117649
+# consumoVehiculo: num num -> float
+# Calcula el consumo de combustible en litros, para un vehículo
+# dado su rendimiento [km/lt] y la distancia recorrida [mi].
+# Ejemplo: consumoVehiculo(14, 24) retorna 2.7588754285714288
+def consumoVehiculo(rendKmLt, distMillas):
+    distKm = mi2Km(distMillas)
+    consumoLt = distKm / rendKmLt
+    return consumoLt
+assert consumoVehiculo(14, 24) == 2.7588754285714288
+assert consumoVehiculo(12.4, 9) == 1.1680722580645162
 \end{lstlisting}
 

@@ -1,0 +1,72 @@
+## Interacción con el usuario {.fragile}
+
+- Hasta ahora todos los datos los hemos escrito dentro de los programas.
+
+- Habría que modificar el archivo \bld{.py} para modificar un dato de entrada.
+
+\vfill
+
+\bgnblockalert
+¡Esto es demasiado engorroso!
+\trmblockalert
+
+\vfill
+\pause
+
+\bgnblockidea
+Por ello es que existen los comandos\newline{}\nzinlinecode{input()} y \nzinlinecode{raw_input()}:
+\trmblockidea
+
+## Interacción con el usuario {.fragile}
+
+\begin{lstlisting}
+>>> apellido = input('Ingrese su apellido: ')
+Ingrese su apellido: 'Bodoque'(*@\tikzmark{intConComillas}@*)
+>>>
+>>> edad = input('Ingrese su edad: ')
+Ingrese su edad: 29(*@\tikzmark{intSinComillas}@*)
+>>>
+>>> print(apellido)
+Bodoque
+>>>
+>>> print('Bienvenido ' + apellido)
+Bienvenido Bodoque
+>>>
+>>> print(apellido + ' ya ha cumplido ' + str(*@\tikzmark{intNumStr}@*)(edad))
+Bodoque ya ha cumplido 29
+\end{lstlisting}
+
+\visible{<2->}{%
+\drawTikZComment[right=5em of intConComillas]{intConComillas}{\scriptsize Ojo con las comillas}
+\drawTikZComment[text width = 40mm, right=8em of intSinComillas]{intSinComillas}{\scriptsize Acá no hay comillas: es número}
+\drawTikZComment[text width = 40mm, above right=2em and -0.5em of intNumStr]{intNumStr}{\scriptsize Recuerden: los números deben ser convertidos a string en este caso}
+}
+
+## Interacción con el usuario {.fragile}
+
+\begin{lstlisting}
+>>> nombre = raw_input('Ingrese su nombre: ')
+Ingrese su nombre: Juan Carlos(*@\tikzmark{intSinComillasraw}@*)
+>>>
+>>> print('¡Otra vez ' + nombre + ' ' + apellido + '!')
+¡Otra vez Juan Carlos Bodoque!
+>>>
+>>> edad = raw_input('Ingrese su edad: ')
+Ingrese su edad: 29
+>>>
+>>> print(apellido + ' ya ha cumplido ' + ed(*@\tikzmark{intNumStrraw}@*)ad)
+Bodoque ya ha cumplido 29
+
+\end{lstlisting}
+
+\visible{<2->}{%
+\drawTikZComment[right=6em of intSinComillasraw]{intSinComillasraw}{\scriptsize Acá no hay comillas: es \nzinlinecode{raw_input}}
+\drawTikZComment[text width = 40mm, above right=1em and -0.5em of intNumStrraw]{intNumStrraw}{\scriptsize No es número, aunque lo parezca}
+}
+
+\visible{<3->}{%
+\bgnblockdefinition
+\nzinlinecode{input()}: interpreta lo que se le entrega, tal cual lo hacemos en IDLE.\newline
+\nzinlinecode{raw_input()}: todo lo recibe como si fuera texto.
+\trmblockdefinition
+}

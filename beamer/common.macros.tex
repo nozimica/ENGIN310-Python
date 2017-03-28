@@ -1,0 +1,123 @@
+\newcommand\tikzmark[2][]{%
+  \tikz[remember picture,overlay,baseline=-.5ex] \node[#1] (#2) {};}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \braceDownwards<>[styles]{firstNode}{secondNode}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% http://tex.stackexchange.com/questions/1559/adding-a-large-brace-next-to-a-body-of-text/1570#1570
+% http://tex.stackexchange.com/questions/204417/how-can-i-draw-arrows-within-a-listing-to-explain-positional-association
+% https://tex.stackexchange.com/questions/110072/tikz-inside-lstlisting-inside-tikz
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand<>\braceDownwards[3][ultra thick,structure!80,font=\footnotesize]{%
+  \tikz[remember picture,overlay] \draw [decoration={brace,raise=3pt,amplitude=0.5em},decorate,#1]
+        (#2.east) -- node[below=3pt] (#2#3) {} (#3.west);
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \braceRightwards<>[styles]{firstNode}{secondNode}
+\newcommand<>\braceRightwards[3][ultra thick,structure!80,font=\footnotesize]{%
+  \tikz[remember picture,overlay] \draw [decoration={brace,raise=17em,amplitude=0.5em},decorate,#1]
+        (#2.north) -- node[right=17em] (#2#3) {} (#3.south);
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \braceDownwardsLabel<>[styles]{firstNode}{secondNode}{distToLabel}{labelText}{labelWidth}
+% \braceDownwardsLabel{entradaB}{entradaA}{6mm}{las entradas}{6em}
+\newcommand<>\braceDownwardsLabel[6][ultra thick,structure!80,font=\footnotesize]{%
+  \braceDownwards[#1]{#2}{#3}
+  \begin{tikzpicture}[remember picture, overlay]
+    \node (text#2#3) [below=#4 of #2#3,text centered,text width=#6,#1] {#5};
+    \draw[->,#1] (#2#3) -- (text#2#3);
+  \end{tikzpicture}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \braceRightwardsLabel<>[styles]{firstNode}{secondNode}{distToLabel}{labelText}{labelWidth}
+% \braceRightwardsLabel{entradaB}{entradaA}{6mm}{las entradas}{6em}
+\newcommand<>\braceRightwardsLabel[6][ultra thick,structure!80,font=\footnotesize]{%
+  \braceRightwards[#1]{#2}{#3}
+  \begin{tikzpicture}[remember picture, overlay]
+    \node (text#2#3) [right=#4 of #2#3,text centered,text width=#6,#1] {#5};
+    \draw[->,#1] (#2#3) -- (text#2#3);
+  \end{tikzpicture}
+}
+
+
+\newcommand{\muestraRecetaDisenno}{%
+    \bgnblockdefinition[wd=.8\textwidth,centered]
+        {\large \bld{Receta de diseño:}}%
+        \begin{enumerate}%
+            \item Explicar su propósito.%
+            \item Dar ejemplos de su uso.%
+            \item Especificar el cuerpo de la función.%
+            \item Comprobar que hace lo correcto.%
+        \end{enumerate}%
+    \trmblockdefinition
+}
+
+% http://tex.stackexchange.com/questions/75337/tikz-arrow-outside-tikzpicture-environment/75343#75343
+\newcommand*{\DrawArrow}[3][]{%
+    % #1 = draw options
+    % #2 = left point
+    % #3 = right point
+    \begin{tikzpicture}[overlay,remember picture]
+        \draw [-latex, #1] ($(#2)+(0.1em,0.5ex)$) to ($(#3)+(0,0.5ex)$);
+    \end{tikzpicture}%
+}%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% \drawBrace[xshift]{beginningNode}{endingNode}
+%
+% This command draws a brace between two tikzmarks, to their right,
+% no matter which one is the rightmost, and includes 
+% a node midway the brace, to write the comment.
+% This command also creates a new node
+% whose name is the concat of the names of beginning and ending nodes.
+\newcommand<>{\drawBrace}[4][0pt]{%
+    \node[draw=none, fit={(#2) (#3)}, inner sep=0pt] (rectg) {};%
+    \draw [decoration={brace,amplitude=0.3em},decorate,very thick,red]%
+      ([xshift=#1]rectg.north east) --%
+      coordinate[right=1em, midway] (#2#3)%
+      ([xshift=#1]rectg.south east);%
+    \node[right=1.5em of #2#3] (#2#3-comment) {#4};%
+    \draw (#2#3-comment.west) edge (#2#3);%
+}%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% \drawTikZComment[nodeStyle]{codeMark}{message}
+%
+% Draws a comment pointing to codeMark. Generates a node with message as text,
+% and codeMark-comment as name.
+\tikzstyle{commentNode} = [text width=35mm, align=center, minimum height=10pt, font=\footnotesize\bfseries, fill=PaleGreen1!60, draw=PaleGreen2, line width=1pt, rounded corners]
+\newcommand<>{\drawTikZComment}[3][]{%
+  \tikz[remember picture, overlay]%
+    \node[commentNode, right=4em of #2, #1] (#2-comment) {#3};%
+  \drawTikZAnotherArrow{#2}{#2-comment}%
+}%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% \drawTikZAnotherArrow{codeMark}{messageNode}
+%
+% From an already drawn comment node called messageNode, draws
+% another arrow pointing to codeMark.
+\tikzstyle{commentEdge} = [->, thick, >=stealth, gray!70, dashed, line width = 1pt]
+\newcommand<>{\drawTikZAnotherArrow}[2]{%
+  \tikz[remember picture, overlay]%
+    \draw[commentEdge] (#2) -- ($(#1.center)!.6em!(#2)$);%
+}%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% \fullrule
+%
+% Draws a rule with 'structure' color, spanning the whole width of the text.
+\newcommand<>{\fullrule}{%
+  \textcolor{structure}{\noindent\rule{\textwidth}{1pt}}%
+}

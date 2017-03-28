@@ -20,7 +20,7 @@ default: $(TEXNAME).pdf
 %.tex: %.md.tex
 	$(PANDOC) $? -o $@
 
-$(TEXNAME).pdf: $(TEXNAME).tex $(MD_OUTFILES) engin310.sty
+$(TEXNAME).pdf: $(TEXNAME).tex $(MD_OUTFILES) engin310.sty common.macros.tex
 	# biber $(TEXNAME) --output_format bibtex
 	$(TEXCOMM) -no-pdf $(TEXNAME).tex && rm -f $(TEXNAME).xdv
 	# bibtex $(TEXNAME)
@@ -49,12 +49,5 @@ reduce:
 		-sOutputFile=$(TEXNAME)-reduc.pdf $(TEXNAME).pdf
 
 compileLive:
-	when-changed tex/1.*.md.tex engin310.sty tex/diagrams.tikz.tex $(TEXNAME).tex -c make
+	when-changed tex/*.md.tex engin310.sty common.macros.tex $(TEXNAME).tex -c make
 
-getOldPgf:
-	mkdir -p texmf/tex
-	rm -rf tmptikz && mkdir -p tmptikz
-	wget -P tmptikz ftp://tug.org/historic/systems/texlive/2013/tlnet-final/archive/pgf.tar.xz
-	tar Jxf tmptikz/pgf.tar.xz --directory tmptikz
-	mv tmptikz/tex/* texmf/tex
-	rm -rf tmptikz

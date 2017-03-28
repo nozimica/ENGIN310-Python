@@ -1,0 +1,146 @@
+## Alcance de una variable {.fragile} 
+
+- Ya hemos visto que a las variables hay que darles un valor antes de usarlas.
+
+\begin{lstlisting}[style=frame02]
+>>> altura
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'altura' is not defined
+>>>
+>>> altura = 188
+>>> altura
+188
+\end{lstlisting}
+
+\pause
+
+- Si una variable ha sido definida fuera de una función:
+    - ¿Se puede usar dentro de la función? \newline{}
+        \only{<3->}{\alert{Depende}}
+- Si fue definida dentro de la función:
+    - ¿Se puede usar fuera de ella? \newline{}
+        \only{<3->}{\alert{No}}
+
+\pause
+
+## Alcance de una variable {.fragile} 
+
+- Si no existe ni adentro ni afuera, no se puede usar.
+
+\begin{lstlisting}[style=frame02]
+>>> def calcVolumen(largo, ancho):
+        return altura * largo * ancho
+
+>>> calcVolumen(23, 3)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 2, in calcVolumen
+NameError: name 'altura' is not defined
+\end{lstlisting}
+
+- Pero de existir afuera, sí se puede usar en la función:
+
+\begin{lstlisting}[style=frame02,linebackgroundcolor={\btLstHL{1}}]
+>>> altura = 2
+>>> def calcVolumen(largo, ancho):
+        return altura * largo * ancho
+
+>>> calcVolumen(4, 3)
+24
+\end{lstlisting}
+
+## Alcance de una variable {.fragile} 
+
+- Si sólo existe afuera, desde la función ven siempre el último valor:
+
+\begin{lstlisting}[style=frame02,linebackgroundcolor={\btLstHL{1,7}}]
+>>> altura = 2
+>>> def calcVolumen(largo, ancho):
+        return altura * largo * ancho
+
+>>> calcVolumen(4, 3)
+24
+>>> altura = 4
+>>> calcVolumen(4, 3)
+48
+\end{lstlisting}
+
+## Alcance de una variable {.fragile} 
+
+- Si existe tanto adentro como afuera de la función, tiene prioridad el valor local:
+
+\begin{lstlisting}[style=frame02,linebackgroundcolor={\btLstHL{1,3,8}}]
+>>> altura = 2
+>>> def calcVolumen(largo, ancho):
+        altura = 3
+        return altura * largo * ancho
+
+>>> calcVolumen(4, 3)
+36
+>>> altura = 4
+>>> calcVolumen(4, 3)
+36
+\end{lstlisting}
+
+## Alcance de una variable {.fragile} 
+
+- Si una variable es parámetro de una función, significa:
+    - Se considera como una variable local.
+    - El valor de esa variable es lo que viene desde afuera.
+
+\begin{lstlisting}[style=frame02]
+>>> altura = 2
+>>> largo = 3
+>>> ancho = 4
+>>> def calcVolumen(largo, ancho):
+        return altura * largo * ancho
+
+>>> calcVolumen(5, 6)
+60
+>>> largo = 10
+>>> calcVolumen(5, 6)
+60
+>>> altura = 10
+>>> calcVolumen(5, 6)
+300
+\end{lstlisting}
+
+## Alcance de una variable {.fragile} 
+
+- Pero ojo, una variable local de una función no se ve desde afuera.
+
+\begin{lstlisting}
+>>> varGlobal = 2
+>>> def func1():
+        varLocal = 4
+        return varGlobal + varLocal
+
+>>> func1()
+6
+>>> print(varGlobal)
+2
+>>> print(varLocal)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'varLocal' is not defined
+\end{lstlisting}
+
+
+## Alcance de una variable {.fragile} 
+
+\bgnblockdefinition
+\bld{Alcance de una variable:} es el o los lugares del programa donde una variable puede ser usada.
+\trmblockdefinition
+
+\vfill
+
+\simpleTitle{Alcance de una variable en Python:}
+
+- Si fue definida **fuera de una función**, será visible globalmente (\textcolor{structure}{variable global}).
+- Si fue definida dentro de una función, será visible sólo dentro de ella (\textcolor{structure}{variable local}).
+    - Si es un parámetro, también es local.
+    - Al terminar la función, la variable local desaparece.
+    - Si la variable tiene el mismo nombre que una que es global, sólo
+    la ``reemplaza'' mientras se ejecuta la función.
+

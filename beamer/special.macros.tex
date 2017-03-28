@@ -1,0 +1,38 @@
+%% BEGIN @
+\makeatletter
+\newlength{\nzSignMargin}
+
+\newif\if@nzsign@turnleft%
+\newif\if@nzsign@turnright%
+\newif\if@nzsign@keepstraight%
+\pgfkeys{/nzsign/.cd,%
+    turnleft/.is if=@nzsign@turnleft,%
+    turnright/.is if=@nzsign@turnright,%
+    keepstraight/.is if=@nzsign@keepstraight,%
+}
+\newcommand<>{\tikzSign}[4][]{%
+  \node (#3) at (#4) {};%
+  \pgfkeys{/nzsign/.cd,#1}%
+  \setlength{\nzSignMargin}{#2}%
+  \draw[rounded corners, yellow, fill=yellow] (#3.center) -- ++(#2,#2) -- ++(-#2,#2) -- ++(-#2,-#2) -- cycle;%
+  \tikzstyle{signFrame} = [rounded corners, line width=.05*\the\nzSignMargin]%
+  \tikzstyle{signLine} = [line width=.15*\the\nzSignMargin]%
+  \tikzstyle{signArrow} = [-{Stealth[length=.3*\the\nzSignMargin,inset=.05*\the\nzSignMargin,width=.3*\the\nzSignMargin]}]%
+%
+  % \addtolength{\nzSignMargin}{-.1#2}
+  \draw[signFrame] ($(#3.center)+(0,.1\nzSignMargin)$) -- ++(.9\nzSignMargin,.9\nzSignMargin) -- ++(-.9\nzSignMargin,.9\nzSignMargin) -- ++(-.9\nzSignMargin,-.9\nzSignMargin) -- cycle;%
+  \draw[signLine] ($(#3.center)+(0,.4\nzSignMargin)$) -- ($(#3.center)+(0,.75\nzSignMargin)$);%
+  \if@nzsign@turnleft%
+    \draw[signLine, signArrow] ($(#3.center)+(0,.75\nzSignMargin)$) to[out=90,in=-30] ($(#3.center)+(-.5\nzSignMargin,1.3\nzSignMargin)$);%
+  \fi%
+  \if@nzsign@turnright%
+    \draw[signLine, signArrow] ($(#3.center)+(0,.75\nzSignMargin)$) to[out=90,in=-150] ($(#3.center)+(+.5\nzSignMargin,1.3\nzSignMargin)$);%
+  \fi%
+  \if@nzsign@keepstraight%
+    \draw[signLine, signArrow] ($(#3.center)+(0,.75\nzSignMargin)$) -- ($(#3.center)+(0,1.7\nzSignMargin)$);%
+  \fi%
+  \pgfkeys{/nzsign/.cd,turnleft=false,turnright=false,keepstraight=false}%
+}
+\makeatother
+%% END @
+

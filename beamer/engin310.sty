@@ -103,16 +103,6 @@
   \node [textdesc, right=\nextDef of #1.center] {#5};
 }
 
-%\setbeamercolor{item projected}{fg=red}
-%\setbeamertemplate{enumerate items}[default]
-%\setbeamercolor{item projected}{fg=green}
-\setbeamercolor{uppercolor}{fg=white,bg=blue!70}
-\setbeamercolor{lowercolor}{fg=black,bg=blue!10}
-% \setbeamercolor{alerted text}{fg=blue}
-%\setbeamercolor*{enumerate item}{fg=red}
-%\setbeamercolor*{enumerate subitem}{fg=red}
-%\setbeamercolor*{enumerate subsubitem}{fg=red}
-
 % Enumerate items, ball
 \setbeamertemplate{enumerate item}
 {
@@ -166,10 +156,33 @@
 
 \setbeamersize{text margin left=6mm,text margin right=6mm}
 
+\usepackage{ragged2e}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Custom tables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \usepackage{tabularx}
+\usepackage{colortbl}
 \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
 
-\usepackage{ragged2e}
+\definecolor{RowColorOdd}{rgb}{1,1,1}
+\definecolor{RowColorEven}{rgb}{0.914,0.914,0.953}
+\setbeamercolor{uppercolor}{fg=white,bg=blue!70}
+\setbeamercolor{lowercolor}{fg=black,bg=blue!10}
+
+\newenvironment{zebraTable}[1][0.2]%
+    {%
+    \def\arraystretch{1.3}\tabcolsep=10pt%
+    \rowcolors{1}{RowColorOdd}{RowColorEven}\hspace*{2mm}\tabularx{\dimexpr\textwidth-2\tabcolsep}{@{}C{#1\textwidth}@{} >{\hspace*{5mm}}X @{}}}%
+    {\endtabularx}
+
+\newenvironment{customDefsTableTwo}[3][0.2]%
+    {\begin{beamerboxesrounded}[upper=uppercolor,lower=lowercolor,shadow=true,width=100mm]%
+        {\begin{definitionTableTwo}[#1] \textcolor{white}{#2} & \textcolor{white}{#3} \end{definitionTableTwo}}}%
+    {\end{beamerboxesrounded}}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Increase padding for blocks.
@@ -200,12 +213,9 @@
 %%%% Custom blocks
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\usepackage{xkeyval}
+% \usepackage{xkeyval}
 \makeatletter
-\define@key{nzblocks}{wd}{\def\nzblockswd{#1}}
-\define@key{nzblocks}{envname}{\edef\nzenvname{#1}}
-\define@boolkey{nzblocks}{centered}{}
-\def\nztrue{true}
+% \define@boolkey{nzblocks}{centered}{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -226,21 +236,21 @@
 %
 % \nzblockidea<>[options]
 \newenvironment<>{nzblockidea}[1][]%
-  {\begin{nzblockicon}#2[#1]{idea}}%{img/twitter-LightBulb.pdf}}%
+  {\begin{nzblockicon}#2[#1]{idea}}%
   {\end{nzblockicon}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % \nzblockdefinition<>[options]
 \newenvironment<>{nzblockdefinition}[1][]%
-  {\begin{nzblockicon}#2[#1]{definition}}%{img/memo-1f4dd.pdf}}%
+  {\begin{nzblockicon}#2[#1]{definition}}%
   {\end{nzblockicon}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % \nzblockedanger<>[options]
 \newenvironment<>{nzblockdanger}[1][]%
-  {\begin{nzblockicon}#2[#1]{danger}}%{img/doubleexclamation-203c.pdf}}%
+  {\begin{nzblockicon}#2[#1]{danger}}%
   {\end{nzblockicon}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -248,11 +258,12 @@
 % \nzblockicon<>[options]{type}
 %
 % type: [ idea, danger, definition ]
-\newlength{\nzblocklbulbiconwd}%
-\setlength{\nzblocklbulbiconwd}{8mm}%
-\newlength{\nzblocklbulbiconcellwd}%
-\setlength{\nzblocklbulbiconcellwd}{\nzblocklbulbiconwd} \addtolength{\nzblocklbulbiconcellwd}{4mm}
-\newlength{\nzblocklbulbtextwd}%
+\newlength{\nzblock@total@width}%
+\newlength{\nzblock@bodycell@width}%
+\newlength{\nzblock@icon@width}%
+\setlength{\nzblock@icon@width}{8mm}%
+\newlength{\nzblock@iconcell@width}%
+\setlength{\nzblock@iconcell@width}{\nzblock@icon@width} \addtolength{\nzblock@iconcell@width}{4mm}
 
 % set relations from use and {nameOfEnvironment, icon}
 \pgfkeyssetvalue{/nzblock/idea/icon}{img/twitter-LightBulb.pdf}
@@ -262,21 +273,34 @@
 \pgfkeyssetvalue{/nzblock/danger/icon}{img/doubleexclamation-203c.pdf}
 \pgfkeyssetvalue{/nzblock/danger/envname}{nzalertblock}
 
+\newif\if@nzblock@centered%
+\pgfkeys{/nzblock/outsideopts/.cd,%
+    wd/.initial=\textwidth,%
+    wd/.get=\temp@width,%
+    wd/.store in=\temp@width,%
+    centered/.is if=@nzblock@centered%
+}
+
 \newenvironment<>{nzblockicon}[2][]%
   {%
+    \vspace{1ex}
     \expandafter\def\expandafter\nzblockicontype{#2}%
     \pgfkeysgetvalue{/nzblock/\nzblockicontype/envname}{\envname}%
     \pgfkeysgetvalue{/nzblock/\nzblockicontype/icon}{\nzicon}%
-    \begin{\envname}#3[#1]
-      \setlength{\nzblocklbulbtextwd}{\textwidth}%
-      \addtolength{\nzblocklbulbtextwd}{-1\nzblocklbulbiconcellwd}
+    % receive outside opts (#1)
+    \pgfkeys{/nzblock/outsideopts/.cd,#1}
+
+    \begin{\envname}#3[#1]%
+      \setlength{\nzblock@total@width}{\temp@width}%
+      \setlength{\nzblock@bodycell@width}{\temp@width}%
+      \addtolength{\nzblock@bodycell@width}{-1\nzblock@iconcell@width}%
       \vskip4bp%
-      \begin{columns}[c,onlytextwidth]%
-        \column[c]{\nzblocklbulbiconcellwd}%
+      \begin{columns}[c,totalwidth=\nzblock@total@width]%
+        \column[c]{\nzblock@iconcell@width}%
           % \vskip4bp%
           \centering%
-          \includegraphics[width=\nzblocklbulbiconwd,valign=t]{\nzicon}%
-        \column{\nzblocklbulbtextwd}%
+          \includegraphics[width=\nzblock@icon@width,valign=t]{\nzicon}%
+        \column{\nzblock@bodycell@width}%
           \centering%
   }%
   {%
@@ -285,13 +309,14 @@
   }
 
 \newenvironment<>{nzblock}[2][]%
-  {
-    % \vspace*{.6ex}%
-    \begingroup\setkeys{nzblocks}{wd=\textwidth,#1}%
-    \ifKV@nzblocks@centered%
+  {%
+    % receive outside opts (#1)
+    \pgfkeys{/nzblock/outsideopts/.cd,#1}%
+    \setlength{\nzblock@bodycell@width}{\temp@width}%
+    \if@nzblock@centered
       \hfill%
     \fi%
-    \begin{beamercolorbox}#3[wd=\nzblockswd,sep=0.3em,rounded=true,shadow=true,center]{#2}%
+    \begin{beamercolorbox}#3[wd=\temp@width,sep=0.3em,rounded=true,shadow=true,center]{#2}%
     % fix top separation added to itemizes inside boxes like this
     \setlength{\partopsep}{-3pt}%
     % fix vertical space added because of the rounded=true
@@ -300,10 +325,10 @@
   {%
       \vspace{.2ex}%
     \end{beamercolorbox}%
-    \ifKV@nzblocks@centered%
+    \if@nzblock@centered
       \hfill\hfill%
     \fi%
-  \endgroup}
+  }
 \makeatother
 
 
