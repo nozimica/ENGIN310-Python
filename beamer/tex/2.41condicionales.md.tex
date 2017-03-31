@@ -447,7 +447,7 @@ El mayor es: 5
 
 \simpleTitle{Otro ejemplo:}
 
-\tikz[remember picture, overlay]{\tikzSign[keepstraight,turnright]{8mm}{a1}{$(current page.north east)+(-16mm,-20mm)$}}
+\tikz[remember picture, overlay]{\tikzSign[keepstraight,turnleft,turnright]{8mm}{a1}{$(current page.north east)+(-16mm,-20mm)$}}
 \vspace{-3ex}
 
 - Dados dos números, determinar cuál es el mayor.
@@ -461,15 +461,18 @@ El mayor es: 5
 def imprimeElMayorOIgual(numA, numB):
     if numA > numB:
         print('El mayor es: ' + str(numA))
-    elif numA < numB:
+    elif numA < numB:(*@\tikzmark{elifintroduction}@*)
         print('El mayor es: ' + str(numB))
     else:
         print('Los dos números son iguales.')
 \end{lstlisting}
 
+\drawTikZComment[right=10em of elifintroduction, text width=30mm]{elifintroduction}{\scriptsize \nzinlinecode{elif} es como se escribe \nzinlinecode{else if}}
+\vspace{-3ex}
+
 ## Condiciones {.fragile}
 
-\tikz[remember picture, overlay]{\tikzSign[turnleft,turnright]{8mm}{a1}{$(current page.north east)+(-16mm,-20mm)$}}
+\tikz[remember picture, overlay]{\tikzSign[keepstraight,turnleft,turnright]{8mm}{a1}{$(current page.north east)+(-16mm,-20mm)$}}
 \vspace{-3ex}
 
 \bgncolumns
