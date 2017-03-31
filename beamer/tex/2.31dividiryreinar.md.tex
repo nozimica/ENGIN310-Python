@@ -263,3 +263,30 @@ Para cada una de estas definiciones, se tiene una manera de calcular su área:
 \end{figure}
 
 \trmcolumns
+
+## Ejemplo: Calcular el área de un rombo {.fragile}
+
+\simpleTitle*{Solución:}
+
+\begin{lstlisting}[basicstyle=\scriptsize\ttfamily,style=frame01]
+# largoSegmento: num num num num -> num
+# Calcula el largo del segmento entre los dos
+# puntos cuyas coordenadas se entregan.
+# Ejemplo: largoSegmento(0, -1, 0, 1) retorna 2.0
+def largoSegmento(px, py, qx, qy):
+    sqrSum = (qx - px)**2 + (qy - py)**2
+    return sqrSum**0.5
+# Test
+assert largoSegmento(4, 0, 0, 3) == 5.0
+
+# areaRombo: num num num num num num num num -> num
+# Calcula el área de un rombo, dadas las
+# coordenadas de sus cuatro vértices
+# Ejemplo: areaRombo(-2, 0, 0, -1, 2, 0, 0, 1) retorna 4.0
+def areaRombo(ax, ay, bx, by, cx, cy, dx, dy):
+    diagAC = largoSegmento(ax, ay, cx, cy)
+    diagBD = largoSegmento(bx, by, dx, dy)
+    return diagAC * diagBD / 2.0
+# Test
+assert areaRombo(-3, 0, 0, -1, 3, 0, 0, 1) == 6.0
+\end{lstlisting}
