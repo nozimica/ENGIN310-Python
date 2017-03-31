@@ -1,4 +1,11 @@
 beamer/*.pdf
+beamer/tex/*.tex
+!beamer/tex/*.md.tex
 **/*.aux
 **/*.log
+**/*.nav
+**/*.out
+**/*.snm
+**/*.toc
+**/*.vrb
 **/.*.swp
