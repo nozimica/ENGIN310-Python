@@ -1,0 +1,216 @@
+## Tipos de dato lógico
+
+- Hasta ahora hemos visto variables numéricas, y en menor medida, de texto.
+
+- He aquí un nuevo tipo de dato, muy sencillo:
+
+\pause
+
+\bgnblockdefinition
+\bld{Tipo de dato lógico:} corresponden a la respuesta a preguntas lógicas, donde las
+únicas opciones son\newline \structure{True} o \structure{False}.
+\trmblockdefinition
+
+\vspace{.6ex}
+
+\scalebox{.7}{%
+\begin{tikzpicture}[every node/.style={cloud callout, draw, fill=Wheat1!50, cloud ignores aspect, cloud puffs=12, text width=5em, text centered}]
+\node at (0,0) {\bf ¿Es $n$ positivo?};
+\node at (4,1) {\bf ¿Está el producto en oferta?};
+\node at (8,-1) {\bf ¿Es el vuelto > 0?};
+\node at (12,0) {\bf ¿Quedan elementos en la lista?};
+\end{tikzpicture}
+}
+
+## Tipos de dato lógico: {.fragile}
+
+\simpleTitle{Los operadores condicionales más importantes son:}
+
+\begin{zebraTable}[0.5]%
+    \rowcolor{structure}%
+    \textcolor{white}{Operador} & \textcolor{white}{Significado} \\
+    \nzinlinecode{==} &  Igualdad \\
+    \nzinlinecode{!=} & Diferentes \\
+    \nzinlinecode{not} &  Negación \\
+    \nzinlinecode{<} &  Menor que \\
+    \nzinlinecode{>} &  Mayor que \\
+    \nzinlinecode{<=} & Menor o igual que \\
+    \nzinlinecode{>=} & Mayor o igual que \\
+    \nzinlinecode{and} &  Y \\
+    \nzinlinecode{or} &   O \\
+\end{zebraTable}
+
+
+## Tipos de dato lógico: {.fragile}
+
+\simpleTitle{Probemos algunas expresiones en Python:}
+
+\vspace{-3ex}
+
+\bgncolumns
+
+\column{0.35\textwidth}
+
+\begin{lstlisting}
+>>> 7 < 10
+True
+
+>>> 8 < 2
+False
+
+>>> 8 > 4
+True
+
+>>> 8 > 11
+False
+
+>>> 4 > 4
+False
+\end{lstlisting}
+
+\column{0.35\textwidth}
+
+\begin{lstlisting}
+>>> 3 == 6
+False
+
+>>> 6 == 3 * 2
+True
+
+>>> 10 != 7
+True
+
+>>> 8 <= 10
+True
+
+>>> 10 >= 3**2
+True
+\end{lstlisting}
+
+\column{0.35\textwidth}
+
+\begin{lstlisting}
+>>> True == True
+True
+
+>>> False == True
+False
+
+>>> False == False
+True
+\end{lstlisting}
+
+\trmcolumns
+
+
+## Tipos de dato lógico: {.fragile}
+
+\simpleTitle{Probemos algunas expresiones con variables:}
+
+\vspace{-3ex}
+
+\bgncolumns
+
+\column{0.35\textwidth}
+
+\begin{lstlisting}
+>>> largo = 12
+>>> ancho = 7
+>>> alto = 6
+>>> listo = True
+>>> suficiente = 90
+
+>>> largo > ancho
+True
+
+>>> largo < 2 * ancho
+True
+
+>>> alto == largo / 2
+True
+\end{lstlisting}
+
+\column{0.65\textwidth}
+
+\begin{lstlisting}
+>>> alto <= largo
+True
+
+>>> alto * ancho < largo
+False
+
+>>> listo (*@\tikzmark{bgnSetbool}@*)= (largo * ancho) > suficiente
+>>> listo
+False
+
+>>> listo (*@\tikzmark{trmSetbool}@*)= (1.2*largo * ancho) > suficiente
+>>> listo
+True
+\end{lstlisting}
+
+\trmcolumns
+
+\drawTikZComment[below right=2em and 3em of trmSetbool]{trmSetbool}{\scriptsize Se puede asignar un resultado lógico}
+\drawTikZAnotherArrow{bgnSetbool}{trmSetbool-comment}
+
+## Tipos de dato lógico: {.fragile}
+
+\simpleTitle{Probemos algunas expresiones compuestas:}
+
+\begin{lstlisting}
+>>> (1.2*largo * ancho) > suficiente and alto > 5
+True
+
+>>> listo and alto > 5
+True
+
+>>> listo = largo > 10 and ancho <= 6
+>>> listo
+False
+
+>>> listo = largo > 10 or ancho <= 6
+>>> listo
+True
+
+>>> not (largo > 10 or ancho <= 6)
+False
+\end{lstlisting}
+
+## Funciones booleanas {.fragile}
+
+- Una función también puede retornar un tipo lógico:
+
+\begin{lstlisting}
+# esPar: int -> bool(*@\tikzmark{booltypedesign01}@*)
+# Si 'numero' es par, retorna verdadero;
+# en caso contrario retorna False.
+# Ejemplo: esPar(7) retorna False
+def esPar(numero):
+    return (numero % 2) == 0
+
+# Test
+assert esPar(2) == True
+assert esPar(11) == False
+\end{lstlisting}
+
+\pause
+
+\drawTikZComment[right=8em of booltypedesign01]{booltypedesign01}{\scriptsize Nuevo tipo de dato en nuestra receta}
+
+## Funciones booleanas {.fragile}
+
+- Una función también puede retornar un tipo lógico:
+
+\begin{lstlisting}
+# esMultiploDe: int int -> bool(*@\tikzmark{booltypedesign02}@*)
+# Si 'numero' es múltiplo de 'factor', retorna verdadero;
+# en caso contrario retorna False.
+# Ejemplo: esMultiploDe(7, 3) retorna False
+def esMultiploDe(numero, factor):
+    return (numero % factor) == 0
+
+# Test
+assert esMultiploDe(21, 7) == True
+assert esMultiploDe(18, 5) == False
+\end{lstlisting}
+
