@@ -1,0 +1,61 @@
+\documentclass[svgnames]{beamer}
+\usepackage{tikz}
+\usepackage{ifthen}
+\usetikzlibrary{positioning,calc,decorations.pathreplacing,fit,arrows.meta}
+
+\newcommand{\tikzmark}[2][]{%
+  \tikz[remember picture,overlay,baseline=-.5ex] \node[#1] (#2) {};%
+}
+
+  \tikzstyle{signLine} = [line width=1pt,-{Stealth[length=5pt,inset=2pt,width=5pt]}]%
+
+\newcount\cnt
+\newcommand{\drawBranch}[2]{%
+    \cnt=#1
+    \advance\cnt by 1
+    \pgfmathtruncatemacro{\step}{#2-#1}
+    \pgfmathtruncatemacro{\showat}{5 - #1}
+    \ifthenelse{#1 > -2}
+    {%
+        \ifthenelse{#1 > -1}
+        {%
+            \matrix[below=3em of f\the\cnt, ampersand replacement=\&] (f#1-global)
+            {
+                \node[] (f#1-ret) {\the\cnt~~*}; \& \node[fill=gray!40] (f#1) {\texttt{factorial(#1)}}; \\
+            };
+        }{%
+            \node[below=3em of f\the\cnt] (f#1-global) {retorna 1};
+        }
+        \draw[decorate,decoration={brace,raise=2ex}] (f#1-global.west) -- (f#1-global.east);
+        \structure<\showat>{%
+            \draw[signLine] (f\the\cnt) to[out=-50, in=30] node [right] {Paso \step: ejecuta \texttt{factorial(\the\cnt)}} ($(f#1-global)+(.05,.5)$);
+        }
+    }{%
+        \pgfmathtruncatemacro{\returningA}{-1 * #1 - 3} % -1
+        \pgfmathtruncatemacro{\returningB}{-1 * #1 - 2} % 0
+        \pgfmathtruncatemacro{\factIdx}{-1 * #1 - 2} % 0
+        \pgfmathtruncatemacro{\factValue}{\factoriales[\factIdx]} % 0
+        \structure<\showat>{%
+            \draw[signLine] ($(f\returningA-global)+(-.2,.5)$) to[out=160, in=-120] node [left] {Paso \step: retorna \factValue} (f\returningB.220);%($(f\returningB)+(.05,.5)$);
+        }
+    }
+}
+
+\begin{document}
+\begin{frame}{Factorial}
+
+\begin{tikzpicture}
+    \scriptsize
+    \def\factoriales{{1,1,2,6,24}}
+    \node (f4) {\texttt{factorial(4)}};
+    \foreach \x in {3,...,-6}
+        {
+            \pgfmathtruncatemacro{\showat}{5 - \x}
+            \uncover<\showat->{
+                \drawBranch{\x}{3}
+            }
+        }
+\end{tikzpicture} 
+
+\end{frame}
+\end{document}
