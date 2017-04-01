@@ -36,3 +36,26 @@
 \makeatother
 %% END @
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% \placeLogoTurnSignBig<>{elements}
+%
+% Places a logo with turn signs. What branches are drawn is specified
+% in the parameter elements. This is a big logo.
+% Example: \placeLogoTurnSignBig{keepstraight,turnleft,turnright}
+\newcommand<>{\placeLogoTurnSignBig}[1]{%
+    \tikz[remember picture, overlay]#2 \tikzSign[#1]{12mm}{a1}{$(current page.north east)+(-16mm,-28mm)$};%
+    \vspace{-3ex}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% \placeLogoTurnSignSmall<>{elements}
+%
+% Places a logo with turn signs. What branches are drawn is specified
+% in the parameter elements. This is a somewhat small logo.
+% Example: \placeLogoTurnSignSmall{keepstraight,turnleft,turnright}
+\newcommand<>{\placeLogoTurnSignSmall}[1]{%
+    \tikz[remember picture, overlay]#2 \tikzSign[#1]{8mm}{a1}{$(current page.north east)+(-16mm,-20mm)$};%
+    \vspace{-3ex}%
+}

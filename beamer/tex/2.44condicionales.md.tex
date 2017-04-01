@@ -1,0 +1,341 @@
+## Condiciones múltiples {.fragile}
+
+\simpleTitle{Otro ejemplo:}
+
+\placeLogoTurnSignBig{keepstraight,turnleft,turnright}
+
+\bgnblockgood[wd=.8\textwidth]
+
+Dados dos números, determinar el mayor.
+
+\alert{Destacar cuando sean iguales.}
+
+\trmblockgood
+
+\begin{lstlisting}[style=frame02]
+# imprimeElMayorOIgual: int int -> None
+# Recibe dos números, e indica en pantalla cuál es el mayor,
+# o avisa cuando son iguales.
+# Ejemplo: imprimeElMayorOIgual(11, 3)
+def imprimeElMayorOIgual(numA, numB):
+    if numA > numB:
+        print('El mayor es: ' + str(numA))
+    elif numA < numB:(*@\tikzmark{elifintroduction}@*)
+        print('El mayor es: ' + str(numB))
+    else:
+        print('Los dos números son iguales.')
+\end{lstlisting}
+
+\drawTikZComment[right=10em of elifintroduction, text width=30mm]{elifintroduction}{\scriptsize \nzinlinecode{elif} es como se escribe \nzinlinecode{else if}}
+\vspace{-3ex}
+
+## Condiciones múltiples {.fragile}
+
+\placeLogoTurnSignSmall{keepstraight,turnleft,turnright}
+
+\bgncolumns
+\column{.52\textwidth}
+\vspace{-1ex}
+
+\simpleTitle{Código:}
+
+\begin{lstlisting}
+num1 = input('Ingrese un número: ')
+num2 = input('Ingrese otro: ')
+imprimeElMayorOIgual(num1, num2)
+\end{lstlisting}
+
+\column{.48\textwidth}
+\vspace{-1ex}
+
+\simpleTitle*{Ejecución 1:}
+
+\begin{exampleConsole}
+Ingrese un número: \codeInput{2}
+Ingrese otro: \codeInput{7}
+El mayor es: 7
+\end{exampleConsole}
+
+\fullrule
+
+\simpleTitle*{Ejecución 2:}
+
+\begin{exampleConsole}
+Ingrese un número: \codeInput{4}
+Ingrese otro: \codeInput{4}
+Los dos números son iguales.
+\end{exampleConsole}
+
+\trmcolumns
+
+## Condiciones: más ejemplos {.fragile}
+
+\bgnblockgood
+Dados \alert{tres} números, \alert{retornar} el mayor.
+\trmblockgood
+
+\begin{lstlisting}
+>>> num1 = input('Ingrese un número: ')
+>>> num2 = input('Ingrese otro: ')
+>>> num3 = input('Ingrese otro: ')
+>>> 
+>>> mayor = obtenerEl(*@\tikzmark{markGetMaxNum}@*)Mayor(num1, num2, num3)
+>>> 
+>>> print('El número mayor es: ' + str(mayor))
+\end{lstlisting}
+
+\pause
+
+\drawTikZComment[below=5em of markGetMaxNum]{markGetMaxNum}{\scriptsize Hay que determinar el mayor, y devolverlo.}
+\vspace{-3ex}
+
+\bgncolumns
+
+\column{.5\textwidth}
+\column{.5\textwidth}
+
+\footnotesize
+
+- Comparar los tres números.
+- Determinar el mayor.
+- Entregarlo usando \nzinlinecode{return}.
+
+\trmcolumns
+
+## Condiciones: más ejemplos {.fragile}
+
+\simpleTitle{Solución 1:}
+
+\begin{lstlisting}[style=frame02]
+# obtenerElMayor: int int int -> int
+# Recibe tres números y retorna el mayor.
+# Ejemplo: obtenerElMayor(11, 3, 14) retorna 14
+def obtenerElMayor(num1, num2, num3):
+    mayor = num1         # supondremos que el primero es el mayor
+
+    if mayor < num2:     # ahora veremos si num2 le gana
+        mayor = num2
+
+    if mayor < num3:     # ahora veremos si num3 le gana
+        mayor = num3
+
+    return mayor
+
+assert obtenerElMayor(2, 4, -3) == 4
+assert obtenerElMayor(-2, -12, 0) == 0
+\end{lstlisting}
+
+## Condiciones: más ejemplos {.fragile}
+
+\simpleTitle{Solución 2:}
+
+\begin{lstlisting}[style=frame02]
+# obtenerElMayor: int int int -> int
+# Recibe tres números y retorna el mayor.
+# Ejemplo: obtenerElMayor(11, 3, 14) retorna 14
+def obtenerElMayor(num1, num2, num3):
+    if num1 > num2 and num1 > num3:
+        mayor = num1
+    elif num2 > num3:
+        mayor = num2
+    else:
+        mayor = num3
+
+    return mayor
+
+assert obtenerElMayor(2, 4, -3) == 4
+assert obtenerElMayor(-2, -12, 0) == 0
+\end{lstlisting}
+
+
+## Condiciones: más ejemplos {.fragile}
+
+\simpleTitle{Solución 3 (usando la función \nzinlinecode{max()} de Python):}
+
+\begin{lstlisting}[style=frame02]
+# obtenerElMayor: int int int -> int
+# Recibe tres números y retorna el mayor.
+# Ejemplo: obtenerElMayor(11, 3, 14) retorna 14
+def obtenerElMayor(num1, num2, num3):
+    return max(num1, max(num2, num3))
+
+assert obtenerElMayor(2, 4, -3) == 4
+assert obtenerElMayor(-2, -12, 0) == 0
+\end{lstlisting}
+
+\pause
+
+\bgnblockidea
+Ojo: La función \nzinlinecode{max()} recibe tantos parámetros como queramos darle:
+\trmblockidea
+
+\begin{lstlisting}[style=frame02]
+def obtenerElMayor(num1, num2, num3):
+    return max(num1, num2, num3)
+\end{lstlisting}
+
+## Condiciones: ejemplo más complejo {.fragile}
+
+\bgnblockgood
+Dados tres números, imprímalos de menor a mayor.
+\trmblockgood
+
+\pause
+
+\begin{lstlisting}[style=frame02]
+# imprimeEnOrden: int int int -> None
+# Recibe tres números y los imprime en pantalla, de menor a mayor.
+def imprimeEnOrden(num1, num2, num3):
+    menor = min(num1, num2, num3)
+    mayor = max(num1, num2, num3)
+    medio = (num1 + num2 + num3) - menor - mayor
+
+    print('El menor es' + str(menor))
+    print('El medio es' + str(medio))
+    print('El mayor es' + str(mayor))
+\end{lstlisting}
+
+## Condiciones: manipulando fechas {.fragile}
+
+- A lo largo del curso iremos viendo varios ejemplos de manipulación de fechas.
+- Veamos ahora dos funciones necesarias en estos casos.
+
+\vfill
+
+\bgnblockgood
+Implemente una función que reciba un número de mes y retorne su cantidad de días.\newline
+Si el número de mes es inválido, retorne \nzinlinecode{-1}, y suponga que no hay años bisiestos.
+\trmblockgood
+
+## Condiciones: manipulando fechas {.fragile}
+
+\begin{lstlisting}[style=frame02]
+# diasEnMes: int -> int
+# Recibe un número de mes y retorna su cantidad de días.
+# Si es inválido, retorna -1.
+# Ejemplo: diasEnMes(3) retorna 31
+def diasEnMes(mes):
+    if mes == 1 or mes == 3 or mes == 5 or mes == 7 or mes == 8 or
+            mes == 10 or mes == 12:
+        dias = 31
+    elif mes == 4 or mes == 6 or mes == 9 or mes == 11:
+        dias = 30
+    elif mes == 2:
+        dias = 28
+    else:
+        dias = -1
+    return dias
+assert diasEnMes(8) == 31
+assert diasEnMes(11) == 30
+\end{lstlisting}
+
+## Condiciones: años bisiestos {.fragile}
+
+\bgnblockgood
+Implemente una \alert{<3->}{función que} reciba un año y \alert{<3->}{determine si} es bisiesto.
+\trmblockgood
+
+\pause
+
+\vfill
+
+\bld{Se define año bisiesto como:}
+
+> Aquel que es divisible por 400 o bien es divisible por 4 pero no por 100.
+
+\pause
+
+\vfill
+
+\bgnblockidea
+Esta función debe ser *booleana*.
+\trmblockidea
+
+## Condiciones: años bisiestos {.fragile}
+
+\begin{lstlisting}[style=frame02]
+# esBisiesto: int -> bool
+# Recibe un año y retorna True si es bisiesto.
+# Ejemplo: esBisiesto(2017) retorna False
+def esBisiesto(year):
+    if year % 400 == 0:
+        return True
+    elif year % 4 == 0 and year % 100 != 0:
+        return True
+    else:
+        return False
+assert esBisiesto(1992) == True
+assert esBisiesto(1990) == False
+\end{lstlisting}
+
+\bgnblockalert
+Ojo: este código puede ser escrito más resumido...
+\trmblockalert
+
+## Condiciones: años bisiestos {.fragile}
+
+\bgnblockidea
+Recuerden: \nzinlinecode{return} termina la ejecución de la función...
+\trmblockidea
+
+\vspace{-2ex}
+\bgncolumns
+\column{.7\textwidth}
+
+\begin{lstlisting}[style=frame02]
+def esBisiesto(year):
+    if year % 400 == 0:
+        return True
+    elif year % 4 == 0 and year % 100 != 0:
+        return True
+    else:
+        return False
+\end{lstlisting}
+
+\column{.3\textwidth}
+
+\trmcolumns
+
+\vspace{-2ex}
+\bgncolumns
+\column{.3\textwidth}
+
+\column{.6\textwidth}
+
+\begin{lstlisting}[style=frame02]
+def esBisiesto(year):
+    if year % 400 == 0:
+        return True
+    if year % 4 == 0 and year % 100 != 0:
+        return True
+    return False
+\end{lstlisting}
+
+\column{.1\textwidth}
+
+\trmcolumns
+
+## Condiciones: días en mes, completo {.fragile}
+
+\bgnblockgood
+Reimplementa ahora \nzinlinecode{diasEnMes}, pero incorporando la noción de año bisiesto.
+\trmblockgood
+
+\pause
+
+\begin{lstlisting}[style=frame02]
+def diasEnMes(mes, anno):
+    if mes == 1 or mes == 3 or mes == 5 or mes == 7 or mes == 8 or
+            mes == 10 or mes == 12:
+        dias = 31
+    elif mes == 4 or mes == 6 or mes == 9 or mes == 11:
+        dias = 30
+    elif mes == 2:
+        dias = 28
+        if esBisiesto(anno):
+            dias = 29
+    else:
+        dias = -1
+    return dias
+\end{lstlisting}
+

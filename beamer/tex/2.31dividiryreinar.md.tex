@@ -61,8 +61,8 @@ El primero pedía calcular algo que el segundo necesitaba como insumo para su pr
 
 - Primero escribimos la función para calcular el semiperímetro:
 
-\begin{lstlisting}
-# calcSemiperimetro: num num num -> num
+\begin{lstlisting}[style=frame02]
+# calcSemiperimetro: num num num -> float
 # Calcula el semiperímetro de un triángulo, dados sus tres lados.
 # Ejemplo: calcSemiperimetro(3, 4, 5) retorna 6
 def calcSemiperimetro(a, b, c):
@@ -82,8 +82,8 @@ assert calcSemiperimetro(13, 10, 8) == 15.5
 
 - Y después, la función para calcular el área:
 
-\begin{lstlisting}
-# areaTriangulo: num num num -> num
+\begin{lstlisting}[style=frame02]
+# areaTriangulo: num num num -> float
 # Calcula el área de un triángulo, dados sus tres lados,
 # usando la fórmula de Herón.
 # Ejemplo: areaTriangulo(3, 4, 5) retorna 6
@@ -181,18 +181,18 @@ Existen varias maneras de representar (definir) un rombo:
     \footnotesize
     \item Longitud de sus lados (\textbf{a}) y los ángulos interiores ($\alpha$ y $\beta$).
     \item Longitud de sus lados (\textbf{a}) y del radio (\textbf{r}) de la circunferencia inscrita.
-    \item \alert<2->{Longitud de sus dos diagonales (\textbf{p} y \textbf{q})}.
-    \item Las cuatro coordenadas de sus vértices: (\textbf{$ (x_a, y_a), (x_b, y_b), (x_c, y_c), (x_d, y_d)$}).
+    \item Longitud de sus dos diagonales (\textbf{p} y \textbf{q}).
+    \item \alert<2->{Las cuatro coordenadas de sus vértices: (\textbf{$ (x_a, y_a), (x_b, y_b), (x_c, y_c), (x_d, y_d)$}).}
 \end{enumerate}
 
 \vspace{4mm}
 Para cada una de estas definiciones, se tiene una manera de calcular su área:
 \begin{enumerate}
     \footnotesize
-    \item \parbox{23mm}{(a, $\alpha$, $\beta$)} $ A = a^2 * sen(\alpha) = a^2 * sen(\beta) $
-    \item \parbox{23mm}{(a, r)} $ A = 2a * r $
-    \item \alert<2->{\parbox{23mm}{(p, q)} $ A = \frac{p * q}{2} $}
-    \item \parbox{23mm}{Coordenadas} $ A = \left( \frac{\sqrt{(x_c - x_a)^2 + (y_c - y_a)^2} * \sqrt{(x_d - x_b)^2 + (y_d - y_b)^2}}{2} \right) $
+    \item \parbox{27mm}{(a, $\alpha$, $\beta$)} $ A = a^2 * sen(\alpha) = a^2 * sen(\beta) $
+    \item \parbox{27mm}{(a, r)} $ A = 2a * r $
+    \item \parbox{27mm}{(p, q)} $ A = \frac{p * q}{2} $
+    \item \alert<2->{\parbox{27mm}{Coordenadas} $ A = \left( \frac{\sqrt{(x_c - x_a)^2 + (y_c - y_a)^2} * \sqrt{(x_d - x_b)^2 + (y_d - y_b)^2}}{2} \right) $}
 \end{enumerate}
 
 ## Ejemplo: Calcular el área de un rombo
@@ -269,7 +269,7 @@ Para cada una de estas definiciones, se tiene una manera de calcular su área:
 \simpleTitle*{Solución:}
 
 \begin{lstlisting}[basicstyle=\scriptsize\ttfamily,style=frame01]
-# largoSegmento: num num num num -> num
+# largoSegmento: num num num num -> float
 # Calcula el largo del segmento entre los dos
 # puntos cuyas coordenadas se entregan.
 # Ejemplo: largoSegmento(0, -1, 0, 1) retorna 2.0
@@ -279,7 +279,7 @@ def largoSegmento(px, py, qx, qy):
 # Test
 assert largoSegmento(4, 0, 0, 3) == 5.0
 
-# areaRombo: num num num num num num num num -> num
+# areaRombo: num num num num num num num num -> float
 # Calcula el área de un rombo, dadas las
 # coordenadas de sus cuatro vértices
 # Ejemplo: areaRombo(-2, 0, 0, -1, 2, 0, 0, 1) retorna 4.0

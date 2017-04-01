@@ -138,6 +138,30 @@
   \end{pgfpicture}%
 }
 
+\AtBeginSubsection[]{
+  \begin{frame}
+    \tikz[remember picture, overlay] \node[anchor=north east] at (current page.north east)
+    {\includegraphics[height=20mm,valign=t]{img/logo_fen_small.png}};
+  \vfill
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+\vspace{2ex}
+  \hfill%
+\begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true,wd=.7\textwidth]{block body example}
+    \usebeamerfont{subtitle}\insertsubsectionhead\par%
+  \end{beamercolorbox}
+    \hfill\hfill%
+  \vfill
+  \end{frame}
+  % \frame<beamer>{ 
+  %   \frametitle{Outline}   
+  %   \tableofcontents[currentsection,currentsubsection] 
+  % }
+}
+
 % \setbeamercolor{block body example}{fg=blue,bg=white}
 % \setbeamercolor{uppercolgreen}{fg=white,bg=green!35}
 % \setbeamercolor{postit}{fg=black,bg=yellow}
@@ -213,9 +237,7 @@
 %%%% Custom blocks
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% \usepackage{xkeyval}
 \makeatletter
-% \define@boolkey{nzblocks}{centered}{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -331,56 +353,6 @@
   }
 \makeatother
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%% Beamer aux commands
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 
-% \strongText<>{text}
-%
-% Highlights the text with both bold and blue color.
-\newcommand<>{\strongText}[1]{%
-    \textcolor#2{blue}{\textbf{#1}}%
-}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 
-% \coordText<3->{node1}{textLeft}{node2}{textRight}
-%
-% Allows to join a node1 with text to a node2 with text
-% using an arrow.
-\newcommand<>{\coordText}[4]{%
-    \tikz[na] \node (#1) {#2};%
-    \begin{tikzpicture}[remember picture,overlay]%
-        \node#5[right=35mm of #1.west] (#3) {#4};%
-        \path[arrowInList]#5 ([xshift=25mm]#1.west) -- (#3);%
-    \end{tikzpicture}%
-}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 
-% \placeLogo<>[width]{logoPath}
-%
-% Places a logo in the upper right corner of the slide.
-% It's a good idea to use it as the last command of the slide.
-\newcommand<>{\placeLogo}[2][.2\textwidth]{%
-    \tikz[remember picture, overlay]#3 \node[anchor=north east] at (current page.north east)
-        {\includegraphics[width=#1,valign=t]{#2}};
-}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 
-% \placeLogoOpt<>[width]{nodeOptions}{logoPath}
-%
-% Places a logo in the upper right corner of the slide.
-% With its second argument it is possible to pass options directly to
-% the node holding the logo (such as [x|y]shifts.
-% It's a good idea to use it as the last command of the slide.
-\newcommand<>{\placeLogoOpt}[3][.2\textwidth]{%
-    \tikz[remember picture, overlay]#4 \node[anchor=north east,#2] at (current page.north east)
-        {\includegraphics[width=#1,valign=t]{#3}};
-}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Pandoc commands

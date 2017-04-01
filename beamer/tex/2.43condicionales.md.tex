@@ -1,12 +1,8 @@
 ## Condiciones {.fragile}
 
+\placeLogoTurnSignBig{turnleft,turnright}
+
 - La programación no se compone sólo\newline de cálculos.
-
-\begin{tikzpicture}[remember picture, overlay]
-    \tikzSign[turnleft,turnright]{12mm}{a1}{$(current page.north east)+(-20mm,-28mm)$}
-\end{tikzpicture} 
-
-\vspace{-.6ex}
 
 \pause
 
@@ -25,6 +21,8 @@ Ejemplos:
 
 ## Condiciones {.fragile}
 
+\placeLogoTurnSignBig{turnleft,keepstraight}
+
 \simpleTitle{Ejemplo:}
 
 - Le pedimos un número al usuario.
@@ -33,8 +31,6 @@ Ejemplos:
 \bgnblocknormal[wd=.8\textwidth,centered]
 Escribiremos todo el código dentro de un módulo de Python.
 \trmblocknormal
-
-\tikz[remember picture, overlay]{\tikzSign[turnleft,keepstraight]{12mm}{a1}{$(current page.north east)+(-20mm,-28mm)$}}
 
 \pause
 
@@ -67,8 +63,7 @@ Es mayor que cero.
 
 ## Condiciones {.fragile}
 
-\tikz[remember picture, overlay]{\tikzSign[keepstraight,turnright]{8mm}{a1}{$(current page.north east)+(-16mm,-20mm)$}}
-\vspace{-3ex}
+\placeLogoTurnSignSmall{keepstraight,turnright}
 
 \bgncolumns
 \column{.55\textwidth}
@@ -126,7 +121,9 @@ No es mayor que cero.
 
 ## Condiciones {.fragile}
 
-\begin{lstlisting}
+\placeLogoTurnSignSmall{turnleft,turnright}
+
+\begin{lstlisting}[style=frame02,linewidth=.65\textwidth]
 # esMayorQueCero: int -> None(*@\tikzmark{nonetypedesign01}@*)
 # Recibe un número entero, e imprime en
 # pantalla un mensaje avisando si ese
@@ -138,9 +135,6 @@ def esMayorQueCero(num):
     else:
         print('No es mayor que cero.')
 \end{lstlisting}
-
-\tikz[remember picture, overlay]{\tikzSign[turnleft,turnright]{8mm}{a1}{$(current page.north east)+(-16mm,-20mm)$}}
-\vspace{-3ex}
 
 \pause
 
@@ -175,19 +169,16 @@ Es mayor que cero.
 
 \trmcolumns
 
-## Condiciones {.fragile}
+## Condiciones: ejemplos {.fragile}
 
-\simpleTitle{Otro ejemplo:}
-
-\tikz[remember picture, overlay]{\tikzSign[turnleft,keepstraight]{8mm}{a1}{$(current page.north east)+(-16mm,-20mm)$}}
-\vspace{-3ex}
-
-- Dados dos números, determinar cuál es el mayor.
+\bgnblockgood
+Dados dos números, determinar el mayor.
+\trmblockgood
 
 \vspace{-1ex}
-\begin{lstlisting}
+\begin{lstlisting}[style=frame02]
 # imprimeElMayor: int int -> None
-# Recibe dos números, e indica en pantalla cuál es el mayor.
+# Recibe dos números e indica en pantalla cuál es el mayor.
 # Ejemplo: imprimeElMayor(11, 3)
 def imprimeElMayor(numA, numB):
     if numA > numB:(*@\tikzmark{nottestingequal}@*)
@@ -226,70 +217,3 @@ El mayor es: 5
 \drawTikZComment[right=10em of nottestingequal, text width=30mm]{nottestingequal}{\scriptsize No detectamos cuando son iguales...}
 \vspace{-3ex}
 
-
-## Condiciones {.fragile}
-
-\simpleTitle{Otro ejemplo:}
-
-\tikz[remember picture, overlay]{\tikzSign[keepstraight,turnleft,turnright]{8mm}{a1}{$(current page.north east)+(-16mm,-20mm)$}}
-\vspace{-3ex}
-
-- Dados dos números, determinar cuál es el mayor.
-    - \alert{Destacar cuando sean iguales.}
-
-\begin{lstlisting}
-# imprimeElMayorOIgual: int int -> None
-# Recibe dos números, e indica en pantalla cuál es el mayor,
-# o avisa cuando son iguales.
-# Ejemplo: imprimeElMayorOIgual(11, 3)
-def imprimeElMayorOIgual(numA, numB):
-    if numA > numB:
-        print('El mayor es: ' + str(numA))
-    elif numA < numB:(*@\tikzmark{elifintroduction}@*)
-        print('El mayor es: ' + str(numB))
-    else:
-        print('Los dos números son iguales.')
-\end{lstlisting}
-
-\drawTikZComment[right=10em of elifintroduction, text width=30mm]{elifintroduction}{\scriptsize \nzinlinecode{elif} es como se escribe \nzinlinecode{else if}}
-\vspace{-3ex}
-
-## Condiciones {.fragile}
-
-\tikz[remember picture, overlay]{\tikzSign[keepstraight,turnleft,turnright]{8mm}{a1}{$(current page.north east)+(-16mm,-20mm)$}}
-\vspace{-3ex}
-
-\bgncolumns
-\column{.52\textwidth}
-\vspace{-1ex}
-
-\simpleTitle{Código:}
-
-\begin{lstlisting}
-num1 = input('Ingrese un número: ')
-num2 = input('Ingrese otro: ')
-imprimeElMayorOIgual(num1, num2)
-\end{lstlisting}
-
-\column{.48\textwidth}
-\vspace{-1ex}
-
-\simpleTitle*{Ejecución 1:}
-
-\begin{exampleConsole}
-Ingrese un número: \codeInput{2}
-Ingrese otro: \codeInput{7}
-El mayor es: 7
-\end{exampleConsole}
-
-\fullrule
-
-\simpleTitle*{Ejecución 2:}
-
-\begin{exampleConsole}
-Ingrese un número: \codeInput{4}
-Ingrese otro: \codeInput{4}
-Los dos números son iguales.
-\end{exampleConsole}
-
-\trmcolumns

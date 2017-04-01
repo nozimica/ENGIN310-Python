@@ -121,3 +121,54 @@
 \newcommand<>{\fullrule}{%
   \textcolor{structure}{\noindent\rule{\textwidth}{1pt}}%
 }
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Beamer aux commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% \strongText<>{text}
+%
+% Highlights the text with both bold and blue color.
+\newcommand<>{\strongText}[1]{%
+    \textcolor#2{blue}{\textbf{#1}}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% \coordText<3->{node1}{textLeft}{node2}{textRight}
+%
+% Allows to join a node1 with text to a node2 with text
+% using an arrow.
+\newcommand<>{\coordText}[4]{%
+    \tikz[na] \node (#1) {#2};%
+    \begin{tikzpicture}[remember picture,overlay]%
+        \node#5[right=35mm of #1.west] (#3) {#4};%
+        \path[arrowInList]#5 ([xshift=25mm]#1.west) -- (#3);%
+    \end{tikzpicture}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% \placeLogo<>[width]{logoPath}
+%
+% Places a logo in the upper right corner of the slide.
+% It's a good idea to use it as the last command of the slide.
+\newcommand<>{\placeLogo}[2][.2\textwidth]{%
+    \tikz[remember picture, overlay]#3 \node[anchor=north east] at (current page.north east)
+        {\includegraphics[width=#1,valign=t]{#2}};
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% \placeLogoOpt<>[width]{nodeOptions}{logoPath}
+%
+% Places a logo in the upper right corner of the slide.
+% With its second argument it is possible to pass options directly to
+% the node holding the logo (such as [x|y]shifts.
+% It's a good idea to use it as the last command of the slide.
+\newcommand<>{\placeLogoOpt}[3][.2\textwidth]{%
+    \tikz[remember picture, overlay]#4 \node[anchor=north east,#2] at (current page.north east)
+        {\includegraphics[width=#1,valign=t]{#3}};
+}
