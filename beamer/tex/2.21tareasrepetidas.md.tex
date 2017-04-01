@@ -266,16 +266,13 @@ Podríamos hacer los cálculos paso a paso...
 \footnotesize Pero eso ya está hecho, es convertir millas a km:
 \trmblockalert
 
-\begin{onlyenv}<4->
-\begin{lstlisting}[linebackgroundcolor={%
-        \btLstHL<4->{2-4}%
-}]
-# Transforma un valor desde millas a kilómetros.
+
+\begin{lstlisting}[linebackgroundcolor={ \btLstHL{1-3} }]
 def mi2Km(distMillas):
 	kmMi = 1.609344
 	return distMillas * kmMi
 \end{lstlisting}
-\end{onlyenv}
+
 
 \trmcolumns
 

@@ -17,10 +17,10 @@ NameError: name 'altura' is not defined
 
 - Si una variable ha sido definida fuera de una función:
     - ¿Se puede usar dentro de la función? \newline{}
-        \only{<3->}{\alert{Depende}}
+        \uncover{<3->}{\alert{Depende}}
 - Si fue definida dentro de la función:
     - ¿Se puede usar fuera de ella? \newline{}
-        \only{<3->}{\alert{No}}
+        \uncover{<3->}{\alert{No}}
 
 \pause
 
@@ -108,9 +108,9 @@ NameError: name 'altura' is not defined
 
 ## Alcance de una variable {.fragile} 
 
-- Pero ojo, una variable local de una función no se ve desde afuera.
+- Pero ojo, una variable local ---dentro de una función--- no se ve desde afuera.
 
-\begin{lstlisting}
+\begin{lstlisting}[style=frame02]
 >>> varGlobal = 2
 >>> def func1():
         varLocal = 4
