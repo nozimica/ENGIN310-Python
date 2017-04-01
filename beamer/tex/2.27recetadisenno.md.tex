@@ -90,7 +90,7 @@ Usaremos estas palabras clave al mencionar tanto las entradas como las salidas:
 
 \simpleTitle{2.- Comentar qué hace la función:}
 
-\begin{lstlisting}[linebackgroundcolor={\btLstHL{2-3}}]
+\begin{lstlisting}[style=frame02,linebackgroundcolor={\btLstHL{2-3}}]
 # consumoVehiculo: num num -> float
 # Calcula el consumo de combustible en litros, para un vehículo
 # dado su rendimiento [km/lt] y la distancia recorrida [mi].
@@ -107,7 +107,7 @@ def consumoVehiculo(rendKmLt, distMillas):
 
 Al tener el contrato ya establecido, entonces podemos construir el encabezado de la función:
 
-\begin{lstlisting}[linebackgroundcolor={\btLstHL{4}}]
+\begin{lstlisting}[style=frame02,linebackgroundcolor={\btLstHL{2-3}}]
 # consumoVehiculo: num num -> float
 # Calcula el consumo de combustible en litros, para un vehículo
 # dado su rendimiento [km/lt] y la distancia recorrida [mi].
@@ -151,7 +151,7 @@ en ella se establece su nombre y sus parámetros.
 
 - Que aporten en el proceso de entender qué hace una función:
 
-\begin{lstlisting}[linebackgroundcolor={\btLstHL{3}}]
+\begin{lstlisting}[style=frame02,linebackgroundcolor={\btLstHL{3}}]
 # areaRectangulo: num num -> num
 # Calcula el área de un rectángulo de medidas largo y ancho
 # Ejemplo: areaRectangulo(5, 4) retorna 20
@@ -194,7 +194,7 @@ def areaRectangulo(largo, ancho):
 
 \simpleTitle{Ejemplos:}
 
-\begin{lstlisting}
+\begin{lstlisting}[style=frame02]
 # consumoVehiculo: num num -> float
 # Calcula el consumo de combustible en litros, para un vehículo
 # dado su rendimiento [km/lt] y la distancia recorrida [mi].
@@ -215,7 +215,7 @@ termina.
 
 \simpleTitle{Ejemplos:}
 
-\begin{lstlisting}
+\begin{lstlisting}[style=frame02]
 # perimetroTriangulo: num num num -> num
 # Calcula el perímetro de un triángulo, recibiendo el valor de
 # sus tres lados: ladoA, ladoB, ladoC.
@@ -226,7 +226,7 @@ def perimetroTriangulo(ladoA, ladoB, ladoC):
 
 - Y no nos olvidemos de los \nzinlinecode{str}:
 
-\begin{lstlisting}
+\begin{lstlisting}[style=frame02]
 # repetirPalabra: str num -> str
 # Retorna un nuevo string que vale el contenido de palabra repetido
 # tantas veces como valga veces.
@@ -306,7 +306,7 @@ No te olvides de usar siempre dos signos igual (\nzinlinecode{==}) al utilizar \
 
 - La receta completa, aplicada al cálculo del perímetro de un triángulo:
 
-\begin{lstlisting}[linewidth=.8\textwidth,xleftmargin=.1\textwidth]
+\begin{lstlisting}[style=frame02]
 # perimetroTriangulo: num num num -> num
 # Calcula el perímetro de un triángulo, recibiendo el valor de
 # sus tres lados: ladoA, ladoB, ladoC.
@@ -323,7 +323,7 @@ assert perimetroTriangulo(12, 15, 20) == 47
 
 - Aplicando la receta a nuestra función \ttt{mi2Km}:
 
-\begin{lstlisting}[linewidth=.8\textwidth,xleftmargin=.1\textwidth]
+\begin{lstlisting}[style=frame02]
 # mi2Km: num -> float
 # Transforma un valor desde millas a kilómetros.
 # Ejemplo: mi2Km(6) retorna 9.656064
@@ -340,7 +340,7 @@ assert mi2Km(6) == 9.656064
 
 - Aplicando la receta a nuestra función \ttt{areaCirculo}:
 
-\begin{lstlisting}[linewidth=.8\textwidth,xleftmargin=.1\textwidth]
+\begin{lstlisting}[style=frame02]
 # areaCirculo: num -> float
 # Calcula el área de un círculo, dado su radio.
 # Ejemplo: areaCirculo(11) retorna 380.13239
@@ -357,7 +357,7 @@ assert areaCirculo(16) == 804.24704
 
 - Aplicando la receta a nuestra función \ttt{areaCirculo}:
 
-\begin{lstlisting}
+\begin{lstlisting}[style=frame02]
 # consumoVehiculo: num num -> float
 # Calcula el consumo de combustible en litros, para un vehículo
 # dado su rendimiento [km/lt] y la distancia recorrida [mi].
