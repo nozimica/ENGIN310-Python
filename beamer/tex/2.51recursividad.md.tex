@@ -115,18 +115,24 @@ primero hay que entender la \structure{recursividad}.
 
 - Elevar a potencias
 
-$$ 2^0 = 1 $$
-$$ 2^n = 2 * 2^{n-1} $$
+$$ a^b = \begin{cases}
+        1               & \;\;\;\;\text{si b = 0} \\
+        a \cdot a^{b-1} & \;\;\;\;\text{si b > 0} \\
+    \end{cases}
+$$
 
 - Factorial
 
-$$ 0! = 1 $$
-$$ n! = n * (n-1)! $$
+$$ n! = \begin{cases}
+        1               & \;\;\;\;\text{si n = 0} \\
+        n \cdot (n-1)!  & \;\;\;\;\text{si n > 0} \\
+    \end{cases}
+$$
 
 ## Recursividad: aplicaciones {.fragile}
 
 \bgnblockgood
-\strongText{Ejemplo:} Imprimir un string $n$ veces.
+\strongText{Ejemplo 1:} Imprimir una palabra $n$ veces.
 \trmblockgood
 
 \pause
@@ -137,7 +143,7 @@ $$ n! = n * (n-1)! $$
 \bgncolumns[-4ex]
 \column{.6\textwidth}
 
-- Imprimir un string 1 vez:
+- Imprimir la palabra 1 vez:
 
 \column{.4\textwidth}
 
@@ -153,7 +159,7 @@ def imprime(palabra):
 \bgncolumns[-2ex]
 \column{.6\textwidth}
 
-- Para imprimirlo 2 veces, podríamos hacer:
+- Para imprimirla 2 veces, podríamos hacer:
 
 \column{.4\textwidth}
 
@@ -168,7 +174,7 @@ def imprime(palabra):
 \bgncolumns[-2ex]
 \column{.6\textwidth}
 
-- Para imprimirlo 3 veces, podríamos hacer:
+- Para imprimirla 3 veces, podríamos hacer:
 
 \column{.4\textwidth}
 
@@ -194,28 +200,155 @@ Esto último es muy mala idea: no es sustentable.
   \draw[red, line width=.4em, line cap=round] (enc.north east) -- (enc.south west);
 \end{tikzpicture}
 
-## Recursividad, en la práctica {.fragile}
+## Recursividad: aplicaciones {.fragile}
 
-\simpleTitle{Elevar a potencias:}
+\bgnblockgood
+\strongText{Ejemplo 1:} Imprimir una palabra $n$ veces.
+\trmblockgood
 
-$$ 2^0 = 1 $$
-$$ 2^n = 2 * 2^{n-1} $$
+\simpleTitle[2ex]{¿Qué tal si aplicamos recursividad?}
+\vspace{-1ex}
 
-- Por lo que para $n \in \mathbb{N}$:
+\pause
 
+\bgncolumns
+\column{.55\textwidth}
+
+- \bld{Caso base}: $n = 0$
+    - Se termina el programa.
+- \bld{Caso recursivo}:
+    - Imprime 1 vez la palabra.
+    - Imprime $n-1$ veces la palabra.
+
+\pause
+
+\column{.45\textwidth}
+
+\begin{lstlisting}[style=frame02]
+# nVeces: str int -> None
+# Imprime palabra n veces, cada
+# una en su propia línea.
+# Ejemplo: nVeces('playa', 7)
+def nVeces(palabra, n):
+    if n == 0:
+        return
+    else:
+        print(palabra)
+        nVeces(palabra, n - 1)
+\end{lstlisting}
+
+\trmcolumns
+
+## Recursividad: aplicaciones {.fragile}
+
+\bgnblockgood
+\strongText{Ejemplo 2:} Imprimir una cuenta regresiva, desde $n$.
+\trmblockgood
+
+\vspace{1ex}
+
+- Imprimir una cuenta regresiva:
+    - Desde $n$ hasta 1.
+    - Cuando toque el 0, imprimir un mensaje ad-hoc.
+
+\bgncolumns
+\column{.2\textwidth}
+\column{.3\textwidth}
+
+\pause
+\ttt{4}\newline
+\pause
+\ttt{3}\newline
+\pause
+\ttt{2}\newline
+\pause
+\ttt{1}\newline
+\pause
+\ttt{¡A correr!}
+
+\column{.3\textwidth}
+
+\includegraphics[width=.9\textwidth]{img/racecar-1f3ce.pdf}
+
+\column{.2\textwidth}
+\trmcolumns
+
+## Recursividad: aplicaciones {.fragile}
+
+\bgnblockgood
+\strongText{Ejemplo 2:} Imprimir una cuenta regresiva, desde $n$.
+\trmblockgood
+
+\simpleTitle[2ex]{¿Qué tal si aplicamos recursividad?}
+\vspace{-1ex}
+
+\pause
+
+\bgncolumns[-1ex]
+\column{.55\textwidth}
+
+- \bld{Caso base}: llegamos a 0.
+    - Imprimimos el mensaje.
+    - Se termina el programa.
+- \bld{Caso recursivo}:
+    - Imprimir $n$.
+    - Cuenta regresiva desde $n - 1$.
+
+\column{.45\textwidth}
+
+\begin{lstlisting}[style=frame02]
+# cuentaRegresiva: int -> None
+# Muestra una cuenta regresiva,
+# desde n hasta 1. En vez del
+# cero, presenta un mensaje.
+# Ejemplo: cuentaRegresiva(8)
+def cuentaRegresiva(n):
+    if n == 0:
+        print('¡A correr!')
+        return
+    else:
+        print(n)
+        cuentaRegresiva(n - 1)
+\end{lstlisting}
+
+\trmcolumns
+
+## Recursividad: aplicaciones {.fragile}
+
+\bgnblockgood
+\strongText{Ejemplo 3:} Elevar a potencias.
+\trmblockgood
+
+$$ a^b = \begin{cases}
+        1               & \;\;\;\;\text{si b = 0} \\
+        a \cdot a^{b-1} & \;\;\;\;\text{si b > 0} \\
+    \end{cases}
+$$
+
+\vspace{1ex}
+
+- Por lo que para $b \in \mathbb{N}$:
+
+\vspace{-1ex}
 \begin{eqnarray*}
-2^0 & = & 1 \\
-2^1 & = & 2 * 2^0 = 2 \\
-2^2 & = & 2 * 2^1 = 2 * (2 * 2^0) = 4 \\
-2^3 & = & 2 * 2^2 = 2 * (2 * 2^1) = 2 * (2 * (2 * 2^0)) = 8\\
+a^0 & = & 1 \\
+a^1 & = & a \cdot a^0 \\
+a^2 & = & a \cdot a^1 = a \cdot (a \cdot a^0) \\
+a^3 & = & a \cdot a^2 = a \cdot (a \cdot a^1) = a \cdot (a \cdot (a \cdot a^0)) \\
     & \ldots & \\
-2^n & = & 2 * 2^{n-1} = 2 * (2 * 2^{n-2}) = \ldots
+a^n & = & a \cdot a^{n-1} = a \cdot (a \cdot a^{n-2}) = \ldots
 \end{eqnarray*}
 
 
-## Recursividad {.fragile}
+## Recursividad: aplicaciones {.fragile}
 
-\simpleTitle{Elevar a potencias: ejemplo de desarrollo para $n = 4$}
+\simpleTitle{Elevar a potencias: ejemplo de desarrollo para \bld{a=2}, \bld{b=4}}
+
+$$ a^b = \begin{cases}
+        1               & \;\;\;\;\text{si b = 0} \\
+        a \cdot a^{b-1} & \;\;\;\;\text{si b > 0} \\
+    \end{cases}
+$$
 
 \vspace{-3ex}
 
@@ -223,6 +356,7 @@ $$ 2^n = 2 * 2^{n-1} $$
 
 \column{.6\textwidth}
 
+\begin{footnotesize}
 \begin{eqnarray*}
 2^4 & = & 2 * 2^3 \tikzmark{bgnBraceReduction} \\
     & = & 2 * (2 * 2^2) \\
@@ -234,11 +368,97 @@ $$ 2^n = 2 * 2^{n-1} $$
     & = & 2 * 8 \tikzmark{trmGathering} \\
 2^4 & = & 16 \\
 \end{eqnarray*}
+\end{footnotesize}
 
 \column{.3\textwidth}
 
 \trmcolumns
 
 \drawBrace[brace/.style={xshift=.3em}, decoration/.style={structure}, comment/.style={text width=12em}]{bgnBraceReduction}{trmBraceReduction}{En cada paso se llama recursivamente a la misma función, pero reducida.\newline \newline }
-\drawBrace[brace/.style={xshift=1.3em}, decoration/.style={structure}]{trmBraceReduction}{trmBraceBaseCase}{El caso base.}
+\drawBrace[brace/.style={xshift=1.3em}, decoration/.style={structure}]{trmBraceReduction}{trmBraceBaseCase}{Llegamos al caso base.}
 \drawBrace[brace/.style={xshift=.3em}, decoration/.style={structure}, comment/.style={text width=12em}]{trmBraceBaseCase}{trmGathering}{\newline \newline Recolección de resultados de las llamadas recursivas.}
+
+## Recursividad: aplicaciones {.fragile}
+
+\bgncolumns
+\column{.52\textwidth}
+\bgnblockgood
+\strongText{Ejemplo 3:} Elevar a potencias.
+\trmblockgood
+
+\column{.45\textwidth}
+\vspace{-7ex}
+$$ a^b = \begin{cases}
+        1               & \;\;\;\;\text{si b = 0} \\
+        a \cdot a^{b-1} & \;\;\;\;\text{si b > 0} \\
+    \end{cases}
+$$
+\trmcolumns
+
+\vspace{3ex}
+
+\begin{lstlisting}[style=frame02]
+# potencia: num int -> num
+# Calcula el valor de base elevado a exp.
+# Ejemplo: potencia(3, 4) retorna 81
+def potencia(base, exp):
+    if exp == 0:            # caso base
+        return 1
+    else:                   # caso recursivo
+        return base * potencia(base, exp - 1)
+# Tests
+assert potencia(2, 7) == 128
+assert potencia(-2, 3) == -8
+assert potencia(1.5, 4) == 5.0625
+\end{lstlisting}
+
+## Recursividad: aplicaciones {.fragile}
+
+\bgnblockgood
+\strongText{Ejemplo 4:} Sumar los dígitos de un número.
+\trmblockgood
+
+\pause
+
+\begin{lstlisting}[style=frame02]
+# sumarDigitos: int -> int
+# Calcula la suma de todos los dígitos que componen el
+# número entregado como parámetro.
+# Ejemplo: sumarDigitos(241) retorna 7
+def sumarDigitos(numero):
+    if numero == 0:            # caso base
+        return 0
+    else:                      # caso recursivo
+        ultimo = numero % 0
+        reducido = numero // 10
+        return sumarDigitos(reducido) + ultimo
+# Tests
+assert sumarDigitos(64) == 10
+assert sumarDigitos(9645) == 24
+\end{lstlisting}
+
+
+## Recursividad: aplicaciones {.fragile}
+
+\bgnblockgood
+\strongText{Ejemplo 5:} Obtener la cantidad de dígitos de un número.
+\trmblockgood
+
+\pause
+
+
+\begin{lstlisting}[style=frame02]
+# cantDigitos: int -> int
+# Determina la cantidad de dígitos de un número.
+# Ejemplo: cantDigitos(241) retorna 3
+def cantDigitos(numero):
+    if numero == 0:            # caso base
+        return 0
+    else:                      # caso recursivo
+        reducido = numero // 10
+        return 1 + cantDigitos(reducido)
+# Tests
+assert cantDigitos(64) == 2
+assert cantDigitos(9645) == 4
+\end{lstlisting}
+
