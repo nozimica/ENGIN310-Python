@@ -33,8 +33,6 @@
   \fi%
   \pgfkeys{/nzsign/.cd,turnleft=false,turnright=false,keepstraight=false}%
 }
-\makeatother
-%% END @
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
@@ -59,3 +57,42 @@
     \tikz[remember picture, overlay]#2 \tikzSign[#1]{8mm}{a1}{$(current page.north east)+(-16mm,-20mm)$};%
     \vspace{-3ex}%
 }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Specific diagram macros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% \nzThreeStepsSolving<>{elements}
+%
+% For 1.01algoritmos
+% Draws three blocks, with opacity in those not selected.
+% Example: \nzThreeStepsSolving{blockA=1}
+\pgfkeys{/nzmacros/threestepssolving/.cd,%
+    blockA/.initial=0.3,%
+    blockB/.initial=0.3,%
+    blockC/.initial=0.3,%
+}
+\newcommand<>{\nzThreeStepsSolving}[1]{%
+  \pgfkeys{/nzmacros/threestepssolving/.cd,#1,%
+    blockA/.get=\nzmacros@threestepssolving@blockA,%
+    blockB/.get=\nzmacros@threestepssolving@blockB,%
+    blockC/.get=\nzmacros@threestepssolving@blockC,%
+  }
+  \vspace{1em}
+  \begin{small}
+  \begin{tikzpicture}[node distance=2cm]
+    \node (a1) [simplestep, opacity=\nzmacros@threestepssolving@blockA] {Identificar el problema};
+    \node (a2) [simplestep, opacity=\nzmacros@threestepssolving@blockB, right=10mm of a1] {Diseñar un algoritmo};
+    \node (a3) [simplestep, opacity=\nzmacros@threestepssolving@blockC, right=10mm of a2] {Programar la solución};
+    \draw [arrow] (a1) -- (a2);
+    \draw [arrow] (a2) -- (a3);
+  \end{tikzpicture}
+  \end{small}
+}
+
+\tikzstyle{simplestep} = [normalfig, rectangle, text width=7em, bottom color=orange!30, draw=orange!90!black!50, rounded corners=2mm]
+\tikzstyle{na} = [baseline=-0.5ex,remember picture]
+\tikzstyle{arrowInList} = [draw=blue,thick,->]
+
+\makeatother
+%% END @

@@ -68,24 +68,37 @@
 }%
 
 
+%% BEGIN @
+\makeatletter
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
-% \drawBrace[xshift]{beginningNode}{endingNode}
+% \drawBrace[styles]{beginningNode}{endingNode}{comment}
 %
 % This command draws a brace between two tikzmarks, to their right,
 % no matter which one is the rightmost, and includes 
 % a node midway the brace, to write the comment.
 % This command also creates a new node
 % whose name is the concat of the names of beginning and ending nodes.
-\newcommand<>{\drawBrace}[4][0pt]{%
-    \node[draw=none, fit={(#2) (#3)}, inner sep=0pt] (rectg) {};%
-    \draw [decoration={brace,amplitude=0.3em},decorate,very thick,red]%
-      ([xshift=#1]rectg.north east) --%
-      coordinate[right=1em, midway] (#2#3)%
-      ([xshift=#1]rectg.south east);%
-    \node[right=1.5em of #2#3] (#2#3-comment) {#4};%
-    \draw (#2#3-comment.west) edge (#2#3);%
+% Into styles there can be styles for: decoration, brace and comment.
+\pgfkeys{/nzmacros/drawBrace/.cd,%
+    decoration/.initial={},%
+    brace/.initial={},%
+    comment/.initial={},%
+}
+\newcommand<>{\drawBrace}[4][]{%
+  \begin{tikzpicture}[remember picture, overlay]
+  \pgfkeys{/nzmacros/drawBrace/.cd,#1}
+  \node[draw=none, fit={(#2) (#3)}, inner sep=0pt] (rectg) {};%
+  \draw [decoration={brace,amplitude=0.4em}, decorate, very thick, red, /nzmacros/drawBrace/decoration]%
+    ([/nzmacros/drawBrace/brace]rectg.north east) --%
+    coordinate[right=1em, midway] (#2#3)%
+    ([/nzmacros/drawBrace/brace]rectg.south east);%
+  \node[right=0em of #2#3, structure, font=\small, /nzmacros/drawBrace/comment] (#2#3-comment) {#4};%
+  % \draw (#2#3-comment.west) edge (#2#3);%
+  \end{tikzpicture}
 }%
+\makeatother
+%% END @
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
