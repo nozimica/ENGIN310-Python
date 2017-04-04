@@ -123,6 +123,77 @@ $$ 2^n = 2 * 2^{n-1} $$
 $$ 0! = 1 $$
 $$ n! = n * (n-1)! $$
 
+## Recursividad: aplicaciones {.fragile}
+
+\bgnblockgood
+\strongText{Ejemplo:} Imprimir un string $n$ veces.
+\trmblockgood
+
+\pause
+\vspace{1ex}
+
+\simpleTitle{Lo que sabemos hacer hasta ahora:}
+
+\bgncolumns[-4ex]
+\column{.6\textwidth}
+
+- Imprimir un string 1 vez:
+
+\column{.4\textwidth}
+
+\begin{lstlisting}
+def imprime(palabra):
+    print(palabra)
+\end{lstlisting}
+
+\trmcolumns
+
+\pause
+
+\bgncolumns[-2ex]
+\column{.6\textwidth}
+
+- Para imprimirlo 2 veces, podríamos hacer:
+
+\column{.4\textwidth}
+
+\begin{lstlisting}
+(*@\tikzmark{markBgnBadCode}@*)def imprime2Veces(palabra):
+    print(palabra)
+    print(palabra)
+\end{lstlisting}
+
+\trmcolumns
+
+\bgncolumns[-2ex]
+\column{.6\textwidth}
+
+- Para imprimirlo 3 veces, podríamos hacer:
+
+\column{.4\textwidth}
+
+\begin{lstlisting}
+def imprime2Veces(palabra):(*@\tikzmark{markMdlBadCode}@*)
+    print(palabra)
+    print(palabra)
+    print(palabra)(*@\tikzmark{markTrmBadCode}@*)
+\end{lstlisting}
+
+\trmcolumns
+
+\pause
+
+\vspace{-2ex}
+\bgnblockdanger
+Esto último es muy mala idea: no es sustentable.
+\trmblockdanger
+
+\begin{tikzpicture}[remember picture, overlay]
+  \node[fit=(markBgnBadCode) (markMdlBadCode) (markTrmBadCode), inner sep=0em] (enc) {};
+  \draw[red, line width=.4em, line cap=round] (enc.north west) -- (enc.south east);
+  \draw[red, line width=.4em, line cap=round] (enc.north east) -- (enc.south west);
+\end{tikzpicture}
+
 ## Recursividad, en la práctica {.fragile}
 
 \simpleTitle{Elevar a potencias:}

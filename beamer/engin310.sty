@@ -359,7 +359,7 @@
 %%%% Pandoc commands
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newcommand{\bgncolumns}{\begin{columns}[t,onlytextwidth]}%
+\newcommand{\bgncolumns}[1][0ex]{\vspace{#1}\begin{columns}[t,onlytextwidth]}%
 \newcommand{\trmcolumns}{\end{columns}}%
 
 \newcommand{\bgnblockalert}[1][]{\begin{nzalertblock}[#1]}%
