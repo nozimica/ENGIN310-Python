@@ -299,11 +299,13 @@
 \pgfkeyssetvalue{/nzblock/danger/envname}{nzalertblock}
 
 \newif\if@nzblock@centered%
+\newif\if@nzblock@justified%
 \pgfkeys{/nzblock/outsideopts/.cd,%
     wd/.initial=\textwidth,%
     wd/.get=\temp@width,%
     wd/.store in=\temp@width,%
-    centered/.is if=@nzblock@centered%
+    centered/.is if=@nzblock@centered,%
+    justified/.is if=@nzblock@justified%
 }
 
 \newenvironment<>{nzblockicon}[2][]%
@@ -338,7 +340,7 @@
     % receive outside opts (#1)
     \pgfkeys{/nzblock/outsideopts/.cd,#1}%
     \setlength{\nzblock@bodycell@width}{\temp@width}%
-    \if@nzblock@centered
+    \if@nzblock@centered%
       \hfill%
     \fi%
     \begin{beamercolorbox}#3[wd=\temp@width,sep=0.3em,rounded=true,shadow=true,center]{#2}%
@@ -346,8 +348,15 @@
     \setlength{\partopsep}{-3pt}%
     % fix vertical space added because of the rounded=true
     \vskip-6bp%
+    \if@nzblock@justified%
+      \begin{minipage}{.96\textwidth}%
+      \setlength{\parindent}{2em}%
+    \fi%
   }
   {%
+    % \if@nzblock@justified%
+      \end{minipage}%
+    % \fi%
       \vspace{.2ex}%
     \end{beamercolorbox}%
     \if@nzblock@centered
