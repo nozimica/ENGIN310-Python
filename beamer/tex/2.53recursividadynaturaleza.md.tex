@@ -28,8 +28,8 @@
 
 ## Recursividad: Conejitos cariñosos {.fragile}
 
-\newcommand{\ing}[1]{\includegraphics[width=12mm]{#1}}
-\newcommand{\nzRbb}{\ing{img/twoRabbits.pdf}}
+\newcommand{\nzRbbS}{\includegraphics[width=9mm]{img/twoRabbits.pdf}}
+\newcommand{\nzRbbX}{\includegraphics[width=12mm]{img/twoRabbits.pdf}}
 \tikzset{
   % style for inserting images as nodes
   img/.style={
@@ -50,13 +50,13 @@
 \begin{tikzpicture}
 
   \matrix (rbbs) [matrix of nodes, nodes=img, row sep=4mm, column sep=0mm]{
-   \footnotesize{Mes}  &        &        &        &        &        &        &        &        & \footnotesize{Parejas} \\
-   0 &        &        &        &        & \nzRbb &        &        &        & 1       \\
-   1 &        &        &        &        & \nzRbb &        &        &        & 1       \\
-   2 &        & \nzRbb &        &        & \nzRbb &        &        &        & 2      \\
-   3 &        & \nzRbb &        &        & \nzRbb &        & \nzRbb &        & 3      \\
-   4 & \nzRbb & \nzRbb &        & \nzRbb & \nzRbb &        & \nzRbb &        & 5      \\
-   5 & \nzRbb & \nzRbb & \nzRbb & \nzRbb & \nzRbb & \nzRbb & \nzRbb & \nzRbb & 8      \\
+   \footnotesize{Mes}    &         &         &         &         &         &         &        &        & \footnotesize{Parejas} \\
+   0 &         &         &         &         & \nzRbbS &         &         &         & 1      \\
+   1 &         &         &         &         & \nzRbbX &         &         &         & 1      \\
+   2 &         & \nzRbbS &         &         & \nzRbbX &         &         &         & 2      \\
+   3 &         & \nzRbbX &         &         & \nzRbbX &         & \nzRbbS &         & 3      \\
+   4 & \nzRbbS & \nzRbbX &         & \nzRbbS & \nzRbbX &         & \nzRbbX &         & 5      \\
+   5 & \nzRbbX & \nzRbbX & \nzRbbS & \nzRbbX & \nzRbbX & \nzRbbS & \nzRbbX & \nzRbbS & 8      \\
   };
 
 % parejas

@@ -179,7 +179,7 @@ def imprime(palabra):
 \column{.4\textwidth}
 
 \begin{lstlisting}
-def imprime2Veces(palabra):(*@\tikzmark{markMdlBadCode}@*)
+def imprime3Veces(palabra):(*@\tikzmark{markMdlBadCode}@*)
     print(palabra)
     print(palabra)
     print(palabra)(*@\tikzmark{markTrmBadCode}@*)
@@ -429,7 +429,7 @@ def sumarDigitos(numero):
     if numero == 0:            # caso base
         return 0
     else:                      # caso recursivo
-        ultimo = numero % 0
+        ultimo = numero % 10
         reducido = numero // 10
         return sumarDigitos(reducido) + ultimo
 # Tests
