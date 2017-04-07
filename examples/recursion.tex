@@ -11,7 +11,7 @@
   \tikzstyle{signLine} = [line width=1pt,-{Stealth[length=5pt,inset=2pt,width=5pt]}]%
 
 \newcount\cnt
-\newcommand{\drawBranch}[2]{%
+\newcommand{\drawBranch}[3]{%
     \cnt=#1
     \advance\cnt by 1
     \pgfmathtruncatemacro{\step}{#2-#1}
@@ -22,14 +22,14 @@
         {%
             \matrix[below=3em of f\the\cnt, ampersand replacement=\&] (f#1-global)
             {
-                \node[] (f#1-ret) {\the\cnt~~*}; \& \node[fill=gray!40] (f#1) {\texttt{factorial(#1)}}; \\
+                \node[] (f#1-ret) {\the\cnt~~*}; \& \node[fill=gray!40] (f#1) {\texttt{#3(#1)}}; \\
             };
         }{%
             \node[below=3em of f\the\cnt] (f#1-global) {retorna 1};
         }
         \draw[decorate,decoration={brace,raise=2ex}] (f#1-global.west) -- (f#1-global.east);
         \structure<\showat>{%
-            \draw[signLine] (f\the\cnt) to[out=-50, in=30] node [right] {Paso \step: ejecuta \texttt{factorial(\the\cnt)}} ($(f#1-global)+(.05,.5)$);
+            \draw[signLine] (f\the\cnt) to[out=-50, in=30] node [right] {Paso \step: ejecuta \texttt{#3(\the\cnt)}} ($(f#1-global)+(.05,.5)$);
         }
     }{%
         \pgfmathtruncatemacro{\returningA}{-1 * #1 - 3} % -1
@@ -43,7 +43,7 @@
 }
 
 \begin{document}
-\begin{frame}{Cálculo recursivo del Factorial, paso a paso}
+\begin{frame}{Cálculos recursivos, paso a paso}
 
 \begin{tikzpicture}
     \scriptsize
@@ -53,10 +53,12 @@
         {
             \pgfmathtruncatemacro{\showat}{5 - \x}
             \uncover<\showat->{
-                \drawBranch{\x}{3}
+                \drawBranch{\x}{3}{factorial}
             }
         }
 \end{tikzpicture} 
 
 \end{frame}
+
+
 \end{document}
