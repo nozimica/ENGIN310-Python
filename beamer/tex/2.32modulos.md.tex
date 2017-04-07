@@ -3,25 +3,52 @@
 \simpleTitle{Ejemplo:}
 
 \bgnblocknormal[justified]
+\small
 Ramiro es un vendedor de tarros de café de grano, que importa directamente desde Colombia. Su proveedor
-le informa semanalmente el precio al que le venderá los tarros.
+le informa semanalmente el precio al que le venderá los tarros (en CLP).
+Por su parte, Ramiro vende cada tarro con un 40\% de margen de ganancia, pero hace descuentos cuando
+vende dos tarros (10\%), o cuando vende tres o más tarros (25\%).
+\newline
 
-Por su parte, Ramiro vende cada tarro con un 60\% de márgen de ganancia, pero hace descuentos cuando
-vende dos tarros (10\%), tres tarros (20\%) y cuatro o más tarros (30\%).
+Programe una función que dado el costo del café y la cantidad de tarros a vender, indique el precio unitario;
+y otra función que dado el costo y los tarros vendidos tanto a precio unitario, como con 10\% dcto y con 25\% dcto,
+calcule el total de ganancias.
+\newline
 
-Diseñe las funciones que sean necesarias para llevar a cabo cada uno de estos cálculos.
+Como Ramiro vende en CLP, será bueno utilizar la función \nzinlinecode{round()}.
 \trmblocknormal
-
-\pause
-
-\simpleTitle{Funciones:}
-
-- precio1Tarro(costo)
-- precio2Tarros(costo)
-- precio3Tarros(costo)
-- precio4pTarros(costo)
 
 
 ## Repaso: funciones y creación de módulos {.fragile}
 
-sdf
+\simpleTitle{Funciones:}
+
+- Función que calcula el precio unitario:
+    - \nzinlinecode{precioTarros(costo, cantidad)}
+
+\vfill
+
+- Función que calcula la ganancia:
+    - \nzinlinecode{calculaGanancia(costo, v1, v2, v3)}
+
+\vfill
+
+- Funciones auxiliares para calcular precios según volumen.
+    - \nzinlinecode{precio1Tarro(costo)}\tikzmark{markBgnFuncAuxs}
+    - \nzinlinecode{precio2Tarro(costo)}
+    - \nzinlinecode{precio3Tarro(costo)}\tikzmark{markTrmFuncAuxs}
+
+\drawBrace[brace/.style={xshift=2.6em}, decoration/.style={structure}, comment/.style={text width=12em}]{markBgnFuncAuxs}{markTrmFuncAuxs}{Son funciones opcionales}
+
+
+## Repaso: funciones y creación de módulos {.fragile}
+
+\includecode[lastline=20]{../scripts/ventas.py}{ventas.py}
+
+## Repaso: funciones y creación de módulos {.fragile}
+
+\includecode[firstline=22, lastline=42]{../scripts/ventas.py}{ventas.py}
+
+## Repaso: funciones y creación de módulos {.fragile}
+
+\includecode[firstline=44]{../scripts/ventas.py}{ventas.py}

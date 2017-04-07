@@ -54,12 +54,17 @@
   morecomment=[l][\color{redError}]{IndentationError:},
   morecomment=[l][\color{redError}]{File\ "<stdin>"}
 }
+
 \lstdefinestyle{frame01}{frame=shadowbox,framesep=1pt,rulesepcolor=\color{gray}}
 \lstdefinestyle{frame02}{frame=trbl,rulesepcolor=\color{gray}}
+\lstdefinestyle{frame03}{frame=trbl,rulesepcolor=\color{gray}, basicstyle=\scriptsize\ttfamily}
 
 % Command to apply this specific style for inline code
 \newcommand{\nzinlinecode}[1]{\lstinline[columns=fixed,basicstyle=\normalsize\ttfamily]|#1|}
 
+% Command to include code from files
+% \newcommand{\includecode}[2][c]{\lstinputlisting[caption=#2, escapechar=, style=custom#1]{#2}<!---->}
+\newcommand{\includecode}[3][]{\lstinputlisting[caption=#3, style=frame03, #1]{#2}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
