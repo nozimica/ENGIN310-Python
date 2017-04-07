@@ -58,7 +58,7 @@
 \lstdefinestyle{frame02}{frame=trbl,rulesepcolor=\color{gray}}
 
 % Command to apply this specific style for inline code
-\newcommand<>{\nzinlinecode}[1]{\lstinline[columns=fixed,basicstyle=\normalsize\ttfamily]|#1|}
+\newcommand{\nzinlinecode}[1]{\lstinline[columns=fixed,basicstyle=\normalsize\ttfamily]|#1|}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -111,8 +111,8 @@
 %
 % TODO BUG: \btLstHL commands can not yet be accumulated if more than one overlay spec match.
 % 
-\newcommand<>{\btLstHL}[1]{%
-  \only#2{\btIfInRange{\value{lstnumber}}{#1}{\color{orange!15}\def\lst@linebgrdcmd{\color@block}}{\def\lst@linebgrdcmd####1####2####3{}}}%
+\newcommand{\btLstHL}[1]{%
+  \only{\btIfInRange{\value{lstnumber}}{#1}{\color{orange!15}\def\lst@linebgrdcmd{\color@block}}{\def\lst@linebgrdcmd####1####2####3{}}}%
 }%
 \makeatother
 
