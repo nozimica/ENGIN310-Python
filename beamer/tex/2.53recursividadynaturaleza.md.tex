@@ -160,29 +160,55 @@ assert suma1n(6) == 21
 ## Recursividad: Series {.fragile}
 
 \bgnblockgood
-\strongText{Ejemplo 7:} Calcule el valor de:
-\vspace{-1.5ex}
-$$ \sum_{1}^n \frac{1}{2^n} $$
-\vspace{-1.5ex}
+\strongText{Ejemplo 7:} Calcule el valor de: $\quad\sum\limits_{0}^n \frac{1}{2^n}$
 \trmblockgood
 
 \pause
 
+\begin{small}
 \begin{lstlisting}[style=frame02]
-# unMedioN: int -> num
+# unMedioCeroN: int -> num
 # Calcula el valor de la serie cuyo término enésimo es 1/(2^n),
-# partiendo desde 1.
-# Ejemplo: unMedioN(0) retorna 1
-# Ejemplo: unMedioN(5) retorna 1.96875
-def unMedioN(n):
-    if n == 1:
-        return 1/2.0
+# partiendo desde 0.
+# Ejemplo: unMedioCeroN(5) retorna 1.96875
+def unMedioCeroN(n):
+    if n == 0:
+        return 1
     else:
-        return (1 / potencia(2.0, n)) + unMedioN(n - 1)
+        return (1 / (2.0**n)) + unMedioCeroN(n - 1)
 # Tests
-assert unMedioN(1) == 1
-assert unMedioN(6) == 1.984375
+assert unMedioCeroN(1) == 1.5
+assert unMedioCeroN(6) == 1.984375
 \end{lstlisting}
+\end{small}
+
+## Recursividad: Series {.fragile}
+
+\bgnblockgood
+\strongText{Ejemplo 8:} Calcule el valor de: $\quad\sum\limits_{1}^n \frac{1}{2^n}$
+\trmblockgood
+
+\pause
+
+\begin{small}
+\begin{lstlisting}[style=frame02]
+# unMedioUnoN: int -> num
+# Calcula el valor de la serie
+# cuyo término enésimo es 1/(2^n),
+# partiendo desde 1.
+# Ejemplo: unMedioUnoN(5) retorna 0.96875
+def unMedioUnoN(n):
+    if n == 1:
+        return 1/2.0(*@\tikzmark{markBgnHalf}@*)
+    else:
+        return (1 / (2.0**n)) + unMedioUnoN(n - 1)
+# Tests
+assert unMedioUnoN(1) == 0.5
+assert unMedioUnoN(6) == 0.984375
+\end{lstlisting}
+\end{small}
+
+\drawTikZComment[above right=-0.2em and 7em of markBgnHalf, text width=10em]{markBgnHalf}{\scriptsize Ojo, acá el primer valor es $\mathbf{\frac{1}{2}}$}
 
 ## Recursividad: Torres de Hanói {.fragile}
 
