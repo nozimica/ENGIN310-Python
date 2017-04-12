@@ -1,0 +1,233 @@
+## Repaso: recursividad y estimación de PI {.fragile}
+
+\bgnenviron{<1-2>}{onlyenv}
+
+- Todos sabemos que la constante $\pi$ es un número irracional, y por lo tanto, infinito.
+
+\begin{center}
+\textsf{$\pi$ = 3,14159265358979323846264338327950288419716939$\ldots$}
+\end{center}
+
+\trmenviron{onlyenv}
+
+\bgnenviron{<2-3>}{onlyenv}
+
+- Pero existe la llamada ``serie de Leibniz'' con la cual se puede calcular un valor aproximado de $\pi$:
+
+\vspace{-3ex}
+$$ \frac{\pi}{4} = \left( 1 - \frac{1}{3} + \frac{1}{5} - \frac{1}{7} + \frac{1}{9} - \frac{1}{11} + \ldots + \frac{(-1)^{n}}{2n + 1} \right) = \sum_{n=0}^{N} \frac{(-1)^{n}}{2n + 1} $$
+
+\trmenviron{onlyenv}
+
+\bgnenviron{<2>}{onlyenv}
+
+- Mientras más grande sea $N$, más cerca estaremos del valor ``verdadero'' de $\pi$.
+
+\trmenviron{onlyenv}
+
+\bgnenviron{<3-6>}{onlyenv}
+
+\simpleTitle{Solución recursiva:}
+
+- \bld{Caso base:}
+    - $n = 0$
+    - Resultado: $1$
+- \bld{Caso recursivo:} Retorno la suma de:
+    - El n-ésimo valor de la serie.\tikzmark{markNthValueText}
+    - La función reducida a $n \tikzmark{markRecCallText}- 1$.
+
+\trmenviron{onlyenv}
+
+\bgnenviron{<5-6>}{onlyenv}
+
+\vspace{2ex}
+
+\begin{lstlisting}[style=frame02]
+def calcPI(n):
+    return 4 * seriePI4(n)
+
+def seriePI4(n):
+    if n == 0:
+        return 1
+    else:
+        return (*@\tikzmark{markBgnNthValue}@*)(-1)**(n) / (2*n + 1.0)(*@\tikzmark{markTrmNthValue}@*) + (*@\tikzmark{markBgnRecCall}@*)seriePI4(n - 1)(*@\tikzmark{markTrmRecCall}@*)
+\end{lstlisting}
+
+\trmenviron{onlyenv}
+
+\bgnenviron{<6>}{onlyenv}
+
+\braceUpwards[decoration/.style={decoration={brace,raise=0pt,amplitude=0.5em},decorate,ultra thick,structure!80,font=\footnotesize}]{markBgnNthValue}{markTrmNthValue}
+\braceUpwards[decoration/.style={decoration={brace,raise=0pt,amplitude=0.5em},decorate,ultra thick,structure!80,font=\footnotesize}]{markBgnRecCall}{markTrmRecCall}
+
+\begin{tikzpicture}[remember picture, overlay]
+    \draw[thick, structure!80,->,-Stealth] ([shift={(0,.5ex)}]pic cs:markNthValueText) to[out=0,in=90] ($(markBgnNthValuemarkTrmNthValue)+(0,5mm)$);
+    \draw[thick, structure!80,->,-Stealth] (pic cs:markRecCallText) to[out=-90,in=90] ($(markBgnRecCallmarkTrmRecCall)+(0,5mm)$);
+\end{tikzpicture}
+
+\trmenviron{onlyenv}
+
+## Repaso: recursividad y estimación de PI {.fragile}
+
+\simpleTitle{Observaciones:}
+
+- Esta serie es conocida por ``converger'' muy lentamente.
+    - Hay que entregar un $n$ muy alto para que empiecen a aparecer los primeros decimales conocidos.
+
+
+\bgnblockgood
+\bld{Ejercicio propuesto:} Implementa la ``Transformación de Shanks de la Serie de Leibniz'', que es
+una serie que converge más rápido:
+
+\vspace{-3ex}
+$$ \frac{\pi}{4} = \sum_{i=0}^{N} \left( \frac{1}{4n + 1} - \frac{1}{4n + 3} \right) $$
+
+\trmblockgood
+
+## Testing más en profundidad {.fragile}
+
+- Hasta ahora hemos usado \nzinlinecode{assert} con cálculos exactos.
+
+\pause
+
+\bgnblockdanger
+¡No siempre se puede hacer eso!
+\trmblockdanger
+
+1. Hay veces que tendremos un resultado del cual sólo sabemos que está en un \structure{rango determinado}.
+1. Otras veces el \structure{cálculo} es \structure{aproximado}, y nunca tendremos un valor exacto.
+
+## Testing: rangos {.fragile}
+
+\simpleTitle{Cálculos en un rango determinado}
+
+- El típico ejemplo es el de los números aleatorios.
+
+- Generemos números aleatorios, en el rango [0, 1):
+
+\begin{lstlisting}
+>>> import random
+>>>
+>>> aleat = random.random()
+>>> print(aleat)
+0.187325912854
+\end{lstlisting}
+
+\bgnblockgood
+¿Y si queremos simular el lanzamiento de un dado?
+
+Eso equivale a
+generar números aleatorios enteros en el rango [1, 6].
+\trmblockgood
+
+## Testing: rangos {.fragile}
+
+\begin{lstlisting}[style=frame02]
+# tirarDado: None -> int
+# Retorna un entero aleatorio en el rango [1, 6])
+def tirarDado():
+    return int(6 * random.random()) + 1
+# Tests
+# ????
+\end{lstlisting}
+
+\pause
+
+\bgnblockdanger
+¿Pero qué hacemos con los tests?
+\trmblockdanger
+
+\pause
+
+\begin{lstlisting}[style=frame02]
+# tirarDado: None -> int
+# Retorna un entero aleatorio en el rango [1, 6])
+def tirarDado():
+    return int(6 * random.random()) + 1
+# Tests
+assert 1 <= tirarDado() <= 6
+\end{lstlisting}
+
+## Testing: cálculos aproximados {.fragile}
+
+\simpleTitle{Cálculos aproximados}
+
+- Uno de los casos más típicos corresponde a los cálculos donde están involucrados números reales $(\mathbb{R})$.
+    - Peor aún si se trata de irracionales $(\mathbb{I})$.
+
+\begin{lstlisting}
+>>> print(1.0/2.0)
+0.5
+>>> print(0.5 == 1.0/2.0)
+True
+>>> print(1.0/3.0)
+0.333333333333(*@\tikzmark{markSameNumber01}@*)
+>>> print(0.33333333333(*@\tikzmark{markSameNumber02}@*)3 == 1.0/3.0)
+False
+\end{lstlisting}
+
+\pause
+
+\bgnblockidea
+Por lo general es una mala idea comparar igualdad entre números reales.
+\trmblockidea
+
+\drawTikZComment[above right=6ex and 16ex of pic cs:markSameNumber02]{markSameNumber02}{¡Parecen ser el mismo número!}
+\drawTikZAnotherArrow{markSameNumber01}{markSameNumber02-comment}
+
+## Testing: cálculos aproximados {.fragile}
+
+\simpleTitle{Cálculos aproximados}
+
+- Veamos un ejemplo aún más extraño:
+
+\begin{lstlisting}
+>>> print(0.3 == 0.1 + 0.2)
+False(*@\tikzmark{markThreeTwoOne}@*)
+\end{lstlisting}
+
+\drawTikZComment[right=22ex of pic cs:markThreeTwoOne]{markThreeTwoOne}{¿Por qué?}
+\vspace{-2ex}
+
+\pause
+
+\begin{lstlisting}
+>>> print(0.3 - (0.1 + 0.2))
+-5.551115123125783e-17
+\end{lstlisting}
+
+- Veamos esos tres números ``más en detalle'':
+
+\begin{lstlisting}
+>>> # Imprimamos 0.1, 0.2 y 0.3 con 18 decimales:
+>>> print("{0:.18f}".format(0.1))
+0.100000000000000006(*@\tikzmark{markBadDecimals01}@*)
+>>> print("{0:.18f}".format(0.2))
+0.200000000000000011(*@\tikzmark{markBadDecimals02}@*)
+>>> print("{0:.18f}".format(0.3))
+0.299999999999999989(*@\tikzmark{markBadDecimals03}@*)
+\end{lstlisting}
+
+\drawTikZComment[right=22ex of pic cs:markBadDecimals02]{markBadDecimals02}{Esos últimos decimales son la causa}
+\drawTikZAnotherArrow{markBadDecimals01}{markBadDecimals02-comment}
+\drawTikZAnotherArrow{markBadDecimals03}{markBadDecimals02-comment}
+
+
+## Testing: cálculos aproximados {.fragile}
+
+\simpleTitle{Cálculos aproximados}
+
+- Ante este problema, mejor adaptémonos.
+- En vez de buscar la máxima exactitud, la mayoría de las veces sólo es necesario un \structure{margen
+de error aceptable}.
+
+\begin{lstlisting}
+>>> print(0.3 == 1.0 + 2.0)
+False
+
+>>> print(0.3 - (0.1 + 0.2))
+-5.551115123125783e-17
+
+>>> print(abs(0.3 - (0.1 + 0.2)) < 0.001)
+True
+\end{lstlisting}
