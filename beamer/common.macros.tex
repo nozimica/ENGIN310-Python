@@ -32,17 +32,6 @@
     \draw[->,#1] (#2#3) -- (text#2#3);
   \end{tikzpicture}
 }
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% \braceRightwardsLabel<>[styles]{firstNode}{secondNode}{distToLabel}{labelText}{labelWidth}
-% \braceRightwardsLabel{entradaB}{entradaA}{6mm}{las entradas}{6em}
-\newcommand<>\braceRightwardsLabel[6][ultra thick,structure!80,font=\footnotesize]{%
-  \braceRightwards[#1]{#2}{#3}
-  \begin{tikzpicture}[remember picture, overlay]
-    \node (text#2#3) [right=#4 of #2#3,text centered,text width=#6,#1] {#5};
-    \draw[->,#1] (#2#3) -- (text#2#3);
-  \end{tikzpicture}
-}
 
 % http://tex.stackexchange.com/questions/75337/tikz-arrow-outside-tikzpicture-environment/75343#75343
 \newcommand*{\DrawArrow}[3][]{%
@@ -65,8 +54,8 @@
 % https://tex.stackexchange.com/questions/110072/tikz-inside-lstlisting-inside-tikz
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand<>{\braceUpwards}[3][ultra thick,structure!80,font=\footnotesize]{%
+  \pgfkeys{/nzmacros/drawBrace/.cd,#1}
   \begin{tikzpicture}[remember picture, overlay]
-    \pgfkeys{/nzmacros/drawBrace/.cd,#1}
     \node[draw=black, fit={($(pic cs:#2)+(0,1ex)$) ($(pic cs:#3)+(0,1ex)$)}, inner sep=0pt] (rectg) {};%
     \drawBraceInner{rectg.north west}{rectg.north east}{#2#3}
   \end{tikzpicture}
@@ -75,11 +64,28 @@
 %
 % \braceRightwards<>[styles]{firstNode}{secondNode}
 \newcommand<>\braceRightwards[3][ultra thick,structure!80,font=\footnotesize]{%
+  \pgfkeys{/nzmacros/drawBrace/.cd,#1}
   \begin{tikzpicture}[remember picture, overlay]
-    \pgfkeys{/nzmacros/drawBrace/.cd,#1}
     \node[draw=black, fit={($(pic cs:#2)+(0,1ex)$) (pic cs:#3)}, inner sep=0pt] (rectg) {};%
     \drawBraceInner{rectg.north east}{rectg.south east}{#2#3}
   \end{tikzpicture}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \braceRightwardsLabel<>[styles]{firstNode}{secondNode}{labelText}
+\newcommand<>\braceRightwardsLabel[4][ultra thick,structure!80,font=\footnotesize]{%
+  \pgfkeys{/nzmacros/drawBrace/.cd,#1}
+  \braceRightwards[#1]{#2}{#3}
+  \begin{tikzpicture}[remember picture, overlay]
+      \node[right=\pgfkeysvalueof{/nzmacros/drawBrace/labelDistance} of #2#3, structure, font=\small, text width=\pgfkeysvalueof{/nzmacros/drawBrace/labelWidth}, /nzmacros/drawBrace/comment] (#2#3-comment) {#4};%
+    % \draw (#2#3-comment.west) edge (#2#3);%
+  \end{tikzpicture}
+
+  % \begin{tikzpicture}[remember picture, overlay]
+  %   \node (text#2#3) [right=#4 of #2#3,text centered,text width=#6,#1] {#5};
+  %   \draw[->,#1] (#2#3) -- (text#2#3);
+  % \end{tikzpicture}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -93,9 +99,12 @@
 % whose name is the concat of the names of beginning and ending nodes.
 % Into styles there can be styles for: decoration, brace and comment.
 \pgfkeys{/nzmacros/drawBrace/.cd,%
-    decoration/.initial={},%
-    brace/.initial={},%
-    comment/.initial={},%
+    decoration/.style={structure},%
+    brace/.style={},%
+    comment/.style={},%
+    braceAmplitude/.initial={0.4em},%
+    labelDistance/.initial=1em,%
+    labelWidth/.initial=6em,%
 }
 \newcommand<>{\drawBrace}[4][]{%
   \braceRightwards[#1]{#2}{#3}
@@ -111,10 +120,8 @@
 % Draws a brace from leftNode to rightNode, putting a coordinate at
 % the middle named middlePoint.
 \newcommand<>{\drawBraceInner}[3]{%
-  \draw [decoration={brace,amplitude=0.4em}, decorate, very thick, red, /nzmacros/drawBrace/decoration]%
-    ([/nzmacros/drawBrace/brace]#1) --%
-    coordinate[midway] (#3)%
-    ([/nzmacros/drawBrace/brace]#2);%
+  \draw [decoration={brace,amplitude=\pgfkeysvalueof{/nzmacros/drawBrace/braceAmplitude}}, decorate, very thick, /nzmacros/drawBrace/decoration]%
+    ([/nzmacros/drawBrace/brace]#1) -- coordinate[midway] (#3) ([/nzmacros/drawBrace/brace]#2);%
 }
 \makeatother
 %% END @

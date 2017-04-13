@@ -195,7 +195,7 @@ Esto último es muy mala idea: no es sustentable.
 \trmblockdanger
 
 \begin{tikzpicture}[remember picture, overlay]
-  \node[fit=(markBgnBadCode) (markMdlBadCode) (markTrmBadCode), inner sep=0em] (enc) {};
+  \node[fit=(pic cs:markBgnBadCode) (pic cs:markMdlBadCode) (pic cs:markTrmBadCode), inner sep=0em] (enc) {};
   \draw[red, line width=.4em, line cap=round] (enc.north west) -- (enc.south east);
   \draw[red, line width=.4em, line cap=round] (enc.north east) -- (enc.south west);
 \end{tikzpicture}
@@ -374,9 +374,10 @@ $$
 
 \trmcolumns
 
-\drawBrace[brace/.style={xshift=.3em}, decoration/.style={structure}, comment/.style={text width=12em}]{bgnBraceReduction}{trmBraceReduction}{En cada paso se llama recursivamente a la misma función, pero reducida.\newline \newline }
-\drawBrace[brace/.style={xshift=1.3em}, decoration/.style={structure}]{trmBraceReduction}{trmBraceBaseCase}{Llegamos al caso base.}
-\drawBrace[brace/.style={xshift=.3em}, decoration/.style={structure}, comment/.style={text width=12em}]{trmBraceBaseCase}{trmGathering}{\newline \newline Recolección de resultados de las llamadas recursivas.}
+\braceRightwardsLabel[brace/.style={xshift=.3em}, comment/.style={text width=12em}]{bgnBraceReduction}{trmBraceReduction}{En cada paso se llama recursivamente a la misma función, pero reducida.\newline \newline }
+\braceRightwardsLabel[brace/.style={xshift=1.3em}]{trmBraceReduction}{trmBraceBaseCase}{Llegamos al caso base.}
+\braceRightwardsLabel[brace/.style={xshift=.3em}, comment/.style={text width=12em}]{trmBraceBaseCase}{trmGathering}{\newline \newline Recolección de resultados de las llamadas recursivas.}
+    
 
 ## Recursividad: aplicaciones {.fragile}
 
