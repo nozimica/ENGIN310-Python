@@ -1,37 +1,8 @@
 % \newcommand\tikzmark[2][]{%
 %   \tikz[remember picture,overlay,baseline=-.5ex] \node[#1] (#2) {};}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% \braceDownwards<>[styles]{firstNode}{secondNode}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% http://tex.stackexchange.com/questions/1559/adding-a-large-brace-next-to-a-body-of-text/1570#1570
-% http://tex.stackexchange.com/questions/204417/how-can-i-draw-arrows-within-a-listing-to-explain-positional-association
-% https://tex.stackexchange.com/questions/110072/tikz-inside-lstlisting-inside-tikz
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand<>\braceDownwards[3][ultra thick,structure!80,font=\footnotesize]{%
-  \tikz[remember picture,overlay] \draw [decoration={brace,raise=3pt,amplitude=0.5em},decorate,#1]
-        (pic cs:#2.east) -- node[below=3pt] (#2#3) {} (pic cs:#3.west);
-}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% \braceRightwards<>[styles]{firstNode}{secondNode}
-% \newcommand<>\braceRightwards[3][ultra thick,structure!80,font=\footnotesize]{%
-%   \tikz[remember picture,overlay] \draw [decoration={brace,raise=17em,amplitude=0.5em},decorate,#1]
-%         (#2.north) -- node[right=17em] (#2#3) {} (#3.south);
-% }
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% \braceDownwardsLabel<>[styles]{firstNode}{secondNode}{distToLabel}{labelText}{labelWidth}
-% \braceDownwardsLabel{entradaB}{entradaA}{6mm}{las entradas}{6em}
-\newcommand<>\braceDownwardsLabel[6][ultra thick,structure!80,font=\footnotesize]{%
-  \braceDownwards[#1]{#2}{#3}
-  \begin{tikzpicture}[remember picture, overlay]
-    \node (text#2#3) [below=#4 of #2#3,text centered,text width=#6,#1] {#5};
-    \draw[->,#1] (#2#3) -- (text#2#3);
-  \end{tikzpicture}
-}
+%% BEGIN @
+\makeatletter
 
 % http://tex.stackexchange.com/questions/75337/tikz-arrow-outside-tikzpicture-environment/75343#75343
 \newcommand*{\DrawArrow}[3][]{%
@@ -43,30 +14,78 @@
     \end{tikzpicture}%
 }%
 
-%% BEGIN @
-\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Brace Library
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% \braceUpwards<>[styles]{firstNode}{secondNode}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% These commands draw braces between two tikzmarks,
+% no matter which one is the rightmost, and include
+% a node midway the brace, to write a comment.
+% This command also creates a new node
+% whose name is the concat of the names of beginning and ending nodes.
+% Into styles there can be styles for: decoration, brace and comment.
+%
+% Based on some tips from these QAs:
 % http://tex.stackexchange.com/questions/1559/adding-a-large-brace-next-to-a-body-of-text/1570#1570
 % http://tex.stackexchange.com/questions/204417/how-can-i-draw-arrows-within-a-listing-to-explain-positional-association
 % https://tex.stackexchange.com/questions/110072/tikz-inside-lstlisting-inside-tikz
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand<>{\braceUpwards}[3][ultra thick,structure!80,font=\footnotesize]{%
-  \pgfkeys{/nzmacros/drawBrace/.cd,#1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \nzupdatepgfkeys{keysFromMacro}
+%
+% Set default values for pgfkeys, and load new keys from macro.
+% Example: \nzupdatepgfkeys{#1}
+\newcommand\nzupdatepgfkeys[1]{%
+    \pgfkeys{/nzmacros/drawBrace/.cd,%
+        decoration/.style={structure},%
+        brace/.style={},%
+        braceAmplitude/.initial={0.4em},%
+        labelDistance/.initial=1em,%
+        labelWidth/.initial=6em,%
+    }
+    \pgfkeys{/nzmacros/drawBrace/.cd,#1}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \braceDownwards<>[styles]{firstNode}{secondNode}
+\newcommand<>\braceDownwards[3][]{%
+  \nzupdatepgfkeys{#1}
   \begin{tikzpicture}[remember picture, overlay]
-    \node[draw=black, fit={($(pic cs:#2)+(0,1ex)$) ($(pic cs:#3)+(0,1ex)$)}, inner sep=0pt] (rectg) {};%
+    \node[fit={(pic cs:#2) (pic cs:#3)}, inner sep=0pt] (rectg) {};%
+    \drawBraceInner{rectg.south east}{rectg.south west}{#2#3}
+  \end{tikzpicture}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \braceDownwardsLabel<>[styles]{firstNode}{secondNode}{labelText}
+\newcommand<>\braceDownwardsLabel[4][]{%
+  \nzupdatepgfkeys{#1}
+  \braceDownwards[#1]{#2}{#3}
+  \begin{tikzpicture}[remember picture, overlay]
+      \node[below=\pgfkeysvalueof{/nzmacros/drawBrace/labelDistance} of #2#3, structure, font=\small, text width=\pgfkeysvalueof{/nzmacros/drawBrace/labelWidth}, text centered] (#2#3-comment) {#4};%
+  \end{tikzpicture}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \braceUpwards<>[styles]{firstNode}{secondNode}
+\newcommand<>{\braceUpwards}[3][]{%
+  \nzupdatepgfkeys{#1}
+  \begin{tikzpicture}[remember picture, overlay]
+    \node[fit={($(pic cs:#2)+(0,1ex)$) ($(pic cs:#3)+(0,1ex)$)}, inner sep=0pt] (rectg) {};%
     \drawBraceInner{rectg.north west}{rectg.north east}{#2#3}
   \end{tikzpicture}
 }%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % \braceRightwards<>[styles]{firstNode}{secondNode}
-\newcommand<>\braceRightwards[3][ultra thick,structure!80,font=\footnotesize]{%
-  \pgfkeys{/nzmacros/drawBrace/.cd,#1}
+\newcommand<>\braceRightwards[3][]{%
+  \nzupdatepgfkeys{#1}
   \begin{tikzpicture}[remember picture, overlay]
-    \node[draw=black, fit={($(pic cs:#2)+(0,1ex)$) (pic cs:#3)}, inner sep=0pt] (rectg) {};%
+    \node[fit={($(pic cs:#2)+(0,1ex)$) (pic cs:#3)}, inner sep=0pt] (rectg) {};%
     \drawBraceInner{rectg.north east}{rectg.south east}{#2#3}
   \end{tikzpicture}
 }
@@ -74,45 +93,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % \braceRightwardsLabel<>[styles]{firstNode}{secondNode}{labelText}
-\newcommand<>\braceRightwardsLabel[4][ultra thick,structure!80,font=\footnotesize]{%
-  \pgfkeys{/nzmacros/drawBrace/.cd,#1}
+\newcommand<>\braceRightwardsLabel[4][]{%
+  \nzupdatepgfkeys{#1}
   \braceRightwards[#1]{#2}{#3}
   \begin{tikzpicture}[remember picture, overlay]
-      \node[right=\pgfkeysvalueof{/nzmacros/drawBrace/labelDistance} of #2#3, structure, font=\small, text width=\pgfkeysvalueof{/nzmacros/drawBrace/labelWidth}, /nzmacros/drawBrace/comment] (#2#3-comment) {#4};%
+      \node[right=\pgfkeysvalueof{/nzmacros/drawBrace/labelDistance} of #2#3, structure, font=\small, text width=\pgfkeysvalueof{/nzmacros/drawBrace/labelWidth}] (#2#3-comment) {#4};%
     % \draw (#2#3-comment.west) edge (#2#3);%
   \end{tikzpicture}
-
-  % \begin{tikzpicture}[remember picture, overlay]
-  %   \node (text#2#3) [right=#4 of #2#3,text centered,text width=#6,#1] {#5};
-  %   \draw[->,#1] (#2#3) -- (text#2#3);
-  % \end{tikzpicture}
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 
-% \drawBrace[styles]{beginningNode}{endingNode}{comment}
-%
-% This command draws a brace between two tikzmarks, to their right,
-% no matter which one is the rightmost, and includes 
-% a node midway the brace, to write the comment.
-% This command also creates a new node
-% whose name is the concat of the names of beginning and ending nodes.
-% Into styles there can be styles for: decoration, brace and comment.
-\pgfkeys{/nzmacros/drawBrace/.cd,%
-    decoration/.style={structure},%
-    brace/.style={},%
-    comment/.style={},%
-    braceAmplitude/.initial={0.4em},%
-    labelDistance/.initial=1em,%
-    labelWidth/.initial=6em,%
-}
-\newcommand<>{\drawBrace}[4][]{%
-  \braceRightwards[#1]{#2}{#3}
-  \begin{tikzpicture}[remember picture, overlay]
-    \node[right=0em of #2#3, structure, font=\small, /nzmacros/drawBrace/comment] (#2#3-comment) {#4};%
-    % \draw (#2#3-comment.west) edge (#2#3);%
-  \end{tikzpicture}
-}%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
 % \drawBraceInner{leftNode}{rightNode}{middlePoint}
@@ -120,11 +109,18 @@
 % Draws a brace from leftNode to rightNode, putting a coordinate at
 % the middle named middlePoint.
 \newcommand<>{\drawBraceInner}[3]{%
-  \draw [decoration={brace,amplitude=\pgfkeysvalueof{/nzmacros/drawBrace/braceAmplitude}}, decorate, very thick, /nzmacros/drawBrace/decoration]%
+  \draw [decoration={brace,amplitude=\pgfkeysvalueof{/nzmacros/drawBrace/braceAmplitude}, raise=1mm}, decorate, very thick, /nzmacros/drawBrace/decoration]%
     ([/nzmacros/drawBrace/brace]#1) -- coordinate[midway] (#3) ([/nzmacros/drawBrace/brace]#2);%
 }
 \makeatother
 %% END @
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Comments Library
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Some macros to draw comments pointing to a tikzmark.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
@@ -154,16 +150,6 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 
-% \fullrule
-%
-% Draws a rule with 'structure' color, spanning the whole width of the text.
-\newcommand<>{\fullrule}{%
-  \textcolor{structure}{\noindent\rule{\textwidth}{1pt}}%
-}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Beamer aux commands
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -188,6 +174,15 @@
         \node#5[right=35mm of #1.west] (#3) {#4};%
         \path[arrowInList]#5 ([xshift=25mm]#1.west) -- (#3);%
     \end{tikzpicture}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% \fullrule
+%
+% Draws a rule with 'structure' color, spanning the whole width of the text.
+\newcommand<>{\fullrule}{%
+  \textcolor{structure}{\noindent\rule{\textwidth}{1pt}}%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

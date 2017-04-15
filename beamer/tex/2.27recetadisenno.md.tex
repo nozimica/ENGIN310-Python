@@ -43,9 +43,9 @@ y que se manifiesta en cómo la pueden invocar (su nombre), sus entradas y sus s
 # (*@\tikzmark{nombreA}@*)perimetroTriangulo(*@\tikzmark{nombreB}@*): (*@\tikzmark{entradaA}@*)num num num(*@\tikzmark{entradaB}@*) -> (*@\tikzmark{salidaA}@*)num(*@\tikzmark{salidaB}@*)
 \end{lstlisting}
 
-\braceDownwardsLabel{nombreB}{nombreA}{4mm}{El nombre de la función}{6em}
-\braceDownwardsLabel{entradaB}{entradaA}{6mm}{Las entradas}{6em}
-\braceDownwardsLabel{salidaB}{salidaA}{4mm}{La salida}{6em}
+\braceDownwardsLabel[labelDistance=4mm, labelWidth=6em]{nombreB}{nombreA}{El nombre de la función}
+\braceDownwardsLabel[labelDistance=4mm, labelWidth=6em]{entradaB}{entradaA}{Las entradas}
+\braceDownwardsLabel[labelDistance=4mm, labelWidth=6em]{salidaB}{salidaA}{La salida}
 
 \vspace{3em}
 
@@ -54,12 +54,12 @@ la distancia recorrida [mi].
 
 \vspace{-.5em}
 \begin{lstlisting}[basicstyle=\normalsize\ttfamily]
-# (*@\tikzmark{nombreA}@*)consumoVehiculo(*@\tikzmark{nombreB}@*): (*@\tikzmark{entradaA}@*)num num(*@\tikzmark{entradaB}@*) -> (*@\tikzmark{salidaA}@*)float(*@\tikzmark{salidaB}@*)
+# (*@\tikzmark{nombreA2}@*)consumoVehiculo(*@\tikzmark{nombreB2}@*): (*@\tikzmark{entradaA2}@*)num num(*@\tikzmark{entradaB2}@*) -> (*@\tikzmark{salidaA2}@*)float(*@\tikzmark{salidaB2}@*)
 \end{lstlisting}
 
-\braceDownwardsLabel{nombreB}{nombreA}{4mm}{El nombre de la función}{6em}
-\braceDownwardsLabel{entradaB}{entradaA}{6mm}{Las entradas}{6em}
-\braceDownwardsLabel{salidaB}{salidaA}{4mm}{La salida}{6em}
+\braceDownwardsLabel[labelDistance=4mm, labelWidth=6em]{nombreA2}{nombreB2}{El nombre de la función}
+\braceDownwardsLabel[labelDistance=4mm, labelWidth=6em]{entradaA2}{entradaB2}{Las entradas}
+\braceDownwardsLabel[labelDistance=4mm, labelWidth=6em]{salidaA2}{salidaB2}{La salida}
 
 ## Receta de diseño: explicar el propósito {.fragile}
 
@@ -107,7 +107,7 @@ def consumoVehiculo(rendKmLt, distMillas):
 
 Al tener el contrato ya establecido, entonces podemos construir el encabezado de la función:
 
-\begin{lstlisting}[style=frame02,linebackgroundcolor={\btLstHL{2-3}}]
+\begin{lstlisting}[style=frame02,linebackgroundcolor={\btLstHL{4}}]
 # consumoVehiculo: num num -> float
 # Calcula el consumo de combustible en litros, para un vehículo
 # dado su rendimiento [km/lt] y la distancia recorrida [mi].
@@ -130,12 +130,12 @@ en ella se establece su nombre y sus parámetros.
 
 \begin{lstlisting}[basicstyle=\normalsize\ttfamily,linewidth=.9\textwidth,xleftmargin=.1\textwidth]
 # perimetroTriangulo: num num num -> num
-(*@\tikzmark{defA}@*)def(*@\tikzmark{defB}@*) (*@\tikzmark{nombreA}@*)perimetroTriangulo(*@\tikzmark{nombreB}@*)((*@\tikzmark{entradaA}@*)ladoA, ladoB, ladoC(*@\tikzmark{entradaB}@*)):
+(*@\tikzmark{defC}@*)def(*@\tikzmark{defD}@*) (*@\tikzmark{nombreC}@*)perimetroTriangulo(*@\tikzmark{nombreD}@*)((*@\tikzmark{entradaC}@*)ladoA, ladoB, ladoC(*@\tikzmark{entradaD}@*)):
 \end{lstlisting}
 
-\braceDownwardsLabel{defB}{defA}{4mm}{Define el inicio de la función}{6em}
-\braceDownwardsLabel{nombreB}{nombreA}{8mm}{El nombre de la función}{6em}
-\braceDownwardsLabel{entradaB}{entradaA}{6mm}{Los parámetros}{6em}
+\braceDownwardsLabel[labelDistance=4mm, labelWidth=5em]{defC}{defD}{Define el inicio de la función}
+\braceDownwardsLabel[labelDistance=4mm, labelWidth=6em]{nombreC}{nombreD}{El nombre de la función}
+\braceDownwardsLabel[labelDistance=4mm, labelWidth=8em]{entradaC}{entradaD}{Los parámetros}
 
 ## Receta de diseño: dar ejemplos de uso {.fragile}
 

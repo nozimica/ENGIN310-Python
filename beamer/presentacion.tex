@@ -3,14 +3,14 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Set sections to display
-\def\nzSectionsToDisplay{E}
+\def\nzSectionsToDisplay{ACE}
 
 \title{ENGIN310: Programación y Algoritmos}
 \subtitle{Semestre de otoño de 2017}
 \author{Nicolás Eugenio Ozimica\\[.4em]\texttt{<nozimica@fen.uchile.cl>}}
 
-\StrLen{\nzSectionsToDisplay}[\asdfasdf]
-\ifnum\asdfasdf=1%
+\StrLen{\nzSectionsToDisplay}[\secsNum]
+\ifnum\secsNum=1%
     \IfSubStr{\nzSectionsToDisplay}{A}{%
         \date{Introducción al curso}
     }{}
@@ -80,14 +80,14 @@
 \IfSubStr{\nzSectionsToDisplay}{E}{%
 \section{Introducción a Python, Parte II}
 
-% \subsection{Expresiones condicionales}
-% \include{tex/2.41booleanos}
-% \include{tex/2.43condicionales}
-% \include{tex/2.44condicionales}
+\subsection{Expresiones condicionales}
+\include{tex/2.41booleanos}
+\include{tex/2.43condicionales}
+\include{tex/2.44condicionales}
 
-% \subsection{Recursividad}
-% \include{tex/2.51recursividad}
-% \include{tex/2.53recursividadseries}
+\subsection{Recursividad}
+\include{tex/2.51recursividad}
+\include{tex/2.53recursividadseries}
 
 \include{tex/2.32modulos}
 \include{tex/2.57testing}

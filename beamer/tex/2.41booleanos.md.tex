@@ -150,7 +150,7 @@ True
 
 \trmcolumns
 
-\drawTikZComment[below right=2em and 3em of trmSetbool]{trmSetbool}{\scriptsize Se puede asignar un resultado lógico}
+\drawTikZComment[below right=2em and 3em of pic cs:trmSetbool]{trmSetbool}{\scriptsize Se puede asignar un resultado lógico}
 \drawTikZAnotherArrow{bgnSetbool}{trmSetbool-comment}
 
 ## Tipos de dato lógico: {.fragile}
@@ -195,14 +195,14 @@ assert esPar(11) == False
 
 \pause
 
-\drawTikZComment[right=8em of booltypedesign01]{booltypedesign01}{\scriptsize Nuevo tipo de dato en nuestra receta}
+\drawTikZComment[right=8em of pic cs:booltypedesign01]{booltypedesign01}{\scriptsize Nuevo tipo de dato en nuestra receta}
 
 ## Funciones booleanas {.fragile}
 
 - Una función también puede retornar un tipo lógico:
 
 \begin{lstlisting}[style=frame02]
-# esMultiploDe: int int -> bool(*@\tikzmark{booltypedesign02}@*)
+# esMultiploDe: int int -> bool
 # Si 'numero' es múltiplo de 'factor', retorna verdadero;
 # en caso contrario retorna False.
 # Ejemplo: esMultiploDe(7, 3) retorna False

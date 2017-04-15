@@ -37,9 +37,9 @@ Bodoque ya ha cumplido 29
 \end{lstlisting}
 
 \visible{<2->}{%
-\drawTikZComment[right=5em of intConComillas]{intConComillas}{\scriptsize Ojo con las comillas}
-\drawTikZComment[text width = 40mm, right=8em of intSinComillas]{intSinComillas}{\scriptsize Acá no hay comillas: es número}
-\drawTikZComment[text width = 40mm, above right=2em and -0.5em of intNumStr]{intNumStr}{\scriptsize Recuerden: los números deben ser convertidos a string en este caso}
+\drawTikZComment[right=5em of pic cs:intConComillas]{intConComillas}{\scriptsize Ojo con las comillas}
+\drawTikZComment[right=8em of pic cs:intSinComillas, text width = 40mm]{intSinComillas}{\scriptsize Acá no hay comillas: es número}
+\drawTikZComment[above right=2em and -0.5em of pic cs:intNumStr, text width = 40mm]{intNumStr}{\scriptsize Recuerden: los números deben ser convertidos a string en este caso}
 }
 
 ## Interacción con el usuario {.fragile}
@@ -60,8 +60,8 @@ Bodoque ya ha cumplido 29
 \end{lstlisting}
 
 \visible{<2->}{%
-\drawTikZComment[right=6em of intSinComillasraw]{intSinComillasraw}{\scriptsize Acá no hay comillas: es \nzinlinecode{raw_input}}
-\drawTikZComment[text width = 40mm, above right=1em and -0.5em of intNumStrraw]{intNumStrraw}{\scriptsize No es número, aunque lo parezca}
+\drawTikZComment[right=6em of pic cs:intSinComillasraw]{intSinComillasraw}{\scriptsize Acá no hay comillas: es \nzinlinecode{raw_input}}
+\drawTikZComment[text width = 40mm, above right=2em and -0.5em of pic cs:intNumStrraw]{intNumStrraw}{\scriptsize No es número, aunque lo parezca}
 }
 
 \visible{<3->}{%
