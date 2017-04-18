@@ -172,7 +172,7 @@ False
 Por lo general es una mala idea comparar igualdad entre números reales.
 \trmblockidea
 
-\drawTikZComment[above right=6ex and 16ex of pic cs:markSameNumber02]{markSameNumber02}{¡Parecen ser el mismo número!}
+\drawTikZComment[pos={above right},len={6ex and 16ex}]{markSameNumber02}{¡Parecen ser el mismo número!}
 \drawTikZAnotherArrow{markSameNumber01}{markSameNumber02-comment}
 
 ## Testing: cálculos aproximados {.fragile}
@@ -186,11 +186,11 @@ Por lo general es una mala idea comparar igualdad entre números reales.
 False(*@\tikzmark{markThreeTwoOne}@*)
 \end{lstlisting}
 
-\drawTikZComment[right=22ex of pic cs:markThreeTwoOne]{markThreeTwoOne}{¿Por qué?}
-\vspace{-2ex}
+\drawTikZComment[pos={right},len={22ex}]{markThreeTwoOne}{¿Por qué?}
 
 \pause
 
+\vspace{-2ex}
 \begin{lstlisting}
 >>> print(0.3 - (0.1 + 0.2))
 -5.551115123125783e-17
@@ -208,7 +208,7 @@ False(*@\tikzmark{markThreeTwoOne}@*)
 0.299999999999999989(*@\tikzmark{markBadDecimals03}@*)
 \end{lstlisting}
 
-\drawTikZComment[right=22ex of pic cs:markBadDecimals02]{markBadDecimals02}{Esos últimos decimales son la causa}
+\drawTikZComment[pos={right},len={22ex}]{markBadDecimals02}{Esos últimos decimales son la causa}
 \drawTikZAnotherArrow{markBadDecimals01}{markBadDecimals02-comment}
 \drawTikZAnotherArrow{markBadDecimals03}{markBadDecimals02-comment}
 

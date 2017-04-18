@@ -33,17 +33,17 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% \nzupdatepgfkeys{keysFromMacro}
+% \nzkeysdrawbrace{keysFromMacro}
 %
 % Set default values for pgfkeys, and load new keys from macro.
-% Example: \nzupdatepgfkeys{#1}
-\newcommand\nzupdatepgfkeys[1]{%
+% Example: \nzkeysdrawbrace{#1}
+\newcommand\nzkeysdrawbrace[1]{%
     \pgfkeys{/nzmacros/drawBrace/.cd,%
         decoration/.style={structure},%
         brace/.style={},%
         braceAmplitude/.initial={0.4em},%
         labelDistance/.initial=1em,%
-        labelWidth/.initial=6em,%
+        text width/.initial=6em,%
     }
     \pgfkeys{/nzmacros/drawBrace/.cd,#1}
 }
@@ -51,7 +51,7 @@
 %
 % \braceDownwards<>[styles]{firstNode}{secondNode}
 \newcommand<>\braceDownwards[3][]{%
-  \nzupdatepgfkeys{#1}
+  \nzkeysdrawbrace{#1}
   \begin{tikzpicture}[remember picture, overlay]
     \node[fit={(pic cs:#2) (pic cs:#3)}, inner sep=0pt] (rectg) {};%
     \drawBraceInner{rectg.south east}{rectg.south west}{#2#3}
@@ -62,10 +62,10 @@
 %
 % \braceDownwardsLabel<>[styles]{firstNode}{secondNode}{labelText}
 \newcommand<>\braceDownwardsLabel[4][]{%
-  \nzupdatepgfkeys{#1}
+  \nzkeysdrawbrace{#1}
   \braceDownwards[#1]{#2}{#3}
   \begin{tikzpicture}[remember picture, overlay]
-      \node[below=\pgfkeysvalueof{/nzmacros/drawBrace/labelDistance} of #2#3, structure, font=\small, text width=\pgfkeysvalueof{/nzmacros/drawBrace/labelWidth}, text centered] (#2#3-comment) {#4};%
+      \node[below=\pgfkeysvalueof{/nzmacros/drawBrace/labelDistance} of #2#3, structure, font=\small, text width=\pgfkeysvalueof{/nzmacros/drawBrace/text width}, text centered] (#2#3-comment) {#4};%
   \end{tikzpicture}
 }
 
@@ -73,7 +73,7 @@
 %
 % \braceUpwards<>[styles]{firstNode}{secondNode}
 \newcommand<>{\braceUpwards}[3][]{%
-  \nzupdatepgfkeys{#1}
+  \nzkeysdrawbrace{#1}
   \begin{tikzpicture}[remember picture, overlay]
     \node[fit={($(pic cs:#2)+(0,1ex)$) ($(pic cs:#3)+(0,1ex)$)}, inner sep=0pt] (rectg) {};%
     \drawBraceInner{rectg.north west}{rectg.north east}{#2#3}
@@ -83,7 +83,7 @@
 %
 % \braceRightwards<>[styles]{firstNode}{secondNode}
 \newcommand<>\braceRightwards[3][]{%
-  \nzupdatepgfkeys{#1}
+  \nzkeysdrawbrace{#1}
   \begin{tikzpicture}[remember picture, overlay]
     \node[fit={($(pic cs:#2)+(0,1ex)$) (pic cs:#3)}, inner sep=0pt] (rectg) {};%
     \drawBraceInner{rectg.north east}{rectg.south east}{#2#3}
@@ -94,10 +94,10 @@
 %
 % \braceRightwardsLabel<>[styles]{firstNode}{secondNode}{labelText}
 \newcommand<>\braceRightwardsLabel[4][]{%
-  \nzupdatepgfkeys{#1}
+  \nzkeysdrawbrace{#1}
   \braceRightwards[#1]{#2}{#3}
   \begin{tikzpicture}[remember picture, overlay]
-      \node[right=\pgfkeysvalueof{/nzmacros/drawBrace/labelDistance} of #2#3, structure, font=\small, text width=\pgfkeysvalueof{/nzmacros/drawBrace/labelWidth}] (#2#3-comment) {#4};%
+      \node[right=\pgfkeysvalueof{/nzmacros/drawBrace/labelDistance} of #2#3, structure, font=\small, text width=\pgfkeysvalueof{/nzmacros/drawBrace/text width}] (#2#3-comment) {#4};%
     % \draw (#2#3-comment.west) edge (#2#3);%
   \end{tikzpicture}
 }
@@ -123,16 +123,33 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \nzkeyscomments{keysFromMacro}
+%
+% Set default values for pgfkeys, and load new keys from macro.
+% Example: \nzkeyscomments{#1}
+\newcommand\nzkeyscomments[1]{%
+    \pgfkeys{/nzmacros/drawComments/.cd,%
+        text width/.initial=35mm,%
+        pos/.initial={right},%
+        len/.initial={6em},%
+    }
+    \pgfkeys{/nzmacros/drawComments/.cd,#1}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
 % \drawTikZComment[nodeStyle]{codeMark}{message}
 %
 % Draws a comment pointing to codeMark. Generates a node with message as text,
 % and codeMark-comment as name.
-\tikzstyle{commentNode} = [text width=35mm, align=center, minimum height=10pt, font=\footnotesize\bfseries, fill=PaleGreen1!60, draw=PaleGreen2, line width=1pt, rounded corners]
+\tikzstyle{commentNode} = [align=center, minimum height=10pt, font=\footnotesize\bfseries, fill=PaleGreen1!60, draw=PaleGreen2, line width=1pt, rounded corners]
 \newcommand<>{\drawTikZComment}[3][]{%
+  \nzkeyscomments{#1}%
   \tikz[remember picture, overlay]%
-    \node[commentNode, right=4em of pic cs:#2, #1] (#2-comment) {#3};%
+  \node[commentNode, shift={(0,.5ex)}, \pgfkeysvalueof{/nzmacros/drawComments/pos}=\pgfkeysvalueof{/nzmacros/drawComments/len} of pic cs:#2, text width=\pgfkeysvalueof{/nzmacros/drawComments/text width}] (#2-comment) {#3};%
   \drawTikZAnotherArrow{#2}{#2-comment}%
+  % try to supress additional space drawn by node
+  \vspace{-1ex}
 }%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
