@@ -1,89 +1,3 @@
-## Repaso: recursividad y estimación de PI {.fragile}
-
-\bgnenviron{<1-2>}{onlyenv}
-
-- Todos sabemos que la constante $\pi$ es un número irracional, y por lo tanto, infinito.
-
-\begin{center}
-\textsf{$\pi$ = 3,14159265358979323846264338327950288419716939$\ldots$}
-\end{center}
-
-\trmenviron{onlyenv}
-
-\bgnenviron{<2-3>}{onlyenv}
-
-- Pero existe la llamada ``serie de Leibniz'' con la cual se puede calcular un valor aproximado de $\pi$:
-
-\vspace{-3ex}
-$$ \frac{\pi}{4} = \left( 1 - \frac{1}{3} + \frac{1}{5} - \frac{1}{7} + \frac{1}{9} - \frac{1}{11} + \ldots + \frac{(-1)^{n}}{2n + 1} \right) = \sum_{n=0}^{N} \frac{(-1)^{n}}{2n + 1} $$
-
-\trmenviron{onlyenv}
-
-\bgnenviron{<2>}{onlyenv}
-
-- Mientras más grande sea $N$, más cerca estaremos del valor ``verdadero'' de $\pi$.
-
-\trmenviron{onlyenv}
-
-\bgnenviron{<3-6>}{onlyenv}
-
-\simpleTitle{Solución recursiva:}
-
-- \bld{Caso base:}
-    - $n = 0$
-    - Resultado: $1$
-- \bld{Caso recursivo:} Retorno la suma de:
-    - El n-ésimo valor de la serie.\tikzmark{markNthValueText}
-    - La función reducida a $n \tikzmark{markRecCallText}- 1$.
-
-\trmenviron{onlyenv}
-
-\bgnenviron{<5-6>}{onlyenv}
-
-\vspace{2ex}
-
-\begin{lstlisting}[style=frame02]
-def calcPI(n):
-    return 4 * seriePI4(n)
-
-def seriePI4(n):
-    if n == 0:
-        return 1
-    else:
-        return (*@\tikzmark{markBgnNthValue}@*)(-1)**(n) / (2*n + 1.0)(*@\tikzmark{markTrmNthValue}@*) + (*@\tikzmark{markBgnRecCall}@*)seriePI4(n - 1)(*@\tikzmark{markTrmRecCall}@*)
-\end{lstlisting}
-
-\trmenviron{onlyenv}
-
-\bgnenviron{<6>}{onlyenv}
-
-\braceUpwards[decoration/.style={decoration={brace,raise=0pt,amplitude=0.5em},decorate,ultra thick,structure!80,font=\footnotesize}]{markBgnNthValue}{markTrmNthValue}
-\braceUpwards[decoration/.style={decoration={brace,raise=0pt,amplitude=0.5em},decorate,ultra thick,structure!80,font=\footnotesize}]{markBgnRecCall}{markTrmRecCall}
-
-\begin{tikzpicture}[remember picture, overlay]
-    \draw[thick, structure!80,->,-Stealth] ([shift={(0,.5ex)}]pic cs:markNthValueText) to[out=0,in=90] ($(markBgnNthValuemarkTrmNthValue)+(0,5mm)$);
-    \draw[thick, structure!80,->,-Stealth] (pic cs:markRecCallText) to[out=-90,in=90] ($(markBgnRecCallmarkTrmRecCall)+(0,5mm)$);
-\end{tikzpicture}
-
-\trmenviron{onlyenv}
-
-## Repaso: recursividad y estimación de PI {.fragile}
-
-\simpleTitle{Observaciones:}
-
-- Esta serie es conocida por ``converger'' muy lentamente.
-    - Hay que entregar un $n$ muy alto para que empiecen a aparecer los primeros decimales conocidos.
-
-
-\bgnblockgood
-\bld{Ejercicio propuesto:} Implementa la ``Transformación de Shanks de la Serie de Leibniz'', que es
-una serie que converge más rápido:
-
-\vspace{-3ex}
-$$ \frac{\pi}{4} = \sum_{i=0}^{N} \left( \frac{1}{4n + 1} - \frac{1}{4n + 3} \right) $$
-
-\trmblockgood
-
 ## Testing más en profundidad {.fragile}
 
 - Hasta ahora hemos usado \nzinlinecode{assert} con cálculos exactos.
@@ -124,7 +38,7 @@ generar números aleatorios enteros en el rango [1, 6].
 
 \begin{lstlisting}[style=frame02]
 # tirarDado: None -> int
-# Retorna un entero aleatorio en el rango [1, 6])
+# Retorna un entero aleatorio en el rango [1, 6]
 def tirarDado():
     return int(6 * random.random()) + 1
 # Tests
@@ -141,7 +55,7 @@ def tirarDado():
 
 \begin{lstlisting}[style=frame02]
 # tirarDado: None -> int
-# Retorna un entero aleatorio en el rango [1, 6])
+# Retorna un entero aleatorio en el rango [1, 6]
 def tirarDado():
     return int(6 * random.random()) + 1
 # Tests
@@ -149,8 +63,6 @@ assert 1 <= tirarDado() <= 6
 \end{lstlisting}
 
 ## Testing: cálculos aproximados {.fragile}
-
-\simpleTitle{Cálculos aproximados}
 
 - Uno de los casos más típicos corresponde a los cálculos donde están involucrados números reales $(\mathbb{R})$.
     - Peor aún si se trata de irracionales $(\mathbb{I})$.
@@ -176,8 +88,6 @@ Por lo general es una mala idea comparar igualdad entre números reales.
 \drawTikZAnotherArrow{markSameNumber01}{markSameNumber02-comment}
 
 ## Testing: cálculos aproximados {.fragile}
-
-\simpleTitle{Cálculos aproximados}
 
 - Veamos un ejemplo aún más extraño:
 
@@ -215,11 +125,12 @@ False(*@\tikzmark{markThreeTwoOne}@*)
 
 ## Testing: cálculos aproximados {.fragile}
 
-\simpleTitle{Cálculos aproximados}
-
 - Ante este problema, mejor adaptémonos.
-- En vez de buscar la máxima exactitud, la mayoría de las veces sólo es necesario un \structure{margen
-de error aceptable}.
+
+\bgnblockidea
+En vez de buscar la máxima exactitud, la mayoría de las veces sólo es necesario un \structure{margen
+de\tikzmark{markEpsilon01} error aceptable}.
+\trmblockidea
 
 \begin{lstlisting}
 >>> print(0.3 == 1.0 + 2.0)
@@ -228,6 +139,143 @@ False
 >>> print(0.3 - (0.1 + 0.2))
 -5.551115123125783e-17
 
->>> print(abs(0.3 - (0.1 + 0.2)) < 0.001)
+>>> print(abs(0.3 - (0.1 + 0.2)) <(*@\tikzmark{markEpsilon02}@*) 0.001)
 True
 \end{lstlisting}
+
+\begin{tikzpicture}[remember picture, overlay]
+    \draw[thick, structure!80,->,-Stealth] (pic cs:markEpsilon01) to[out=-90,in=90] ($(pic cs:markEpsilon02)+(0,5mm)$);
+\end{tikzpicture}
+
+## Testing: cálculos aproximados {.fragile}
+
+- Esto es un cálculo que tendremos que hacer muy seguido.
+
+\bgnblockidea
+Por ello, definiremos una nueva función auxiliar: \nzinlinecode{cerca()}.
+\trmblockidea
+
+\vfill
+
+\begin{lstlisting}[style=frame02]
+# cerca: num num num -> bool
+# Retorna True si la diferencia entre x e y es menor a epsilon.
+# Ejemplo: cerca(0.33333, 1/3.0, 0.001) retorna True
+def cerca(x, y, epsilon):
+    diff = x - y
+    return abs(diff) < epsilon
+\end{lstlisting}
+
+## Testing: cálculo de la raíz cuadrada {.fragile}
+
+\bgnblockgood
+\strongText{Ejemplo 1:} Calcularemos raíces cuadradas, usando el\newline ``método de Herón''
+\trmblockgood
+
+- Herón de Alejandría (ingeniero y matemático helenístico del siglo I).
+- Entre otras muchas cosas, propuso un método recursivo para calcular la aproximación de la raíz cuadrada de un número.
+
+\pause
+
+$$ \sqrt{x} = \lim_{n \to \infty} r_{n+1} \qquad \text{tal que:}  \begin{cases} r_{n+1} & = \frac{1}{2} \left(r_n + \frac{x}{r_n}\right) \\ r_0 & = \text{\footnotesize{número arbitrario positivo}} \\ \end{cases} $$
+
+## Testing: cálculo de la raíz cuadrada {.fragile}
+
+\vspace{-3ex}
+$$ \sqrt{x} = \lim_{n \to \infty} r_{n+1} \qquad \text{tal que:}  \begin{cases} r_{n+1} & = \frac{1}{2} \left(r_n + \frac{x}{r_n}\right) \\ r_0 & = \text{\footnotesize{número arbitrario positivo}} \\ \end{cases} $$
+
+- Usemos esta definición para calcular $\sqrt{11}$:
+
+\vspace{-1ex}
+\begin{small}
+\begin{align*}
+    \onslide<2->{r_0 &= 11 / 2 = 5.5 \\}
+    \onslide<3->{r_1 &= \frac{1}{2} \left(r_0 + \frac{11}{r_0}\right) = \frac{1}{2} \left(5,5 + \frac{11}{5,5}\right)                           = \frac{1}{2} \left(7.5\right)             = 3.75 \\}
+    \onslide<4->{r_2 &= \frac{1}{2} \left(r_1 + \frac{11}{r_1}\right) = \frac{1}{2} \left(3.75 + \frac{11}{3.75}\right)                         = \frac{1}{2} \left(6.68\overline{3}\right) = 3.341\overline{6} \\}
+    \onslide<5->{r_3 &= \frac{1}{2} \left(r_2 + \frac{11}{r_2}\right) = \frac{1}{2} \left(3.341\overline{6} + \frac{11}{3.341\overline{6}}\right) = \frac{1}{2} \left(6.6334\right)         = 3.3167 \\}
+    \onslide<6->{r_4 &= \frac{1}{2} \left(r_3 + \frac{11}{r_3}\right) = \frac{1}{2} \left(3.3167 + \frac{11}{3.3167}\right)                     = \frac{1}{2} \left(6.6333\right)          = 3.3166 \\}
+\end{align*}
+\end{small}
+
+## Testing: cálculo de la raíz cuadrada {.fragile}
+
+- Por la teoría, sabemos que este cálculo funciona.
+    - Recién lo probamos una vez.
+- ¿Cómo podríamos programar este cálculo de manera recursiva?
+
+\pause
+
+\bgnblockidea
+\raggedright
+La clave es modificar nuestra estrategia: \newline\newline
+\bld{Caso base:} al llegar a un valor razonablemente cercano.\newline
+\bld{Caso recursivo:} estimar $r_{n+1}$ en función de $r_n$.
+\trmblockidea
+
+## Testing: cálculo de la raíz cuadrada {.fragile}
+
+Resumiendo:
+
+- \bld{Caso base:} al llegar a un valor razonablemente cercano.
+    - Equivale a terminar la recursión cuando el cuadrado de nuestra estimación esté a una distancia $\epsilon$ de $x$.
+- \bld{Caso recursivo:} estimar $r_{n+1}$ en función de $r_n$.
+
+\pause
+
+\begin{lstlisting}[style=frame02]
+# heronRaizRec: num num num -> num
+# Calcula la raíz cuadrada de x con una precisión epsilon,
+# y un valor inicial de la estimación.
+# Ejemplo: heronRaizRec(13, 0.001, 13/2.0) retorna 3.6055512902583184
+def heronRaizRec(x, epsilon, estimacion):
+    if cerca(estimacion**2, x, epsilon):  # caso base
+        return estimacion
+    else:                                 # caso recursivo
+        nuevaEstimacion = (estimacion + (x / estimacion)) / 2
+        return heronRaizRec(x, epsilon, nuevaEstimacion)
+\end{lstlisting}
+
+## Testing: cálculo de la raíz cuadrada {.fragile}
+
+- Hay algo en la función anterior que nos debería molestar: \pause
+- Para calcular una raíz cuadrada, hay que entregarle una estimación inicial.
+    - Muy pronto se convertirá en algo incómodo.
+
+\pause
+
+\bgnblockidea
+\raggedright
+
+1. Dejamos a la función recursiva como una \structure{función auxiliar}.
+1. Definimos una función que sólo le pide al usuario lo indispensable.
+1. Esta función inicia la recursividad, con los valores iniciales correctos.
+
+\trmblockidea
+
+## Testing: cálculo de la raíz cuadrada {.fragile}
+
+\begin{lstlisting}[style=frame03]
+# heronRaizRec: num num num -> num
+# Calcula la raíz cuadrada de x con una precisión epsilon,
+# y un valor inicial de la estimación.
+# Ejemplo: heronRaizRec(13, 0.001, 13/2.0) retorna 3.6055512902583184
+def heronRaizRec(x, epsilon, estimacion):
+    if cerca(estimacion**2, x, epsilon):  # caso base
+        return estimacion
+    else:                                 # caso recursivo
+        nuevaEstimacion = (estimacion + (x / estimacion)) / 2
+        return heronRaizRec(x, epsilon, nuevaEstimacion)
+
+# heronRaiz: num num -> num
+# Calcula la raíz cuadrada de x con una precisión epsilon.
+# Ejemplo: heronRaiz(13, 0.001) retorna 3.6055512902583184
+def heronRaiz(x, epsilon):
+    return heronRaizRec(x, epsilon, x/2.0)
+
+# Probamos la función con la verdadera sqrt
+import math
+assert cerca(heronRaiz(3, 0.001), math.sqrt(3), 0.001)
+assert cerca(heronRaiz(5, 0.001), math.sqrt(5), 0.001)
+assert cerca(heronRaiz(11, 0.001), math.sqrt(11), 0.001)
+\end{lstlisting}
+
