@@ -92,3 +92,89 @@ $n$ discos.
 
 - Se puede ver una demostración interactiva en: \url{https://nozimica.github.io/hanoi/}
 
+## Repaso: recursividad y estimación de PI {.fragile}
+
+\bgnenviron{<1-2>}{onlyenv}
+
+- Todos sabemos que la constante $\pi$ es un número irracional, y por lo tanto, infinito.
+
+\begin{center}
+\textsf{$\pi$ = 3,14159265358979323846264338327950288419716939$\ldots$}
+\end{center}
+
+\trmenviron{onlyenv}
+
+\bgnenviron{<2-3>}{onlyenv}
+
+- Pero existe la llamada ``serie de Leibniz'' con la cual se puede calcular un valor aproximado de $\pi$:
+
+\vspace{-3ex}
+$$ \frac{\pi}{4} = \left( 1 - \frac{1}{3} + \frac{1}{5} - \frac{1}{7} + \frac{1}{9} - \frac{1}{11} + \ldots + \frac{(-1)^{n}}{2n + 1} \right) = \sum_{n=0}^{N} \frac{(-1)^{n}}{2n + 1} $$
+
+\trmenviron{onlyenv}
+
+\bgnenviron{<2>}{onlyenv}
+
+- Mientras más grande sea $N$, más cerca estaremos del valor ``verdadero'' de $\pi$.
+
+\trmenviron{onlyenv}
+
+\bgnenviron{<3-6>}{onlyenv}
+
+\simpleTitle{Solución recursiva:}
+
+- \bld{Caso base:}
+    - $n = 0$
+    - Resultado: $1$
+- \bld{Caso recursivo:} Retorno la suma de:
+    - El n-ésimo valor de la serie.\tikzmark{markNthValueText}
+    - La función reducida a $n \tikzmark{markRecCallText}- 1$.
+
+\trmenviron{onlyenv}
+
+\bgnenviron{<5-6>}{onlyenv}
+
+\vspace{2ex}
+
+\begin{lstlisting}[style=frame02]
+def calcPI(n):
+    return 4 * seriePI4(n)
+
+def seriePI4(n):
+    if n == 0:
+        return 1
+    else:
+        return (*@\tikzmark{markBgnNthValue}@*)(-1)**(n) / (2*n + 1.0)(*@\tikzmark{markTrmNthValue}@*) + (*@\tikzmark{markBgnRecCall}@*)seriePI4(n - 1)(*@\tikzmark{markTrmRecCall}@*)
+\end{lstlisting}
+
+\trmenviron{onlyenv}
+
+\bgnenviron{<6>}{onlyenv}
+
+\braceUpwards[decoration/.style={decoration={brace,raise=0pt,amplitude=0.5em},decorate,ultra thick,structure!80,font=\footnotesize}]{markBgnNthValue}{markTrmNthValue}
+\braceUpwards[decoration/.style={decoration={brace,raise=0pt,amplitude=0.5em},decorate,ultra thick,structure!80,font=\footnotesize}]{markBgnRecCall}{markTrmRecCall}
+
+\begin{tikzpicture}[remember picture, overlay]
+    \draw[thick, structure!80,->,-Stealth] ([shift={(0,.5ex)}]pic cs:markNthValueText) to[out=0,in=90] ($(markBgnNthValuemarkTrmNthValue)+(0,5mm)$);
+    \draw[thick, structure!80,->,-Stealth] (pic cs:markRecCallText) to[out=-90,in=90] ($(markBgnRecCallmarkTrmRecCall)+(0,5mm)$);
+\end{tikzpicture}
+
+\trmenviron{onlyenv}
+
+## Repaso: recursividad y estimación de PI {.fragile}
+
+\simpleTitle{Observaciones:}
+
+- Esta serie es conocida por ``converger'' muy lentamente.
+    - Hay que entregar un $n$ muy alto para que empiecen a aparecer los primeros decimales conocidos.
+
+
+\bgnblockgood
+\bld{Ejercicio propuesto:} Implementa la ``Transformación de Shanks de la Serie de Leibniz'', que es
+una serie que converge más rápido:
+
+\vspace{-3ex}
+$$ \frac{\pi}{4} = \sum_{i=0}^{N} \left( \frac{1}{4n + 1} - \frac{1}{4n + 3} \right) $$
+
+\trmblockgood
+
