@@ -1,0 +1,360 @@
+## Datos compuestos {.fragile}
+
+- Hemos visto variables que almacenan un solo valor:
+    - Integers
+    - Floats
+    - Strings
+    - Booleans
+
+\pause
+
+- Pero, hay veces que la información que queremos guardar/transmitir:
+    - No se puede representar con sólo un valor.
+    - Ya sea por el contexto:
+        - Entre pocas personas basta un nombre.
+        - Pero, entre muchas, es mejor saber también el apellido.
+    - Ya sea por la exactitud:
+        - En algunos casos nos basta con: $0.333333$.
+        - En otros, podríamos representarlo como: $\frac{1}{3}$.
+
+## Datos compuestos {.fragile}
+
+- Profundicemos en el último ejemplo: fracciones.
+    - ¿Cómo las podemos representar?
+
+\bgnblockidea
+Una fracción se compone de un \structure{numerador} y un \structure{denominador}, ambos enteros.
+\trmblockidea
+
+\vfill
+
+- Por lo tanto, necesitamos dos variables integer para representarlas:
+
+$$ \text{fracción} = \frac{\text{numerador}}{\text{denominador}} $$
+
+## Datos compuestos {.fragile}
+
+- Pero, de poder representar una fracción, ¿qué haríamos después?
+
+\pause
+
+- Necesitaríamos poder \structure{operar sobre ellas}, de la misma manera que
+        lo hacemos con las variables numéricas:
+    - Como mínimo: sumar, restar, multiplicar y dividir.
+
+\pause
+
+- Por ejemplo, sumar:
+
+$$ \frac{a}{b} + \frac{c}{d} = \frac{ad + cb}{bd}$$
+
+## Datos compuestos: Estructuras {.fragile}
+
+\bgnblockidea
+Para representar datos compuestos en programación, se hace uso de las llamadas \structure{Estructuras}.
+\trmblockidea
+
+- Con estructuras podemos representar todos los datos compuestos que queramos:
+    - Fracciones.
+    - Números complejos.
+    - Puntos en el plano, en el espacio, o en $\mathbb{R}^n$.
+    - Datos de una persona.
+    - Etcétera...
+
+\bgnblockdefinition
+\bld{Estructura:} es un grupo de varias variables (del tipo que sea necesario) para representar
+un dato compuesto.
+\trmblockdefinition
+
+## Datos compuestos: Estructuras {.fragile}
+
+\bgnblockidea
+Para el caso de Python, nosotros usaremos el módulo \bld{\structure{estructura.py}}.
+\trmblockidea
+
+\simpleTitle[2ex]{Este módulo nos permite:}
+
+1. Crear un dato compuesto.
+    - Con su nombre y su lista de atributos.
+1. Construir una o varias instancias de ese dato compuesto.
+    - Cada una con sus propios valores para sus atributos.
+1. Cada instancia permite consultar el valor de sus atributos.
+
+## Datos compuestos: Estructuras {.fragile}
+
+\bgnblockidea
+Para el caso de Python, nosotros usaremos el módulo \bld{\structure{estructura.py}}.
+\trmblockidea
+
+\simpleTitle[2ex]{¿Cómo lo cargamos?}
+
+\begin{lstlisting}[style=frame02]
+>>> import estructura
+\end{lstlisting}
+
+- Se hace solamente una vez en cada programa.
+- Este es un módulo provisto por nuestro curso, no está disponible nativamente en Python.
+- Pueden descargarlo desde ahora en DocenciaWeb.
+- Dejan el archivo \ttt{estructura.py} en el mismo directorio donde escriban el programa que lo usará.
+
+## Ejemplo de uso de estructura: fracción {.fragile}
+
+\simpleTitle{Crear la estructura:}
+
+\begin{lstlisting}
+>>> estructura.crear((*@\tikzmark{markBgnStructname}@*)'fraccion'(*@\tikzmark{markTrmStructname}@*), (*@\tikzmark{markBgnStructattrs}@*)'numerador denominador'(*@\tikzmark{markTrmStructattrs}@*))
+\end{lstlisting}
+
+\braceDownwardsLabel[decoration/.style={decoration={brace,raise=4pt},decorate,ultra thick,structure!80,font=\footnotesize}]{markBgnStructname}{markTrmStructname}{Nombre}
+\braceDownwardsLabel[decoration/.style={decoration={brace,raise=4pt},decorate,ultra thick,structure!80,font=\footnotesize}]{markBgnStructattrs}{markTrmStructattrs}{Atributos}
+
+\vspace{2ex}
+
+\bgncolumns
+\column{.5\textwidth}
+
+- Se entrega el \structure{nombre} que tendrá la estructura.
+    - A través de este nombre, podremos construir más tarde todas las estructuras que necesitemos.
+
+\column{.5\textwidth}
+
+- Se entrega el listado de los \structure{atributos}
+    - Separados entre sí por un espacio en blanco.
+
+\trmcolumns
+
+## Ejemplo de uso de estructura: fracción {.fragile}
+
+\simpleTitle{Construir una instancia:}
+
+\begin{lstlisting}
+>>> (*@\tikzmark{markBgnStructvar02}@*)f1(*@\tikzmark{markTrmStructvar02}@*) = (*@\tikzmark{markBgnStructname02}@*)fraccion(*@\tikzmark{markTrmStructname02}@*)((*@\tikzmark{markBgnStructattrs02}@*)1, 3(*@\tikzmark{markTrmStructattrs02}@*))
+\end{lstlisting}
+
+
+\braceDownwards[decoration/.style={decoration={brace,amplitude=0.2em,raise=4pt},decorate,ultra thick,structure!80,font=\footnotesize}]{markBgnStructvar02}{markTrmStructvar02}
+\braceDownwards[decoration/.style={decoration={brace,raise=4pt},decorate,ultra thick,structure!80,font=\footnotesize}]{markBgnStructname02}{markTrmStructname02}
+\braceDownwards[decoration/.style={decoration={brace,raise=4pt},decorate,ultra thick,structure!80,font=\footnotesize}]{markBgnStructattrs02}{markTrmStructattrs02}
+
+\bgncolumns
+\column{.3\textwidth}
+
+- \tikzmarknode{markBgnStructvar02b}{\structure{Variable}} que contiene a la estructura.
+
+\column{.35\textwidth}
+
+- \tikzmarknode{markBgnStructname02b}{\structure{Nombre}} de la estructura, usado como si fuera una función.
+- Esta función retorna una nueva estructura.
+
+\column{.35\textwidth}
+
+- \tikzmarknode{markBgnStructattrs02b}{\structure{Atributos:}}
+- Usados tal como si fueran los parámetros de la función.
+- Van en el mismo orden definido al crear la estructura.
+
+\trmcolumns
+
+\drawArrow[out=-90,in=120]{markBgnStructvar02markTrmStructvar02}{markBgnStructvar02b}
+\drawArrow[out=-90,in=120]{markBgnStructname02markTrmStructname02}{markBgnStructname02b}
+\drawArrow[out=-30,in=90]{markBgnStructattrs02markTrmStructattrs02}{markBgnStructattrs02b}
+
+## Ejemplo de uso de estructura: fracción {.fragile}
+
+\simpleTitle{Consultar sus atributos:}
+
+\begin{lstlisting}
+>>> print(f1.numerador)
+1
+>>> print(f1.denominador)
+3
+\end{lstlisting}
+
+- Sus atributos se consultan separando con un \structure{punto} la variable del atributo.
+
+\vfill
+
+\bgnblockidea
+Para ver a las estructuras en acción, implementemos la función con la que sumaremos dos fracciones.
+\trmblockidea
+
+## Ejemplo de uso de estructura: fracción {.fragile}
+
+\simpleTitle{Sumar dos fracciones:}
+
+- Utilizando la ya conocida fórmula:
+
+$$ \frac{a}{b} + \frac{c}{d} = \frac{ad + cb}{bd}$$
+
+\vfill
+
+\begin{lstlisting}[style=frame03]
+import estructura
+
+estructura.crear('fraccion', 'numerador denominador')
+
+# sumarFracciones: fraccion fraccion -> fraccion
+def sumarFracciones(f1, f2):
+    nvoNumerador = f1.numerador * f2.denominador  +  f2.numerador * f1.denominador
+    nvoDenominador = f1.denominador * f2.denominador
+    return fraccion(nvoNumerador, nvoDenominador)
+\end{lstlisting}
+
+- Ojo: en el contrato estamos haciendo referencia a \ttt{fraccion}.
+
+## Estructuras y la Receta de diseño {.fragile}
+
+- Hay que documentar el diseño de la nueva estructura.
+- Hay que documentar la función tal como lo hemos estado haciendo.
+
+\begin{lstlisting}[style=frame03]
+import estructura
+
+# fraccion: numerador (int) denominador (int)
+estructura.crear('fraccion', 'numerador denominador')
+
+# sumarFracciones: fraccion fraccion -> fraccion
+# Suma las dos fracciones f1 y f2, retornando el resultado
+# como una nueva fraccion.
+# Ejemplo: sumarFracciones(fraccion(1, 2), fraccion(2, 3)) retorna fraccion(7, 6)
+def sumarFracciones(f1, f2):
+    nvoNumerador = f1.numerador * f2.denominador  +  f2.numerador * f1.denominador
+    nvoDenominador = f1.denominador * f2.denominador
+    return fraccion(nvoNumerador, nvoDenominador)
+# Tests
+assert sumarFracciones(fraccion(3,2), fraccion(1,3)) == fraccion(11, 6)
+\end{lstlisting}
+
+## Estructuras: mutabilidad {.fragile}
+
+\bgnblockdefinition
+\bld{Mutabilidad:} un tipo de dato en Python es \strongText{mutable} si al modificar
+su valor (o una de sus componentes), no es necesario ``construirlo de nuevo''.
+\trmblockdefinition
+
+\vfill
+
+- Todos los tipos de dato que hemos visto hasta ahora, son \strongText{inmutables}.
+    - Toda modificación a un valor de una variable de estos tipos, \bld{implica} que
+    un nuevo valor se crea.
+    - Esto tiene una implicación de ``bajo nivel'':
+        - Toda modificación de una variable inmutable significa ocupar un \bld{espacio
+        de memoria nuevo} para el nuevo valor.
+
+## Estructuras: mutabilidad {.fragile}
+
+\bgnblockdefinition
+\bld{Mutabilidad:} un tipo de dato en Python es \strongText{mutable} si al modificar
+su valor (o una de sus componentes), no es necesario ``construirlo de nuevo''.
+\trmblockdefinition
+
+\vspace{-1ex}
+
+\bgncolumns
+\column{.3\textwidth}
+
+\begin{lstlisting}[style=noframe03]
+>>> mes = 2
+>>> id(mes)
+15122752
+>>> mes = mes + 1
+>>> mes
+3
+>>> id(mes)
+15122728
+>>> mes = 2
+>>> id(mes)
+15122752
+\end{lstlisting}
+
+\column{.3\textwidth}
+
+\begin{lstlisting}[style=noframe03]
+>>> mes = 'febrero'
+>>> id(mes)
+140596276822832
+>>> mes = 'mayo'
+>>> id(mes)
+140596276822880
+>>> mes = 'febrero'
+>>> id(mes)
+140596276822832
+>>> mes = 'junio'
+>>> id(mes)
+140596276822880
+>>> mes = 'julio'
+>>> id(mes)
+140596276822832
+\end{lstlisting}
+
+\column{.4\textwidth}
+
+\bgnblockidea
+\raggedright
+Usaremos la función \nzinlinecode{id()}, que nos entrega la ``dirección de memoria''
+de una variable.
+\trmblockidea
+
+
+\trmcolumns
+
+## Estructuras: mutabilidad {.fragile}
+
+\bgnblockdefinition
+Las estructuras también son \strongText{inmutables}.
+\trmblockdefinition
+
+- No se puede modificar solamente un atributo de ellas.
+- Si quiero modificar un solo atributo, igual debo construir \bld{una nueva estructura}.
+
+\pause
+
+\begin{lstlisting}
+>>> f3 = fraccion(8, 7)
+>>> f3.numerador
+8
+>>> f3.numerador = 13
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: can't set attribute
+\end{lstlisting}
+
+\pause
+
+\begin{lstlisting}
+>>> f3 = fraccion(13, 7)(*@\tikzmark{markStructInmmutable}@*)
+\end{lstlisting}
+
+\drawTikZComment{markStructInmmutable}{Eso sí funciona}
+
+## Estructuras: ejercicios propuestos {.fragile}
+
+1. ¿Cómo se puede restar fracciones?
+    - De no encontrar una buena solución, implemente \ttt{restarFracciones()}.
+1. Cree la función \ttt{multiplicarFracciones()}.
+1. Cree la función \ttt{dividirFracciones()}.
+1. Cree la función \ttt{fraccionANumero()}, que retorna el valor numérico de una fracción.
+    - Si ese valor numérico es exactamente un entero, debe retornar \nzinlinecode{int}.
+    - En caso contrario, retorne \nzinlinecode{float}.
+
+
+## Estructuras: otro ejemplo {.fragile}
+
+\simpleTitle{Números Complejos}
+
+- Los complejos se representan como una estructura con dos componentes: $z = (a, b)$
+    - Parte Real: $Re(z) = a$
+    - Parte Imaginaria: $Im(z) = b$
+
+\vfill
+
+- Definimos las siguientes operaciones:
+    1. Suma: $(a, b) + (c, d) = (a + c, b + d)$
+    1. Producto por escalar: $r \cdot (a, b) = (ra, rb)$
+    1. Multiplicación: $(a, b) * (c, d) = (ac - bd, ad + bc)$
+    1. Igualdad: $(a, b) == (c, d) \iff a == c~~ \land~~ b == d$
+
+## Estructuras: ejercicios propuestos {.fragile}
+
+1. Defina una estructura para representar números complejos.
+1. Implemente la función \ttt{sumarComplejos()}.
+1. Implemente la función \ttt{multiplicarComplejos()}.
