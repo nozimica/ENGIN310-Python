@@ -1,0 +1,591 @@
+## Listas recursivas
+
+\simpleTitle{La búsqueda del tesoro}
+
+- El famoso corsario Barba Azul, tras décadas de saqueos, decidió guardar
+    su tesoro. Como buen corsario, era desconfiado, así que ideó una manera de
+    hacer largo el proceso de encontrar ese tesoro.
+
+- Justo antes de morir le entregó una carta a su hijo Barba Ploma, con la ubicación del tesoro.
+    Este hijo, ambicioso como era, se fue de inmediato a buscarlo.
+
+- Al llegar a esta ubicación, no encontró un tesoro... sino que otra carta con una nueva ubicación.
+
+- Al llegar a esta ubicación, no encontró un tesoro... sino que otra carta con una nueva ubicación.
+
+- ... y así, sucesivamente ...
+
+- Hasta que finalmente sí llegó a una ubicación donde estaba el tesoro.
+
+## Listas recursivas
+
+\simpleTitle{Barba Azul y Python:}
+
+- Conceptualmente, lo que hizo Barba Azul para esconder su tesoro fue una \strongText{Lista Recursiva}:
+    - \bld{Caso recursivo:} Ubicación donde hay una carta, con una nueva ubicación.
+    - \bld{Caso base:} Ubicación donde no hay carta, sino que el tesoro mismo.
+
+\vfill
+\pause
+
+\bgnblockgood
+¿Y cómo recorremos el camino al tesoro?
+\trmblockgood
+
+1. Se toma la primera carta.
+1. Se va a la ubicación indicada.
+1. Si está el tesoro, terminamos.
+1. Si hay otra carta, volvemos al paso 2.
+
+## Listas recursivas {.fragile}
+
+\bgnblockdefinition
+\strongText{Lista Recursiva:} Es un grupo ordenado de estructuras, donde cada estructura está compuesta de
+dos elementos principales: \bld{información} y una \bld{referencia al siguiente elemento de la lista (de haberlo)}.
+\trmblockdefinition
+
+\pause
+
+- Por lo tanto, en nuestro ejemplo:
+    - En cada ``información'' sólo puede haber 1 de estas 2 cosas:
+        1. Una carta con la siguiente ubicación.
+        1. Ninguna carta (lo que implica que se llegó al tesoro).
+
+## Listas recursivas {.fragile}
+
+- Por ejemplo, podríamos tener esta secuencia:
+
+\bgnblocknormal
+\centering \ttt{(carta (carta (carta (carta () ) ) ) ) }
+\trmblocknormal
+
+\vfill
+
+- Lo que se puede ilustrar de la siguiente manera:
+
+\centering \includegraphics[width=.8\textwidth]{img/treasureQueue.pdf}
+
+\vfill
+
+- En este caso, la equis representa el haber llegado al final de la lista.
+    - Lo que equivale a haber encontrado el tesoro.
+
+## Listas recursivas: valores compuestos {.fragile}
+
+- Primero que todo: ¿cómo representamos las cartas?
+
+\pause
+
+\bgnblockidea
+¡¡ Usando estructuras !!
+\trmblockidea
+
+\pause
+
+- ¿cómo la representaríamos?
+
+\pause
+
+\begin{lstlisting}[style=frame02]
+import estructura
+estructura.crear("carta", "lugar referencia profundidad")
+\end{lstlisting}
+
+\pause
+
+- Ejemplos:
+
+\begin{lstlisting}[style=frame02]
+carta1 = carta("isla gaviota", "detrás de la roca", "2 metros")
+carta2 = carta("playa larga", "al terminar el sendero", "3 metros")
+carta3 = carta("arrecife escondido", "al medio", "4 metros")
+\end{lstlisting}
+## Listas recursivas: operaciones {.fragile}
+
+\bgnblockidea
+Ahora necesitamos ponernos de acuerdo en un estándar que nos permita usar las listas.
+\trmblockidea
+
+\pause
+
+\vfill
+
+\simpleTitle[2ex]{Operaciones sobre listas recursivas:}
+
+- Para una lista recursiva \structure{llamada \ttt{cartas}}, tenemos:
+
+\begin{lstlisting}
+carta = cabeza(cartas)  # entrega la primera carta
+resto = cola(cartas)    # entrega el resto de la lista,
+                        # sin la primera carta
+listaVacia == cartas    # es True si la lista está vacía
+vacia(cartas)           # es True si la lista está vacía
+\end{lstlisting}
+
+\pause
+
+\bgnblockdanger
+¿Pero de dónde sacamos estas funciones?
+\trmblockdanger
+
+## Listas recursivas: operaciones {.fragile}
+
+\bgnblockidea
+Usaremos el módulo \structure{\ttt{lista.py}}
+\trmblockidea
+
+\pause
+
+- Este es un módulo provisto por nuestro curso, no está disponible nativamente en Python.
+- Ya está disponible en DocenciaWeb.
+    - Ahora está en un archivo .zip, junto con el módulo \structure{\ttt{estructura.py}}.
+- Dejan el archivo \ttt{lista.py} en el mismo directorio donde escriban el programa que lo usará.
+
+- Nos provee de todas las funciones necesarias para crear y manipular listas.
+
+## Listas recursivas: operaciones {.fragile}
+
+\simpleTitle{¿Cómo lo cargamos?}
+
+\begin{lstlisting}[style=frame02]
+>>> from lista import *
+\end{lstlisting}
+
+- Se hace solamente una vez en cada programa.
+
+- Fíjense que al importarlo, no se hace de la misma manera que con \ttt{estructura.py}.
+
+\pause
+
+- ¿Por qué esa diferencia?
+
+\pause
+
+- Supongamos que:
+    - Tenemos una lista llamada \nzinlinecode{cartas}.
+    - En \ttt{lista.py} hay una función llamada \nzinlinecode{vacia}.
+
+\bgncolumns
+\column{.4\textwidth}
+
+\begin{lstlisting}[style=frame02]
+>>> from lista import *
+>>> vacia(cartas)
+\end{lstlisting}
+
+\column{.2\textwidth}
+\column{.4\textwidth}
+
+\begin{lstlisting}[style=frame02]
+>>> import lista
+>>> lista.vacia(cartas)
+\end{lstlisting}
+
+\trmcolumns
+
+
+## Listas recursivas: primer ejemplo {.fragile}
+
+\simpleTitle{¿Cuántas ubicaciones visitó Barba Ploma?}
+
+- Supongamos nuevamente que tenemos la variable \ttt{cartas}.
+
+\begin{lstlisting}[style=frame02]
+from lista import *
+
+def largoLista(vLista):
+    if listaVacia == vLista:    # caso base: no hay más elementos
+        return 0
+    else:                       # caso recursivo: 1 + largo del resto
+        resto = cola(vLista)
+        return 1 + largoLista(resto)
+    
+\end{lstlisting}
+
+## Listas recursivas: construcción {.fragile}
+
+\bgnblockidea
+Para construir nuevas listas, usamos la función \ttt{crearLista}.
+\trmblockidea
+
+- Como son listas recursivas, veamos cómo construirlas desde el caso base en adelante:
+    - Lista sin elementos:\newline
+        \nzinlinecodeSM{L0 = listaVacia}
+    - Lista con 1 elemento (2 opciones):\newline
+        \nzinlinecodeSM{L1 = crearLista(carta1, L0)}\newline
+        \nzinlinecodeSM{L1 = crearLista(carta1, listaVacia)}
+    - Lista con 2 elementos (3 opciones):\newline
+        \nzinlinecodeSM{L2 = crearLista(carta2, L1)}\newline
+        \nzinlinecodeSM{L2 = crearLista(carta2, crearLista(carta1, L0))}\newline
+        \hbox{\nzinlinecodeSM{L2 = crearLista(carta2, crearLista(carta1, listaVacia))}}
+    - Y así, sucesivamente...
+
+
+## Listas recursivas: manipulación {.fragile}
+
+- Por ejemplo, podríamos entonces construir una lista con 3 elementos:
+
+\begin{lstlisting}[style=frame02]
+>>> cartas = crearLista(carta3, L2)
+\end{lstlisting}
+
+- Podríamos obtener la primera carta:
+
+\begin{lstlisting}[style=frame02]
+>>> cabeza(cartas)    # retorna carta3
+\end{lstlisting}
+
+- Y podríamos obtener el resto de la lista
+
+\begin{lstlisting}[style=frame02]
+>>> cola(cartas)      # retorna la lista desde carta2 en adelante
+\end{lstlisting}
+
+## Listas recursivas: manipulación {.fragile}
+
+\simpleTitle{Código más completo:}
+
+\begin{lstlisting}[style=frame03]
+import estructura
+from lista import *
+
+estructura.crear("carta", "lugar referencia profundidad")
+
+carta1 = carta("isla gaviota", "detrás de la roca", "2 metros")
+carta2 = carta("playa larga", "al terminar el sendero", "3 metros")
+carta3 = carta("arrecife escondido", "al medio", "4 metros")
+
+L0 = listaVacia
+L1 = crearLista(carta1, L0)
+L2 = crearLista(carta2, L1)
+cartas = crearLista(carta3, L2)
+
+print("Carta 1:", carta1)
+print("Carta 2:", carta2)
+print("Carta 3:", carta3)
+print("Lista:", cartas)
+\end{lstlisting}
+
+
+## Listas recursivas: comenzando a usarlas {.fragile}
+
+\simpleTitle{Preguntas útiles de responder:}
+
+1. ¿Hay alguna carta que nos lleve a la ``isla gaviota''?
+1. ¿Cuántas cartas nos harán excavar 4 metros de profundidad?
+1. Haga una nueva lista, pero esquivando ``playa larga''.
+1. ¿Cuántos lugares distintos hay en toda la lista?
+1. ¿Cuál es la profundidad más repetida en toda la lista?
+
+## Listas recursivas: buscar un valor {.fragile}
+
+\simpleTitle{1.- ¿Hay alguna carta que nos lleve a la ``isla gaviota''?}
+
+\vspace{1ex}
+\bld{Estrategia de resolución:}
+
+- Si la lista está vacía:
+    - Retorno \ttt{False}
+- En caso contrario:
+    - Obtengo la \nzinlinecode{cabeza} de la lista.
+    - Si su atributo \ttt{lugar}  es ``isla gaviota'':
+        - Retorno \ttt{True}
+    - En caso contrario:
+        - Obtengo la \nzinlinecode{cola} de la lista.
+        - Busco recursivamente en esa \nzinlinecode{cola}.
+
+## Listas recursivas: buscar un valor {.fragile}
+
+\simpleTitle{1.- ¿Hay alguna carta que nos lleve a la ``isla gaviota''?}
+
+\bgnblockidea
+\bld{Pensemos en el caso genérico:}
+    ¿Qué habría que cambiar en lo anterior, para que funcione para un lugar
+    cualquiera, no sólo para ``isla gaviota''?
+\trmblockidea
+
+\pause
+
+\begin{lstlisting}[style=frame02]
+def buscarLugar(vLista, buscado):
+    if vLista == listaVacia:        # caso base
+        return False
+    else:                           # caso recursivo
+        estaCarta = cabeza(vLista)
+        if estaCarta.lugar == buscado:
+            return True
+        else:
+            resto = cola(vLista)
+            return buscarLugar(resto, buscado)
+\end{lstlisting}
+
+## Listas recursivas: buscar y contar {.fragile}
+
+\simpleTitle{2.- ¿Cuántas cartas nos harán excavar 4 metros de profundidad?}
+
+\vspace{1ex}
+\bld{Estrategia de resolución:}
+
+- Si la lista está vacía:
+    - Retorno cero.
+- En caso contrario:
+    - Obtengo la \nzinlinecode{cabeza} de la lista.
+    - Si su atributo \ttt{profundidad}  es "4 metros":
+        - Retorno 1 más la llamada recursiva de esta función, aplicada sobre la \nzinlinecode{cola} de esta lista.
+    - En caso contrario:
+        - Retorno sólo la llamada recursiva de esta función, aplicada sobre la \nzinlinecode{cola} de esta lista.
+
+## Listas recursivas: buscar y contar {.fragile}
+
+\simpleTitle{2.- ¿Cuántas cartas nos harán excavar 4 metros de profundidad?}
+
+\begin{lstlisting}[style=frame02]
+def contarProfundidad(vLista, profBusc):
+    if vLista == listaVacia:        # caso base
+        return 0
+    else:                           # caso recursivo
+        estaCarta = cabeza(vLista)
+        if estaCarta.profundidad == profBusc:
+            # retorno 1 más el llamado recursivo
+            # la cola la obtengo justo al llamar a la función
+            return 1 + contarProfundidad(cola(vLista), profBusc)
+        else:
+            # la cola la obtengo justo al llamar a la función
+            return contarProfundidad(cola(vLista), profBusc)
+\end{lstlisting}
+
+## Listas recursivas: buscar y contar {.fragile}
+
+\simpleTitle{2.- ¿Cuántas cartas nos harán excavar 4 metros de profundidad?}
+
+Busquen la diferencia entre este código y el anterior. Ambos son equivalentes.
+
+\begin{lstlisting}[style=frame02]
+def contarProfundidad(vLista, profBusc):
+    if vLista == listaVacia:        # caso base
+        return 0
+    else:                           # caso recursivo
+        if cabeza(vLista).profundidad == profBusc:
+            # retorno 1 más el llamado recursivo
+            # la cola la obtengo justo al llamar a la función
+            return 1 + contarProfundidad(cola(vLista), profBusc)
+        else:
+            # la cola la obtengo justo al llamar a la función
+            return contarProfundidad(cola(vLista), profBusc)
+\end{lstlisting}
+
+
+## Listas recursivas: buscar y descartar {.fragile}
+
+\simpleTitle{3.- Haga una nueva lista, pero esquivando ``playa larga''}
+
+\vspace{1ex}
+\bld{Estrategia de resolución:}
+
+\bgnblockidea
+\bld{Ojo:} vamos a crear una nueva lista (es decir, una copia) de la lista
+original, con la salvedad que cada vez que encontremos el lugar buscado,
+no lo copiamos (nos lo saltamos).
+\trmblockidea
+
+## Listas recursivas: buscar y descartar {.fragile}
+
+\simpleTitle{3.- Haga una nueva lista, pero esquivando ``playa larga''}
+
+\vspace{1ex}
+\bld{Estrategia de resolución:}
+
+- Si la lista está vacía:
+    - Retorno una lista vacía.
+- En caso contrario:
+    - Obtengo la \nzinlinecode{cabeza} de la lista.
+    - Si su atributo \ttt{lugar}  es "playa larga":
+        - No hacemos nada con esta cabeza. 
+        - Retorno la lista entregada por esta misma función, aplicada a la cola de la lista.
+    - En caso contrario:
+        - Creo una nueva lista con la misma cabeza y que por cola tenga a la aplicación de
+        esta misma función, sobre la cola de la lista original.
+
+## Listas recursivas: buscar y descartar {.fragile}
+
+\simpleTitle{3.- Haga una nueva lista, pero esquivando ``playa larga''}
+
+\footnotesize Se presenta una solución genérica, donde el segundo parámetro es el \ttt{lugar} a esquivar.
+
+\begin{lstlisting}[style=frame02]
+def esquivarLugar(vLista, buscado):
+    if vLista == listaVacia:        # caso base
+        return listaVacia
+    else:                           # caso recursivo
+        estaCarta = cabeza(vLista)
+        resto = cola(vLista)        # obtengo ahora la cola
+        if estaCarta.lugar == buscado:
+            # no hago nada con esta cabeza: la esquivo
+            return esquivarLugar(resto, buscado)
+        else:
+            # aplico esta búsqueda a la cola de la lista
+            restoLimpio = esquivarLugar(resto, buscado)
+            # retorno una nueva lista con TODO lo que está limpio
+            return crearLista(estaCarta, restoLimpio)
+\end{lstlisting}
+
+
+
+## Listas recursivas: contar ocurrencias {.fragile}
+
+\simpleTitle{4.- ¿Cuántos lugares distintos hay en toda la lista?}
+
+\vspace{1ex}
+\bld{Estrategia de resolución:}
+
+- Si la lista está vacía:
+    - Retorno cero.
+- En caso contrario:
+    - Obtengo la \nzinlinecode{cabeza} de la lista.
+    - Obtengo el atributo \ttt{lugar} de la cabeza.
+    - Obtengo la \nzinlinecode{cola} de la lista.
+    - Utilizo la función \nzinlinecode{buscarLugar}, dándole como parámetros la cola y el atributo lugar de la cabeza.
+    - Si ese lugar \bld{ya está también en la cola} (la función retorna True):
+        - Retorno la aplicación recursiva de la función actual.
+    - En caso contrario (no está en la cola):
+        - Retorno 1 más la aplicación recursiva de la función actual.
+
+## Listas recursivas: contar ocurrencias {.fragile}
+
+\simpleTitle{4.- ¿Cuántos lugares distintos hay en toda la lista?}
+
+\bgnblockidea
+Para cada lugar encontrado, sólo se cuenta la última vez que se encuentra.
+\trmblockidea
+
+- Recorro la lista.
+- Por cada ciudad que encuentre en cada paso recursivo:
+    - Sólo la contaré como ciudad nueva cuando sepa que no la encontraré de nuevo más adentro en la lista.
+
+## Listas recursivas: contar ocurrencias {.fragile}
+
+\simpleTitle{4.- ¿Cuántos lugares distintos hay en toda la lista?}
+
+\begin{lstlisting}[style=frame02]
+def contarLugaresDistintos(vLista):
+    if vLista == listaVacia:        # caso base
+        return 0
+    else:                           # caso recursivo
+        estaCarta = cabeza(vLista)
+        esteLugar = estaCarta.lugar
+        resto = cola(vLista)
+        if buscarLugar(resto, esteLugar):
+            # dado que está repetida (ya está en algún lugar
+            # de la cola), no la cuento
+            return contarLugaresDistintos(resto)
+        else:
+            # como sé que no está más adentro, sí la cuento
+            return 1 + contarLugaresDistintos(resto)
+\end{lstlisting}
+
+
+## Listas recursivas: buscar un máximo {.fragile}
+
+\simpleTitle{5.- ¿Cuál es la profundidad más repetida en toda la lista?}
+
+\vspace{1ex}
+\bld{Estrategia de resolución:}
+
+- En un principio, el máximo es 0.
+    - Esto es una variable dentro de mi función.
+- Obtengo la \nzinlinecode{cabeza} de la lista.
+- Obtengo el atributo \ttt{profundidad} de la cabeza.
+- Cuento cuántas veces se repite ese atributo dentro de toda la lista.
+- Si esta cantidad es mayor que mi actual máximo, entonces ahora ella es
+el nuevo máximo.
+- Sigo revisando el resto de la lista.
+
+
+## Listas recursivas: buscar un máximo {.fragile}
+
+\simpleTitle{5.- ¿Cuál es la profundidad más repetida en toda la lista?}
+
+- Pero... no sólo me basta con recordar la cantidad máxima de veces que
+una profundidad está en la lista.
+
+\pause
+
+- También necesito \bld{saber el valor} de esa profundidad.
+
+\pause
+
+\bgnblockidea
+Como necesito recordar dos valores: creo una nueva \bld{estructura} para almacenar
+este par de valores.
+\trmblockidea
+
+\vspace{2ex}
+
+\begin{lstlisting}[style=frame02]
+estructura.crear("maximo", "profundidad total")
+\end{lstlisting}
+
+## Listas recursivas: buscar un máximo {.fragile}
+
+\simpleTitle{5.- ¿Cuál es la profundidad más repetida en toda la lista?}
+
+\begin{lstlisting}[style=frame02]
+estructura.crear("maximo", "profundidad total")
+
+def profundMasRepetida(vLista):
+    # inicialmente, el máximo no se conoce
+    actMaximo = maximo("", 0)
+    # llamamos a una función que sí es recursiva
+    actMaximo = profundMasRepetidaRecurs(vLista, actMaximo)
+    return actMaximo.profundidad
+\end{lstlisting}
+
+## Listas recursivas: buscar un máximo {.fragile}
+
+\simpleTitle{5.- ¿Cuál es la profundidad más repetida en toda la lista?}
+
+\begin{lstlisting}[style=frame02]
+def profundMasRepetidaRecurs(vLista, actMaximo):
+    if vLista == listaVacia:        # caso base
+        return actMaximo
+    else:                           # caso recursivo
+        estaProfundidad = cabeza(vLista).profundidad
+        nVeces = contarProfundidad(vLista, estaProfundidad)
+        if nVeces > actMaximo.total:
+            actMaximo = maximo(estaProfundidad, nVeces)
+        return profundMasRepetidaRecurs(cola(vLista), actMaximo)
+\end{lstlisting}
+
+## Listas recursivas: preguntas y propósito {.fragile}
+
+\simpleTitle{Preguntas útiles de responder:}
+
+1. ¿Hay alguna carta que nos lleve a la ``isla gaviota''?
+    - \structure{Búsqueda de un elemento en una lista.}
+\pause
+1. ¿Cuántas cartas nos harán excavar 4 metros de profundidad?
+    - \structure{Contar elementos que cumplan una condición.}
+\pause
+1. Haga una nueva lista, pero esquivando ``playa larga''.
+    - \structure{Duplicar una lista, aplicando condiciones.}
+\pause
+1. ¿Cuántos lugares distintos hay en toda la lista?
+    - \structure{Búsqueda condicionada.}
+\pause
+1. ¿Cuál es la profundidad más repetida en toda la lista?
+    - \structure{Búsqueda de máximos y/o mínimos.}
+
+## Listas recursivas: problemas propuestos {.fragile}
+
+- En DocenciaWeb está disponible un módulo llamado \structure{\ttt{cartas.py}}.
+    - Provee una definición de la estructura \ttt{carta} más \itt{ad-hoc} a las ciudades.
+    - Provee dos funciones:
+        1. \ttt{crear15Cartas()}: entrega una lista con 15 cartas.
+        1. \ttt{crearMuchasCartas()}: entrega una lista con muchas cartas.
+
+- Usando estas herramientas, programe lo siguiente:
+    1. Una función que reciba una lista de cartas y retorne el
+    listado de todas las ciudades involucradas, sin repetición.
+    1. Una función que reciba una lista de cartas y retorne el
+    listado de todas las ciudades involucradas, sin repetición, indicando
+    para cada ciudad, cuántas veces aparece en la lista.
