@@ -1,0 +1,379 @@
+## Abstracción
+
+- Ya hemos hablado muchas veces de enfocarnos siempre en:
+
+\bgnblockgood
+\structure{Soluciones genéricas}.
+\trmblockgood
+
+- En los 5 problemas sobre listas recursivas que vimos hace poco:
+    - Al buscar un lugar en una lista de cartas:
+        - Encontramos la solución para cualquier lugar dado.
+        - No sólo programar la búsqueda de ``isla gaviota'' en particular.
+
+    - O cuando buscábamos las cartas que nos harían excavar una determinada cantidad de metros:
+        - No pensar específicamente en 4 metros.
+
+    - Al ``esquivar'' un lugar en una lista:
+        - No pensar específicamente en ``playa larga''.
+
+    - Y así, sucesivamente.
+
+## Abstracción {.fragile}
+
+- ¿Qué pasa si hubiésemos programado específicamente una función para buscar
+``isla gaviota''?
+
+\begin{lstlisting}[style=frame02]
+def buscarIslaGaviota(vLista):
+    if vLista == listaVacia:        # caso base
+        return False
+    else:                           # caso recursivo
+        cp = cabeza(vLista)
+        if cp.lugar == "isla gaviota":
+            return True
+        else:
+            resto = cola(vLista)
+            return buscarIslaGaviota(resto)
+\end{lstlisting}
+
+\bgnblockdanger
+¡Esto sólo sirve para un caso en particular!
+\trmblockdanger
+
+## Abstracción {.fragile}
+
+\bgncolumns
+\column{0.45\textwidth}
+
+- ¿Y si después necesitamos buscar ``isla de pascua''?
+
+\begin{lstlisting}[style=frame03]
+def buscarIslaDePascua(vLista):
+  if vLista == listaVacia:
+    return False
+  else:
+    cp = cabeza(vLista)
+    if cp.lugar == "isla de pascua":
+      return True
+    else:
+      resto = cola(vLista)
+      return buscarIslaDePascua(resto)
+\end{lstlisting}
+
+\column{0.1\textwidth}
+\column{0.45\textwidth}
+
+- Comparémosla con la función anterior (para ``isla gaviota''):
+
+\begin{lstlisting}[style=frame03]
+def buscarIslaGaviota(vLista):
+  if vLista == listaVacia:
+    return False
+  else:
+    cp = cabeza(vLista)
+    if cp.lugar == "isla gaviota":
+      return True
+    else:
+      resto = cola(vLista)
+      return buscarIslaGaviota(resto)
+\end{lstlisting}
+\trmcolumns
+
+## Abstracción {.fragile}
+
+\bgncolumns
+\column{0.45\textwidth}
+\vspace{-2ex}
+
+\begin{lstlisting}[style=frame03]
+def buscarIslaDePascua(vLista):
+  if vLista == listaVacia:
+    return False
+  else:
+    cp = cabeza(vLista)
+    if cp.lugar == "isla de pascua":
+      return True
+    else:
+      resto = cola(vLista)
+      return buscarIslaDePascua(resto)
+\end{lstlisting}
+
+\column{0.1\textwidth}
+\column{0.45\textwidth}
+\vspace{-2ex}
+
+\begin{lstlisting}[style=frame03]
+def buscarIslaGaviota(vLista):
+  if vLista == listaVacia:
+    return False
+  else:
+    cp = cabeza(vLista)
+    if cp.lugar == "isla gaviota":
+      return True
+    else:
+      resto = cola(vLista)
+      return buscarIslaGaviota(resto)
+\end{lstlisting}
+\trmcolumns
+
+\bgncolumns
+\column{0.2\textwidth}
+\column{0.6\textwidth}
+
+\begin{lstlisting}[style=frame03]
+def buscarLugar(vLista, buscado):
+    if vLista == listaVacia:
+        return False
+    else:
+        cp = cabeza(vLista)
+        if cp.lugar == buscado:
+            return True
+        else:
+            resto = cola(vLista)
+            return buscarLugar(resto, buscado)
+\end{lstlisting}
+
+\column{0.2\textwidth}
+\trmcolumns
+
+## Abstracción: comparaciones específicas {.fragile}
+
+- En el ejemplo anterior, la clave fue crear el parámetro \ttt{buscado}.
+- Este parámetro se \bld{compara} con el valor de cada elemento de la lista.
+    - Esta comparación es el test de igualdad: \ttt{==}
+
+\bgnblockidea
+No siempre será tan simple como usar \ttt{==}
+\trmblockidea
+
+
+## Abstracción: comparaciones específicas {.fragile}
+
+\simpleTitle{Ejemplo:}
+
+- Tenemos un listado de las ventas del día de ayer (en CLP)
+para las sucursales de una cadena de minimarkets.
+
+- Queremos programar tres búsquedas:
+    1. Cuántas sucursales vendieron \$0 (estuvieron cerradas quizás).
+    1. Cuántas sucursales vendieron menos de \$1.000.000.
+    1. Cuántas sucursales vendieron más de \$15.000.000.
+
+- Supondremos estos datos están representados en una lista de \ttt{int}.
+
+\bgnblockidea
+Tenemos que basarnos ahora en otros de los ejemplos que vimos con listas:
+\structure{Contar elementos que cumplan una condición} y 
+\structure{Búsqueda condicionada}
+\trmblockidea
+
+## Abstracción: comparaciones específicas {.fragile}
+
+\simpleTitle{¿Cuántas sucursales vendieron \$0?}
+
+\begin{lstlisting}[style=frame02]
+def ventasCero(vLista):
+    if vLista == listaVacia:
+        return 0
+    else:
+        cp = cabeza(vLista)
+        resto = cola(vLista)
+        if cp == 0:
+            return 1 + ventasCero(resto)
+        else:
+            return ventasCero(resto)
+\end{lstlisting}
+
+## Abstracción: comparaciones específicas {.fragile}
+
+\simpleTitle{¿Cuántas sucursales vendieron menos de \$1.000.000?}
+
+\begin{lstlisting}[style=frame02]
+def ventasMenorMM(vLista):
+    if vLista == listaVacia:
+        return 0
+    else:
+        cp = cabeza(vLista)
+        resto = cola(vLista)
+        if cp < 1000000:
+            return 1 + ventasMenorMM(resto)
+        else:
+            return ventasMenorMM(resto)
+\end{lstlisting}
+
+## Abstracción: comparaciones específicas {.fragile}
+
+\simpleTitle{¿Cuántas sucursales vendieron más de \$15.000.000?}
+
+\begin{lstlisting}[style=frame02]
+def ventasMayor15MM(vLista):
+    if vLista == listaVacia:
+        return 0
+    else:
+        cp = cabeza(vLista)
+        resto = cola(vLista)
+        if cp > 15000000:
+            return 1 + ventasMayor15MM(resto)
+        else:
+            return ventasMayor15MM(resto)
+\end{lstlisting}
+
+
+## Abstracción: comparaciones específicas {.fragile}
+
+Ahora comparemos estas tres soluciones:
+
+\vspace{-2ex}
+
+\bgncolumns
+\column{0.48\textwidth}
+
+\begin{lstlisting}[style=frame03]
+def ventasCero(vLista):
+  if vLista == listaVacia:
+    return 0
+  else:
+    cp = cabeza(vLista)
+    resto = cola(vLista)
+    if cp == 0:
+      return 1 + ventasCero(resto)
+    else:
+      return ventasCero(resto)
+\end{lstlisting}
+
+\column{0.04\textwidth}
+\column{0.48\textwidth}
+
+\begin{lstlisting}[style=frame03]
+def ventasMenorMM(vLista):
+  if vLista == listaVacia:
+    return 0
+  else:
+    cp = cabeza(vLista)
+    resto = cola(vLista)
+    if cp < 1000000:
+      return 1 + ventasMenorMM(resto)
+    else:
+      return ventasMenorMM(resto)
+\end{lstlisting}
+
+\trmcolumns
+
+\vspace{-2ex}
+
+\bgncolumns
+\column{0.48\textwidth}
+
+\begin{lstlisting}[style=frame03]
+def ventasMayor15MM(vLista):
+  if vLista == listaVacia:
+    return 0
+  else:
+    cp = cabeza(vLista)
+    resto = cola(vLista)
+    if cp > 15000000:
+      return 1 + ventasMayor15MM(resto)
+    else:
+      return ventasMayor15MM(resto)
+\end{lstlisting}
+
+\column{0.04\textwidth}
+\column{0.48\textwidth}
+
+\pause
+
+\vspace{2ex}
+\bgnblockgood
+
+- La diferencia está en el nombre de la función.
+- Y en la línea que hace la comparación.
+
+\trmblockgood
+
+\trmcolumns
+
+## Abstracción: comparaciones específicas {.fragile}
+
+- En vez de estas tres funciones, ¿qué tal si hacemos sólo una, y que junto con la lista
+reciba alguna señal que le permita saber qué comparación realizar?
+
+\pause
+
+\bgnblockidea
+Una solución: entregar como segundo parámetro una herramienta que represente el \bld{criterio}
+de comparación.
+\trmblockidea
+
+## Abstracción: comparaciones específicas {.fragile}
+
+- Una manera de hacerlo en Python es:
+    1. \bld{\structure{Criterios}}: Por cada criterio existente, crear una función que implemente esa comparación.
+        - Esta función retorna un boolean.
+    1. \bld{\structure{Función genérica}}: Se entrega esta función de comparación a nuestra función abstracta y genérica de búsqueda de ventas.
+
+## Abstracción: implementar criterios {.fragile}
+
+- He aquí las funciones que implementan cada uno de los tres criterios que estamos
+analizando:
+
+\begin{lstlisting}[style=frame02]
+def igualCero(valor):
+    return valor == 0
+
+def menor1MM(valor):
+    return valor < 1000000
+
+def mayor15MM(valor):
+    return valor > 15000000
+\end{lstlisting}
+
+## Abstracción: implementar función genérica {.fragile}
+
+- Esta es la función genérica, que recibe una función criterio, y la aplica:
+
+\begin{lstlisting}[style=frame02]
+def ventasPorCriterio(vLista, criterio):
+    if vLista == listaVacia:
+        return 0
+    else:
+        cp = cabeza(vLista)
+        resto = cola(vLista)
+        if criterio(cp):
+            return 1 + ventasPorCriterio(resto, criterio)
+        else:
+            return ventasPorCriterio(resto, criterio)
+\end{lstlisting}
+
+## Abstracción: otro ejemplo {.fragile}
+
+- Tenemos una lista cuyos elementos son estructuras \ttt{fraccion}.
+- Dada esta lista, queremos determinar si otra fracción ---o su equivalente--- se encuentra
+dentro de la lista.
+
+\pause
+
+\simpleTitle{Solución:}
+
+- Ya sabemos cómo comparar una fracción con otra:
+    - Comparamos sus 2 componentes (numerador y denominador) entre sí.
+- Pero: ¿cómo podemos determinar que dos fracciones son equivalentes?.
+    - Sabemos que $\frac{1}{2}$ es equivalente a $\frac{3}{6}$, porque:
+
+    $$ \frac{n_1}{d_1} \quad \text{es equivalente a} \quad \frac{n_2}{d_2} \iff n_1 * d_2 = d_1 * n_2 $$
+
+## Abstracción: otro ejemplo {.fragile}
+
+- Podríamos programar este criterio de comparación directamente en nuestra función de búsqueda.
+
+\pause
+
+- Pero qué pasa si tenemos otra lista, que ahora puede contener \itt{strings}.
+    - ¿Podríamos usar la misma función de arriba para esta lista?
+
+\pause
+
+- Sí: usando una sola función de búsqueda y sendas funciones criterio por cada criterio
+de comparación.
+
+
