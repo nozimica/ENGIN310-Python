@@ -1,0 +1,707 @@
+## Arreglos
+
+- Ya sabemos guardar valores en variables.
+- Y también hemos usados \ttt{listas} para representar datos compuestos (fracciones o cartas, por ejemplo).
+    - Las \ttt{listas} no son nativas de Python.
+
+\pause
+
+\bgnblockdefinition
+\bld{Arreglos}: son la manera nativa que ofrece Python para almacenar \bld{secuencias de valores}.
+\trmblockdefinition
+
+## Arreglos {.fragile}
+
+\bld{Características:}
+
+- Se agrupan en una sola variable.
+- Cada valor dentro de la secuencia se puede referenciar mediante un índice.
+    - Los índices son secuenciales y comienzan con el 0.
+
+\tikzset{
+mymat/.style={
+  matrix of nodes,
+  text height=2ex,
+  text depth=0.75ex,
+  text width=3.25ex,
+  align=center,
+  column sep=-\pgflinewidth
+  }
+}
+
+\begin{center}
+\vspace{-2ex}
+\begin{tikzpicture}[>=latex, every node/.style={font=\footnotesize}]
+\matrix[mymat,anchor=west,row 2/.style={nodes=draw}]
+at (0,0) 
+(mat1)
+{
+0 & 1 & 2 & 3 & 4 & \ldots & n-2 & n-1 \\
+20 & 11 & 7 & 15 & 23 & \ldots & 80 & 66 \\
+};
+\node[left=2em of mat1-1-1.west] (asdf) {índices:};
+\node[left=2em of mat1-2-1.west] (asdf) {elementos:};
+\end{tikzpicture}
+\end{center}
+
+\bgnblockidea
+Los \bld{arreglos} son equiparables a los \bld{vectores} en\newline álgebra lineal.
+\trmblockidea
+
+## Arreglos: creación en Python {.fragile}
+
+\bgnblockdefinition
+La palabra clave para arreglos en Python es: \nzinlinecode{list()}.
+\trmblockdefinition
+
+\simpleTitle[2ex]{Crear arreglos vacíos:}
+
+\begin{lstlisting}[style=frame02]
+primeraLista = list()   # un arreglo vacío
+segundaLista = []       # un arreglo vacío
+\end{lstlisting}
+
+\simpleTitle[2ex]{Crear arreglos con datos:}
+
+\begin{lstlisting}[style=frame02]
+temperaturas = [20, 14, 8, 7, -2]
+frutas = ['manzana', 'pera', 'durazno']
+
+# pueden almacenar datos de diversos tipos:
+mezclados = [23, True, -2.1, 'elefante']
+\end{lstlisting}
+
+## Arreglos: uso en Python {.fragile}
+
+- Sean estos dos arreglos:
+
+\begin{lstlisting}[style=frame03]
+>>> temperaturas = [20, 14, 8, 7, -2]
+>>> frutas = ['manzana', 'pera', 'durazno']
+\end{lstlisting}
+
+\simpleTitle[1ex]{Referenciar elementos (subindicación):}
+
+\bgncolumns[-3ex]
+\column{.45\textwidth}
+
+\begin{lstlisting}[style=frame03]
+>>> temperaturas[0]
+20
+>>> temperaturas[4]
+-2
+>>> temperaturas[-1]
+-2
+\end{lstlisting}
+
+\column{.45\textwidth}
+
+\begin{lstlisting}[style=frame03]
+>>> frutas[0]
+'manzana'
+>>> frutas[-1]
+'durazno'
+>>> frutas[-2]
+'pera'
+\end{lstlisting}
+
+\trmcolumns
+
+\bgncolumns
+\column{.45\textwidth}
+
+- Pero no podemos salirnos de los límites:
+
+\column{.45\textwidth}
+
+\begin{lstlisting}[style=frame03]
+>>> temperaturas[5]
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+IndexError: list index out of range
+\end{lstlisting}
+
+\trmcolumns
+
+## Arreglos: uso en Python {.fragile}
+
+- Sean estos dos arreglos:
+
+\begin{lstlisting}[style=frame03]
+>>> temperaturas = [20, 14, 8, 7, -2]
+>>> frutas = ['manzana', 'pera', 'durazno']
+\end{lstlisting}
+
+\simpleTitle[1ex]{Operadores en Python}
+
+- El operador \nzinlinecode{*} repite los elementos de un arreglo:
+
+\begin{lstlisting}[style=frame03]
+>>> frutas
+['manzana', 'pera', 'durazno']
+>>> frutas * 2
+['manzana', 'pera', 'durazno', 'manzana', 'pera', 'durazno']
+>>> temperaturas * 3
+[20, 14, 8, 7, -2, 20, 14, 8, 7, -2, 20, 14, 8, 7, -2]
+\end{lstlisting}
+
+## Arreglos: uso en Python {.fragile}
+
+- Sean estos dos arreglos:
+
+\begin{lstlisting}[style=frame03]
+>>> temperaturas = [20, 14, 8, 7, -2]
+>>> frutas = ['manzana', 'pera', 'durazno']
+\end{lstlisting}
+
+\simpleTitle[1ex]{Operadores en Python}
+
+- El operador \nzinlinecode{+} une los elementos de dos arreglos:
+
+\begin{lstlisting}[style=frame03]
+>>> frutas
+['manzana', 'pera', 'durazno']
+>>> frutas + ['palta']
+['manzana', 'pera', 'durazno', 'palta']
+>>> frutas
+['manzana', 'pera', 'durazno']
+>>> frutas = frutas + ['palta']
+>>> frutas
+['manzana', 'pera', 'durazno', 'palta']
+\end{lstlisting}
+
+## Arreglos: uso en Python {.fragile}
+
+- Sean estos dos arreglos:
+
+\begin{lstlisting}[style=frame03]
+>>> temperaturas = [20, 14, 8, 7, -2]
+>>> frutas = ['manzana', 'pera', 'durazno']
+\end{lstlisting}
+
+\simpleTitle[1ex]{Obtener la cantidad de elementos:}
+
+\begin{lstlisting}[style=frame03]
+>>> len(frutas)
+3
+>>> len(temperaturas)
+5
+\end{lstlisting}
+
+\simpleTitle[1ex]{Modificar los elementos de un arreglo:}
+
+\begin{lstlisting}[style=frame03]
+>>> temperaturas[2] = 11
+>>> temperaturas
+[20, 14, 11, 7, -2]
+\end{lstlisting}
+
+## Arreglos: uso en Python {.fragile}
+
+- Sean estos dos arreglos:
+
+\begin{lstlisting}[style=frame03]
+>>> temperaturas = [20, 14, 8, 7, -2]
+>>> frutas = ['manzana', 'pera', 'durazno']
+\end{lstlisting}
+
+\simpleTitle[1ex]{Agregar nuevos elementos a un arreglo:}
+
+\vspace{-2ex}
+
+\bgncolumns
+\column{.45\textwidth}
+
+\begin{lstlisting}[style=frame03]
+>>> temperaturas[5] = 11
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+IndexError: list assignment index out of range
+\end{lstlisting}
+
+\column{.45\textwidth}
+
+\bgnblockalert
+\footnotesize
+Un \bld{arreglo} ofrece modificar sus elementos, pero no se puede agregar elementos \bld{adicionales}.
+\trmblockalert
+
+\trmcolumns
+
+\begin{lstlisting}[style=frame03]
+>>> temperaturas = temperaturas + [0]
+>>> temperaturas
+[20, 14, 8, 7, -2, 0]
+>>> temperaturas[5] = 11
+[20, 14, 8, 7, -2, 11]
+\end{lstlisting}
+
+## Arreglos: recorrer sus valores {.fragile}
+
+- Una vez creados los arreglos, resulta muy útil poder recorrer sus valores.
+    - Nos permite revisarlos.
+
+\pause
+
+\bgnblockdefinition
+Se puede recorrer un arreglo usando \nzinlinecode{for valor_i in arreglo:}
+\trmblockdefinition
+
+\begin{lstlisting}[style=frame03]
+>>> precios = [34.2, 25.4, 65.6, 12.8]
+>>> for elem in precios:
+...     print(elem)
+... 
+34.2
+25.4
+65.6
+12.8
+\end{lstlisting}
+
+## Arreglos: recorrer sus índices {.fragile}
+
+- Una característica \bld{central} de los arreglos es que agrupan datos en una secuencia.
+- Cada elemento corresponde al índice \itt{i-ésimo} de esa secuencia.
+    - Esta secuencia de índices siempre está en el rango $[0, n-1)$.
+
+\pause
+
+- Pero con el \nzinlinecode{for} recién visto, sólo podemos recorrer los arreglos por su valor.
+
+\pause
+
+\bgnblockidea
+Por lo tanto, necesitamos una manera de recorrer una secuencia de valores en el rango $[0, n-1)$,
+para usarla como los índices del arreglo.
+\trmblockidea
+
+## Arreglos: recorrer sus índices {.fragile}
+
+\bgnblockdefinition
+\bld{Crear secuencias de enteros:} Python provee la función \nzinlinecode{range}, que entrega
+un \bld{arreglo} de números según una secuencia definida.
+\trmblockdefinition
+
+\bgncolumns[-2ex]
+\column{.45\textwidth}
+
+\simpleTitle[1ex]{n primeros enteros:}
+
+\begin{lstlisting}[style=frame03]
+>>> range(6)         # rango: [0, 6)
+[0, 1, 2, 3, 4, 5]
+>>> range(4)         # rango: [0, 4)
+[0, 1, 2, 3]
+\end{lstlisting}
+
+\column{.45\textwidth}
+
+\simpleTitle[1ex]{enteros entre n y m:}
+
+\begin{lstlisting}[style=frame03]
+>>> range(2, 10)     # rango: [2, 10)
+[2, 3, 4, 5, 6, 7, 8, 9]
+>>> range(-3, 5)     # rango: [-3, 5)
+[-3, -2, -1, 0, 1, 2, 3, 4]
+\end{lstlisting}
+
+\trmcolumns
+
+\simpleTitle[1ex]{enteros entre n y m (cada t pasos):}
+
+\begin{lstlisting}[style=frame03]
+>>> range(2, 10, 2)
+[2, 4, 6, 8]
+>>> range(2, 11, 2)
+[2, 4, 6, 8, 10]
+\end{lstlisting}
+
+## Arreglos: recorrer sus índices {.fragile}
+
+\simpleTitle{Equivalencias entre las versiones de \nzinlinecode{range}}
+
+- Es importante tener claro las equivalencias entre las varias maneras de llamar a esta función:
+
+\vfill
+
+\bgnenviron{footnotesize}
+\bgnblockgood
+\bld{Con un parámetro significativo:}
+\bgncolumns[2ex]
+\column{.01\textwidth}
+\column{.26\textwidth}
+\bgnblocknormal
+\nzinlinecode{range(n)}
+\trmblocknormal
+\column{.26\textwidth}
+\bgnblocknormal
+\nzinlinecode{range(0, n)}
+\trmblocknormal
+\column{.27\textwidth}
+\bgnblocknormal
+\nzinlinecode{range(0, n, 1)}
+\trmblocknormal
+\column{.01\textwidth}
+\trmcolumns
+\trmblockgood
+\trmenviron{footnotesize}
+
+\vfill
+
+\bgnenviron{footnotesize}
+\bgnblockgood
+\bld{Con dos parámetros significativos:}
+\bgncolumns[2ex]
+\column{.01\textwidth}
+\column{.4\textwidth}
+\bgnblocknormal
+\nzinlinecode{range(p, q)}
+\trmblocknormal
+\column{.4\textwidth}
+\bgnblocknormal
+\nzinlinecode{range(p, q, 1)}
+\trmblocknormal
+\column{.01\textwidth}
+\trmcolumns
+\trmblockgood
+\trmenviron{footnotesize}
+
+## Arreglos: recorrer sus índices {.fragile}
+
+- Como \nzinlinecode{range} nos entrega un arreglo, podemos aplicar sobre él nuestra
+nueva herramienta llamada \nzinlinecode{for}:
+
+\bgncolumns[-2ex]
+\column{.45\textwidth}
+
+\begin{lstlisting}[style=frame03]
+>>> for j in range(10):
+...     print(j)
+... 
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+\end{lstlisting}
+
+\column{.45\textwidth}
+
+\pause
+
+- ¿Qué fue lo que hicimos recién?
+
+\pause
+
+- Hemos recorrido la secuencia de enteros en el rango $[0, 10)$.
+
+- ¿De qué nos puede servir esto para recorrer un arreglo a través de sus \bld{índices}?
+
+\trmcolumns
+
+## Arreglos: recorrer sus índices {.fragile}
+
+\nzArrayDiagram{precios}{
+0 \& 1 \& 2 \& 3 \\
+34.2 \& 25.4 \& 65.6 \& 12.8 \\
+}
+
+\vspace{-2ex}
+\bgncolumns
+\column{.4\textwidth}
+
+\bgnblockidea
+\footnotesize
+Para recorrer un arreglo a través de sus índices, podemos aprovechar que \nzinlinecode{range}
+crea una secuencia de valores.
+\trmblockidea
+
+\column{.5\textwidth}
+
+\begin{lstlisting}[style=frame03]
+>>> precios = [34.2, 25.4, 65.6, 12.8]
+>>>
+>>> print(len(precios))
+4
+>>> print(range(len(precios)))
+[0, 1, 2, 3]
+>>>
+>>> for i in range(len(precios)):
+...     print(precios[i])
+... 
+34.2
+25.4
+65.6
+12.8
+\end{lstlisting}
+
+\trmcolumns
+
+## Arreglos: recorrer sus índices {.fragile}
+
+\bgnblockidea
+\footnotesize
+Recorrer un arreglo \bld{a través de sus índices} tiene una ventaja: nos
+permite recorrerlo simultáneamente a través de sus valores.
+\trmblockidea
+
+
+\nzArrayDiagram{alturas}{
+0 \& 1 \& 2 \& 3 \& 4 \\
+1.72 \& 1.88 \& 1.52 \& 1.94 \& 1.66 \\
+}
+
+\begin{lstlisting}[style=frame03]
+>>> alturas = [1.72, 1.88, 1.52, 1.94, 1.66]
+>>>
+>>> for i in range(len(alturas)):
+...     print("La altura " + str(i) + " es: " + str(alturas[i]))
+... 
+La altura 0 es: 1.72
+La altura 1 es: 1.88
+La altura 2 es: 1.52
+La altura 3 es: 1.94
+La altura 4 es: 1.66
+\end{lstlisting}
+
+
+## Arreglos: ejercicios {.fragile}
+
+1. Dado un arreglo, determine su cantidad de elementos, sin usar \nzinlinecode{len()}.
+1. Dado un arreglo, imprima en pantalla los valores que están en posiciones impares.
+1. Dado un arreglo, escriba una función que retorne otro arreglo con los valores que están en posiciones impares.
+1. Dado un arreglo de números, escriba una función que determine la \bld{suma} de esos valores.
+1. Dado un arreglo de números, escriba una función que determine la \bld{suma acumulada} de esos valores, retornando esta suma como un nuevo arreglo.
+
+## Arreglos: subindicación II parte {.fragile}
+
+- Ya vimos cómo acceder a un elemento de un arreglo:
+
+\nzArrayDiagram{puntos}{
+0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6\\
+23 \& 11 \& 84 \& 79 \& 34 \& 7 \& 68 \\
+}
+
+\vfill
+
+\bgncolumns
+\column{.5\textwidth}
+
+\begin{lstlisting}[style=frame03]
+>>> puntos = [23, 11, 84, 79, 34, 7, 68]
+>>>
+>>> print(puntos[2])
+84
+>>> print(puntos[3])
+79
+>>> print(puntos[0])
+23
+>>> print(puntos[-1])
+68
+\end{lstlisting}
+
+\column{.4\textwidth}
+
+\pause
+
+\bgnblockidea
+\footnotesize
+¿Y si queremos acceder a un \bld{subconjunto} del arreglo?
+\trmblockidea
+
+\trmcolumns
+
+## Arreglos: subindicación II parte {.fragile}
+
+\nzArrayDiagram{puntos}{
+0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6\\
+23 \& 11 \& 84 \& 79 \& 34 \& 7 \& 68 \\
+}
+
+\vfill
+
+\bgnblockdefinition
+\bld{Operador \itt{slice}}: Dos enteros, separados por \bld{:} indican el inicio y el
+final del subconjunto
+\trmblockdefinition
+
+\begin{lstlisting}[style=frame03]
+>>> puntos = [23, 11, 84, 79, 34, 7, 68]
+>>>
+>>> print(puntos[2:4])
+[84, 79]
+>>> print(puntos[0:3])
+[23, 11, 84]
+>>> print(puntos[5:])(*@\tikzmark{sliceNoEnd}@*)
+[7, 68]
+>>> print(puntos[:3])(*@\tikzmark{sliceNoBgn}@*)
+[23, 11, 84]
+\end{lstlisting}
+
+\drawTikZComment[pos={above right},len={1.3em and 6em},text width=56mm]{sliceNoEnd}{\scriptsize si se omite el índice final,\\ se devuelve hasta el final del arreglo}
+\drawTikZComment[pos={right},len={6em},text width=56mm]{sliceNoBgn}{\scriptsize si se omite el índice inicial,\\  se devuelve desde el inicio del arreglo}
+
+## Arreglos: subindicación II parte {.fragile}
+
+\nzArrayDiagram{puntos}{
+0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6\\
+23 \& 11 \& 84 \& 79 \& 34 \& 7 \& 68 \\
+}
+
+\vfill
+
+\bgnblockdefinition
+\bld{Operador \itt{slice}}: \alert{Tres} enteros, separados por \bld{:} indican el inicio, el
+final, y los saltos entre cada elemento
+\trmblockdefinition
+
+\bgncolumns
+\column{.55\textwidth}
+\vspace{-2ex}
+
+\begin{lstlisting}[style=frame03]
+>>> puntos = [23, 11, 84, 79, 34, 7, 68]
+>>>
+>>> print(puntos[0:3:2])
+[23, 84]
+>>> print(puntos[::2])
+[23, 84, 34, 68]
+>>> print(puntos[5:1:-1])
+[7, 34, 79, 84]
+>>> print(puntos[::-1])
+[68, 7, 34, 79, 84, 11, 23]
+\end{lstlisting}
+
+\column{.35\textwidth}
+
+\bgnblocknormal
+¿Alguna similitud con la función \nzinlinecode{range}?
+\trmblocknormal
+
+\trmcolumns
+
+## Arreglos: ejemplos {.fragile}
+
+\simpleTitle{Calcular promedio}
+
+- Dado un arreglo de valores numéricos, calcular su promedio.
+
+\bgnenviron{<1>}{onlyenv}
+\begin{lstlisting}[style=frame03]
+valores = [23, 11, 84, 79, 34, 7, 68, 44, 70, 92, 5]
+
+# calcularPromedio: list(num) -> float
+def calcularPromedio(arr):
+    pass
+\end{lstlisting}
+
+- Pasos:
+    - Calculo la suma de los elementos (suma).
+    - Determino la cantidad de elementos (n).
+    - Retorno la división: suma / n.
+
+\trmenviron{onlyenv}
+
+\bgnenviron{<2>}{onlyenv}
+\begin{lstlisting}[style=frame03]
+valores = [23, 11, 84, 79, 34, 7, 68, 44, 70, 92, 5]
+
+# calcularPromedio: list(num) -> float
+def calcularPromedio(arr):
+    # Calculo la suma de los elementos (suma).
+    suma = 0.0
+    # Determino la cantidad de elementos (n).
+    n = 0
+    for elem in arr:
+        n = n + 1
+        suma = suma + elem
+    return suma / n
+# Test
+assert calcularPromedio(valores) == 47.0
+\end{lstlisting}
+\trmenviron{onlyenv}
+
+## Arreglos: ejemplos {.fragile}
+
+\simpleTitle{Calcular la desviación estándar}
+
+- Dado un arreglo de valores numéricos, calcular su desviación estándar.
+
+\pause
+
+- La fórmula para la desviación estándar es:
+
+\bgnblocknormal[centered,wd=.7\textwidth]
+\vspace{-3ex}
+$$ \sigma = \sqrt{\frac{\sum^n_{i=1}{(X_i - \bar{X})}^2}{n-1}} $$
+\vspace{-2ex}
+\trmblocknormal
+
+\pause
+\vspace{5mm}
+\textbf{Importante:} Este cálculo necesita saber de antemano el promedio de los datos...
+
+## Arreglos: ejemplos {.fragile}
+
+\simpleTitle{Calcular la desviación estándar}
+
+\bgnblocknormal[centered,wd=.7\textwidth]
+\footnotesize
+\vspace{-3ex}
+$$ \sigma = \sqrt{\frac{\sum^n_{i=1}{(X_i - \bar{X})}^2}{n-1}} $$
+\vspace{-2ex}
+\trmblocknormal
+
+- Calcular el promedio de los valores en el arreglo.
+- A cada número en el arreglo:
+    - Restarle el promedio, y elevar este resultado al cuadrado.
+    - Sumar todos los números anteriores.
+- Dividir esta suma por la cantidad de valores menos 1.
+- Entregar como resultado la raíz cuadrada de la división anterior.
+
+## Arreglos: ejemplos {.fragile}
+
+\simpleTitle{Calcular la desviación estándar}
+
+\begin{lstlisting}[style=frame03]
+import math
+
+def cerca(x, y, epsilon):
+    return abs(x - y) < epsilon
+
+valores = [23, 11, 84, 79, 34, 7, 68, 44, 70, 92, 5]
+
+# calcularDesvEst: list(num) -> float
+def calcularDesvEst(arr):
+    prom = calcularPromedio(arr)
+    suma = 0.0
+    n = 0
+    for elem in arr:
+        n = n + 1
+        elem2 = elem - prom
+        elem2 = elem2 ** 2
+        suma = suma + elem2
+    return math.sqrt(suma / (n - 1))
+# Test
+assert cerca(calcularDesvEst(valores), 32.8663962, 0.000001)
+\end{lstlisting}
+
+## Arreglos: ejemplos {.fragile}
+
+- En los dos ejemplos anteriores, el arreglo con datos ya estaba definido.
+- ¿Cómo podríamos ir recibiendo los valores, de parte del usuario, uno a uno, hasta
+completar el arreglo?
+    - ¿Nos basta con las herramientas que ya manejamos?
+
+\pause
+
+\bgnblockdanger
+Necesitamos una nueva herramienta, que nos permita repetir una acción, hasta
+llegar a una "señal de término".
+\trmblockdanger
+
