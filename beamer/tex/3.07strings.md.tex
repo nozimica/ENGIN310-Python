@@ -1,0 +1,198 @@
+## Strings {.fragile}
+
+- Ya conocemos los \ttt{string}.
+    - Sabemos cómo concatenarlos.\tikzmark{strconcat}
+    - Sabemos cómo "multiplicarlos".\tikzmark{strmult}
+
+\drawTikZComment[pos={above right},len={.6em and 5em},text width=10mm]{strconcat}{\ttt{+}}
+\drawTikZComment[pos={below right},len={.6em and 5em},text width=10mm]{strmult}{\ttt{*}}
+
+- ¿Qué más se podría hacer con ellos?
+
+\bgnblockidea
+¡Muchas cosas! Los \ttt{string} son mucho más que simples variables.
+\trmblockidea
+
+## Strings {.fragile}
+
+\bgnblockdefinition
+Se puede entender un \ttt{string} como 0 ó más caracteres, uno después del otro: casi
+como un \structure{arreglo} de caracteres.
+\trmblockdefinition
+
+\simpleTitle[2ex]{Los \ttt{string} se comportan a veces, como arreglos:}
+
+\bgncolumns[-2ex]
+\column{.45\textwidth}
+
+\begin{lstlisting}[style=frame03]
+>>> rioCercano = "Mapocho"
+>>> rioLejano = "Aconcagua"
+>>> lugarAlEste = "Quebrada de Macul"
+
+>>> rioCercano[2:5]
+'poc'
+>>> rioCercano[3:]
+'ocho'
+>>> rioLejano[::-1]
+'augacnocA'
+>>> lugarAlEste[6:15]
+'da de Mac'
+\end{lstlisting}
+
+\column{.45\textwidth}
+
+\begin{lstlisting}[style=frame03]
+>>> len(rioCercano)
+7
+>>> len(lugarAlEste)
+17
+>>> for x in lugarAlEste[12:]:
+...   print(x)
+... 
+M
+a
+c
+u
+l
+\end{lstlisting}
+
+\trmcolumns
+
+## Strings {.fragile}
+
+\simpleTitle{Y a veces se comportan como números:}
+
+\bld{Comparación:}
+
+- Tal como los números, los \ttt{string} tienen un orden: todo carácter está "a la izquierda"
+o "a la derecha" de todo otro carácter.
+
+- Ojo: entre los tipos de caracteres existe este orden:
+
+\bgnblockdefinition
+\ttt{espacio < dígitos < mayúsculas < minúsculas}
+\trmblockdefinition
+
+
+## Strings {.fragile}
+
+\simpleTitle{Y a veces se comportan como números:}
+
+- Se puede usar las funciones \nzinlinecode{min} y \nzinlinecode{max}.
+
+\begin{lstlisting}[style=frame03]
+>>> if 'A' < rioCercano < 'Z':
+...     print("Está entre la A y la Z")
+... 
+Está entre la A y la Z
+
+>>> min(rioCercano, rioLejano)
+'Aconcagua'
+>>> max(rioCercano, max(rioLejano, lugarAlEste))
+'Quebrada de Macul'
+\end{lstlisting}
+
+## Strings: funciones propias {.fragile}
+
+\simpleTitle{Cambiar el ``case'' (mayúsculas o minúsculas)}
+
+\begin{lstlisting}[style=frame03]
+>>> rioMasLejano = "Itata"
+>>> rioMasLejano.upper()
+'ITATA'
+>>> rioMasLejano.lower()
+'itata'
+\end{lstlisting}
+
+\simpleTitle[1ex]{\nzinlinecode{find}: Encontrar un carácter dentro de un \ttt{string}}
+
+- Puedo indicarle, opcionalmente, desde qué posición buscar (y hasta dónde buscar).
+
+\bgncolumns[-1ex]
+\column{.45\textwidth}
+
+\begin{lstlisting}[style=frame03]
+>>> rioMasLejano.find('t')
+1
+>>> rioMasLejano.find('t', 2)
+3
+>>> rioMasLejano.find('t', 4)
+-1
+\end{lstlisting}
+
+\column{.45\textwidth}
+
+\begin{lstlisting}[style=frame03]
+>>> rioMasLejano.find('a')
+2
+>>> rioMasLejano.find('a', 0)
+2
+>>> rioMasLejano.find('a', 0, 2)
+-1
+\end{lstlisting}
+
+\trmcolumns
+
+
+## Strings: funciones propias {.fragile}
+
+\simpleTitle{\nzinlinecode{split}: Dividir un string según un carácter}
+
+- Una tarea muy frecuente es tomar un string separar todas sus palabras, metiéndolas a un arreglo.
+
+\begin{lstlisting}[style=frame03]
+>>> texto = "El barco navega frente al puerto"
+>>> texto.split()
+['El', 'barco', 'navega', 'frente', 'al', 'puerto']
+>>> texto.split(' ')
+['El', 'barco', 'navega', 'frente', 'al', 'puerto']
+>>> texto.split('e')
+['El barco nav', 'ga fr', 'nt', ' al pu', 'rto']
+\end{lstlisting}
+
+- \nzinlinecode{split} recibe un string que usará como separador. Ese texto desaparece de las
+palabras que quedan dentro del arreglo.
+- Opcionalmente puede recibir un segundo parámetro \nzinlinecode{int}, que indica la cantidad
+máxima de separaciones que realiza.
+
+## Strings: funciones propias {.fragile}
+
+\simpleTitle{\nzinlinecode{sort}: Ordena los elementos de un arreglo}
+
+- Los ordena de menor a mayor, modificando el arreglo.
+
+\begin{lstlisting}[style=frame03]
+>>> texto = "El barco navega frente al puerto"
+>>> palabras = texto.split()
+>>> palabras = texto.split(' ')
+>>> palabras
+['El', 'barco', 'navega', 'frente', 'al', 'puerto']
+>>> palabras.sort()
+>>> palabras
+['El', 'al', 'barco', 'frente', 'navega', 'puerto']
+\end{lstlisting}
+
+## Strings: operadores {.fragile}
+
+- Veremos tres operadores de strings:
+    - Concatenación: signo \ttt{+}
+    - Repetición: signo \ttt{*}
+    - Substring: \ttt{in}
+
+\simpleTitle{Operador substring}
+
+- Permite saber si un string está contenido dentro de otro
+
+\begin{lstlisting}[style=frame03]
+>>> texto = "El barco navega frente al puerto"
+>>> 'barco' in texto
+True
+>>> 'Barco' in texto
+False
+>>> 'el' in texto
+False
+>>> 'a fr' in texto
+True
+\end{lstlisting}
+
