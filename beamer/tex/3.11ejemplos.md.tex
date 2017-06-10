@@ -1,0 +1,269 @@
+## Ejemplo: jugar al gato {.fragile}
+
+- Ahora veremos cómo implementar un programa que le permita a dos personas ``\bld{jugar al gato}''.
+\pause
+
+- Para modelar bien este problema, debemos dividirlo en subproblemas más simples:
+
+\bgnblockgood
+
+1. Representar el tablero de juego.
+1. Imprimir en pantalla este tablero.
+1. Modelar el ingreso de las jugadas.
+1. Determinar al ganador o declarar el juego como empatado.
+
+\trmblockgood
+
+## Ejemplo: jugar al gato {.fragile}
+
+\simpleTitle{Representar el tablero:}
+
+\bgncolumns
+\column{0.45\textwidth}
+Como sabemos, el tablero es una matriz de 3x3:
+
+\bgnblockgood
+    \centering
+    \tictactoe{}{}{}{}{}{}{}{}{}
+\trmblockgood
+
+\column{0.1\textwidth}
+
+\column{0.45\textwidth}
+Donde podemos darle un índice a cada celda:
+
+\bgnblockgood
+    \centering
+    \tictactoe{1}{2}{3}{4}{5}{6}{7}{8}{9}
+\trmblockgood
+
+\trmcolumns
+
+\pause
+
+\vfill
+
+Pero en computación, muchas veces es más fácil representar las matrices como un solo
+gran vector, poniendo cada fila después de la anterior:
+
+\bgnblocknormal[centered,wd=70mm]
+    \centering
+    \tictactoelinear{1}{2}{3}{4}{5}{6}{7}{8}{9}
+\trmblocknormal
+
+\vfill
+
+Precisamente eso haremos nosotros en esta implementación.
+
+## Ejemplo: jugar al gato
+
+\simpleTitle{Representar el tablero}
+
+- Ahora bien, también sabemos que cada casilla del tablero puede tener tres estados:
+
+\bgnblockgood
+
+1. Vacía.
+1. Marcada como jugada por el primer jugador.
+1. Marcada como jugada por el segundo jugador.
+
+\trmblockgood
+
+- ¿Cómo los podemos representar?
+
+## Ejemplo: jugar al gato
+
+\simpleTitle{Representar el tablero}
+
+- El tablero de juego puede representarse dentro del programa como un \bld{vector de enteros}, donde cada uno de los tres
+estados posibles es representado por los valores \btt{0}, \btt{1} y \btt{-1}:
+
+\bgnblockgood
+
+\begin{description}
+    \item[0:] Vacía.
+    \item[1:] Marcada como jugada por el primer jugador.
+    \item[-1:] Marcada como jugada por el segundo jugador.
+\end{description}
+
+\trmblockgood
+
+
+## Ejemplo: jugar al gato
+
+\simpleTitle{Imprimir el tablero en consola.}
+
+- Recordemos que representamos el tablero como un solo gran
+vector, con cada una de las tres filas una al lado de la otra:
+
+\bgnblockgood[centered,wd=70mm]
+    \centering
+    \tictactoelinear{1}{2}{3}{4}{5}{6}{7}{8}{9}
+\trmblockgood
+
+\pause
+
+- Pero para imprimirlo en pantalla hay que desplegarlo en su forma de tres filas por tres columnas.
+
+\pause
+
+- Qué hacer: recorremos el vector, imprimimos el valor actual de cada celda, pero cuando sea el momento de ``pasar'' a
+una nueva fila, simplemente imprimimos un salto de línea.
+    - Debemos saber identificar cuándo hemos pasado a una nueva fila.
+
+## Ejemplo: jugar al gato
+
+\simpleTitle{Representar el tablero}
+
+- Hemos llegado a una nueva fila simplemente cuando ya hayamos desplegado tres valores en pantalla:
+
+\begin{tabular}{c}
+    \parbox{\textwidth}{%
+    \bgnblockgood[centered,wd=70mm]
+        \centering
+        \tictactoelinear{1}{2}{3}{\textcolor{blue}{4}}{5}{6}{\textcolor{blue}{7}}{8}{9}
+    \trmblockgood
+    } \\
+    $\Bigg\downarrow$ \\
+    \parbox{\textwidth}{%
+    \bgnblockgood[centered,wd=40mm]
+        \centering
+        \tictactoe{1}{2}{3}{4}{5}{6}{7}{8}{9}
+    \trmblockgood
+    }
+\end{tabular}
+
+## Ejemplo: jugar al gato {.fragile}
+
+\simpleTitle{Modelar el ingreso de jugadas:}
+
+
+- Una jugada en este juego se representa como la celda
+que un jugador quiere ``marcar para sí mismo'':
+
+\vfill
+
+\begin{center}
+\begin{tabular}{ccc}
+  \parbox{24mm}{%
+    \bgnblockgood[centered,wd=22mm]
+    \centering
+    \tictactoe{}{}{}{}{}{X}{}{}{}
+    \trmblockgood
+  }
+  & $\xrightarrow{\quad jugada\quad}$ &
+  \parbox{24mm}{%
+    \bgnblockgood[centered,wd=22mm]
+    \centering
+    \tictactoe{O}{}{}{}{}{X}{}{}{}
+    \trmblockgood
+  }
+\end{tabular}
+\end{center}
+
+\pause
+\vfill
+
+- Por lo tanto, para cada uno de los dos jugadores, debemos en cada turno:
+    - Preguntarles la jugada que quieren hacer.
+    - Procesar su respuesta.
+    - Actualizar adecuadamente el tablero de juego.
+
+
+## Ejemplo: jugar al gato {.fragile}
+
+\simpleTitle{Modelar el ingreso de jugadas:}
+
+- Una manera simple de hacer esto es sólo pedirle al jugador el índice
+de la celda que quiere marcar.
+
+- Este índice corresponde a un índice del vector con el cual
+representamos el tablero dentro del programa.
+
+
+## Ejemplo: jugar al gato {.fragile}
+
+\simpleTitle{Determinar el resultado:}
+
+- La condición de que un jugador \bld{ganó el juego} es simple:
+    - Marcó las tres casillas de una misma fila.
+    - Marcó las tres casillas de una misma columna.
+    - Marcó las tres casillas de una de las dos grandes diagonales.
+
+\def\XX{\textbf{\textcolor{blue}{X}}}
+
+\vspace{-1ex}
+\begin{center}
+\begin{tabular}{ccccc}
+  \parbox{24mm}{%
+    %\vspace{-10mm}\hspace*{-6mm}
+    \bgnblockgood[centered,wd=22mm]
+    \centering\hspace{0mm}
+    \tictactoe{\XX}{\XX}{\XX}{O}{X}{O}{O}{}{O}
+    \trmblockgood
+  }
+  & &
+  \parbox{24mm}{%
+    %\vspace{-10mm}\hspace*{-6mm}
+    \bgnblockgood[centered,wd=22mm]
+    \centering\hspace{0mm}
+    \tictactoe{X}{\XX}{O}{O}{\XX}{O}{}{\XX}{}
+    \trmblockgood
+  }
+  & &
+  \parbox{24mm}{%
+    %\vspace{-10mm}\hspace*{-6mm}
+    \bgnblockgood[centered,wd=22mm]
+    \centering\hspace{0mm}
+    \tictactoe{\XX}{O}{X}{}{\XX}{}{O}{O}{\XX}
+    \trmblockgood
+  }
+\end{tabular}
+\end{center}
+
+## Ejemplo: jugar al gato {.fragile}
+
+\simpleTitle{Determinar el resultado:}
+
+- Por lo tanto, luego de cada jugada se debe recorrer el vector que representa al tablero:
+    - Para cada una de sus tres filas, sus tres columnas y sus dos diagonales:
+        - Buscar si están todas sus tres celdas marcadas por un mismo jugador.
+
+## Ejemplo: jugar al gato {.fragile}
+
+\simpleTitle{Determinar el resultado:}
+
+- Para saber si \bld{hubo empate}, habría que detectar cuando no hay posibilidad de que ninguno de los jugadores
+gane, lo que implica: 
+    - Las tres filas tienen celdas marcadas para ambos jugadores.
+    - Las tres columnas tienen celdas marcadas para ambos jugadores.
+    - Las dos diagonales tienen celdas marcadas para ambos jugadores.
+
+
+## Ejemplo: jugar al gato {.fragile}
+
+\simpleTitle{Determinar el resultado:}
+
+- Sin embargo en una primera aproximación simplemente contaremos la cantidad total de jugadas, y si llegamos al
+máximo de nueve posibles, declararemos el juego como empatado.
+
+\bgnblockdanger
+¿Qué consecuencia molesta para los jugadores implicará esta decisión?
+\trmblockdanger
+
+## Ejemplo: jugar al gato {.fragile}
+
+\simpleTitle{Implementación en Python:}
+
+- Para implementar este juego, debemos contar con las siguientes variables:
+    - Un vector de nueve enteros para representar el tablero.
+    - Una variable que nos indique cuál jugador tiene el turno de juego.
+    - Un contador para saber si hemos llegado al final del juego (empate).
+
+
+- Y debemos hacer un ciclo por cada turno de juego, dentro del cual:
+    - Mostramos el estado actual del tablero de juego (función aparte).
+    - Le pedimos su jugada a quien tiene el turno actual.
+    - Marcamos en el tablero la jugada.
+    - Verificamos si el jugador actual ganó (función aparte).
+
