@@ -1,0 +1,347 @@
+## Ciclos while {.fragile}
+
+- Permiten repetir una serie de instrucciones, una cantidad arbitraria de veces.
+    - Esa cantidad puede estar definida \itt{a priori}.
+    - O puede ser determinada en "tiempo real".
+
+\pause
+
+\bgnblockdefinition
+\nzinlinecode{while condicion:} \newline
+    \nzinlinecode{repito instrucciones}
+\trmblockdefinition
+
+## Ciclos while {.fragile}
+
+\simpleTitle{Comparación entre \nzinlinecode{for} y \nzinlinecode{while}}
+
+\bgncolumns[-2ex]
+\column{.45\textwidth}
+
+- Analicemos el siguiente código:
+
+\begin{lstlisting}[style=frame03]
+>>> for j in range(10):
+...     print(j)
+... 
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+\end{lstlisting}
+
+\column{.45\textwidth}
+
+- Y veamos cómo se hace lo mismo con \nzinlinecode{while}:
+
+\begin{lstlisting}[style=frame03]
+>>> j = 0
+>>> while j < 10:
+...     print(j)
+...     j = j + 1
+... 
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+\end{lstlisting}
+
+\trmcolumns
+
+## Ciclos while {.fragile}
+
+- Esta es otra manera de hacer el código anterior:
+
+\begin{lstlisting}[style=frame03]
+desde = 0
+hasta = 10
+
+while desde < hasta:(*@\tikzmark{syntaxWhile}@*)
+    print(desde)
+    desde = desde + 1(*@\tikzmark{incrIdx}@*)
+\end{lstlisting}
+
+\drawTikZComment[pos={right},len={6em},text width=56mm]{syntaxWhile}{\scriptsize mientras se dé la condición, repito las instrucciones dentro del bloque}
+\drawTikZComment[pos={below right},len={.6em and 6em},text width=56mm]{incrIdx}{\scriptsize \structure{esto es clave:} asegurarse de que la condición termine alguna vez}
+
+\vfill
+
+\bgnblockdanger
+Pero: ¿para qué usar \nzinlinecode{while} de esta manera, si hace lo mismo que \nzinlinecode{for}?
+\trmblockdanger
+
+## Ciclos while {.fragile}
+
+\simpleTitle{Ventajas de \nzinlinecode{while}}
+
+- Esta herramienta tiene la gran ventaja de ser mucho más flexible que \nzinlinecode{for}.
+    - No se limita a recorrer un arreglo ya lleno de elementos.
+
+\bgnblockidea
+Analicemos una aplicación práctica: llenar un arreglo inicialmente vacío, con datos entregados
+por el usuario.
+\trmblockidea
+
+\vfill
+
+\begin{lstlisting}[style=frame03]
+# creo un arreglo vacío
+# le solicito números al usuario
+# mientras no me entregue un ""
+#    lo recibido lo convierto a número y lo agrego al arreglo
+#    vuelvo a solicitar números al usuario
+# después de que recibí "", aplico la función que calcula la desviación estándar
+\end{lstlisting}
+
+## Ciclos while: desviación estándar v2 {.fragile}
+
+\simpleTitle{Calcular la desviación estándar de un conjunto de valores:}
+
+- Se procesará un conjunto de valores que serán ingresados sucesivamente.
+- No se sabe en un principio cuántos serán.
+    - Recibiremos un string vacío (\ttt{"}\ttt{"}) cuando no haya más datos.
+- Para este conjunto de valores, debemos calcular su desviación estándar.
+
+## Ciclos while: desviación estándar v2 {.fragile}
+
+\nzincludecode{../scripts/e10while01.utf8.py}{Solicitar números al usuario}
+
+## Ciclos while: raíces cuadradas v2 {.fragile}
+
+- Recordemos el cálculo de raíces cuadradas, usando el\newline ``método de Herón'':
+
+$$ \sqrt{x} = \lim_{n \to \infty} r_{n+1} \qquad \text{tal que:}  \begin{cases} r_{n+1} & = \frac{1}{2} \left(r_n + \frac{x}{r_n}\right) \\ r_0 & = \text{\footnotesize{número arbitrario positivo}} \\ \end{cases} $$
+
+\vfill
+\pause
+
+\bgnblockidea
+¿Qué tal si lo implementamos usando \nzinlinecode{while}?
+\trmblockidea
+
+## Ciclos while: raíces cuadradas v2 {.fragile}
+
+- Primero que todo, volver a incluir la función \nzinlinecode{cerca}:
+
+\nzincludecode[firstline=1,lastline=8]{../scripts/e11raizheronwhile.utf8.py}{Definir función cerca}
+
+## Ciclos while: raíces cuadradas v2 {.fragile}
+
+\nzincludecode[firstline=10]{../scripts/e11raizheronwhile.utf8.py}{Implementar cálculo con ciclos}
+
+## Ciclos while: raíces cuadradas v2 {.fragile}
+
+- Comparemos la versión recursiva con esta nueva versión:
+
+\nzincludecode[firstline=10,lastline=20]{../scripts/e06raizheron.utf8.py}{}
+
+\nzincludecode[firstline=10,lastline=17]{../scripts/e11raizheronwhile.utf8.py}{}
+
+## Ciclos while: búsquedas del tesoro {.fragile}
+
+- Recordemos al famoso y malévolo corsario Barba Azul.
+- Vamos a reimplementar las 5 búsquedas que realizamos sobre el listado de cartas
+con el camino al tesoro.
+
+\pause
+
+- ¿Cómo quedan los datos ahora?
+
+\pause
+
+\begin{lstlisting}[style=frame03]
+import estructura
+estructura.crear("carta", "lugar referencia profundidad")
+
+cartas = []
+
+carta1 = carta("isla gaviota", "detrás de la roca", "2 metros")
+cartas = cartas + [carta1]
+
+carta2 = carta("playa larga", "al terminar el sendero", "3 metros")
+cartas = cartas + [carta2]
+
+carta3 = carta("arrecife escondido", "al medio", "4 metros")
+cartas = cartas + [carta3]
+
+print("Arreglo:", cartas)
+\end{lstlisting}
+
+
+## Ciclos while: búsquedas del tesoro {.fragile}
+
+\simpleTitle{Preguntas útiles de responder:}
+
+1. ¿Hay alguna carta que nos lleve a la ``isla gaviota''?
+1. ¿Cuántas cartas nos harán excavar 4 metros de profundidad?
+1. Haga una nueva lista, pero esquivando ``playa larga''.
+1. ¿Cuántos lugares distintos hay en toda la lista?
+1. ¿Cuál es la profundidad más repetida en toda la lista?
+
+## Ciclos while: buscar un valor {.fragile}
+
+\simpleTitle{1.- ¿Hay alguna carta que nos lleve a la ``isla gaviota''?}
+
+\vspace{1ex}
+\bld{Estrategia de resolución:}
+
+- Recorro todo el arreglo de cartas:
+    - Para cada carta, sólo si su atributo \nzinlinecode{lugar} es igual a lo buscado, retorno \ttt{True}.
+    - Ojo: si se retorna al interior de un ciclo, se termina tanto el ciclo como la función.
+- Si completé el recorrido de la lista, y no encontré nada, retorno \ttt{False}.
+
+## Ciclos while: buscar un valor {.fragile}
+
+\simpleTitle{1.- ¿Hay alguna carta que nos lleve a la ``isla gaviota''?}
+
+\begin{lstlisting}[style=frame02]
+def buscarLugar(arrCartas, buscado):
+    # variable que irá recorriendo cada índice
+    i = 0
+    # cantidad de cartas (límite del recorrido)
+    n = len(arrCartas)
+    # mientras queden cartas por recorrer
+    while i < n:
+        # carta actual
+        estaCarta = arrCartas[i]
+        # si encontré el lugar, retorno True
+        if estaCarta.lugar == buscado:
+            return True
+        i = i + 1                       # incremento el índice
+    # si llegué hasta acá, la búsqueda no resultó...
+    return False
+\end{lstlisting}
+
+## Ciclos while: buscar y contar {.fragile}
+
+\simpleTitle{2.- ¿Cuántas cartas nos harán excavar 4 metros de profundidad?}
+
+\vspace{1ex}
+\bld{Estrategia de resolución:}
+
+- Dado que el resultado es contar algo, defino una variable (contador) para ello.
+    - Inicialmente en 0.
+- Recorro el arreglo, y para cada elemento:
+    - Cada vez que su atributo \ttt{profundidad} sea lo buscado:
+        - Incremento el contador.
+- Finalizado el recorrido, retornamos nuestro contador.
+
+## Ciclos while: buscar y contar {.fragile}
+
+\simpleTitle{2.- ¿Cuántas cartas nos harán excavar 4 metros de profundidad?}
+
+\begin{lstlisting}[style=frame02]
+def contarProfundidad(arrCartas, profBusc):
+    i = 0               # variable que irá recorriendo cada índice
+    n = len(arrCartas)  # cantidad de cartas (límite del recorrido)
+    total = 0           # contador
+
+    # mientras queden cartas por recorrer
+    while i < n:
+        estaCarta = arrCartas[i]        # carta actual
+        # si encontré la profundidad, incremento el contador
+        if estaCarta.profundidad == profBusc:
+            total = total + 1
+        i = i + 1                       # incremento el índice
+    # si llegué hasta acá, la búsqueda terminó
+    return total
+\end{lstlisting}
+
+## Ciclos while: buscar y descartar {.fragile}
+
+\simpleTitle{3.- Haga una nueva lista, pero esquivando ``playa larga''}
+
+\vspace{1ex}
+\bld{Estrategia de resolución:}
+
+- Se crea un arreglo vacío.
+- Recorro el arreglo, y para cada elemento:
+    - Si su atributo \ttt{lugar} \alert{NO} es lo buscado.
+        - Agrego esta carta al nuevo arreglo (la copia).
+- Terminado el recorrido, retorno el nuevo arreglo.
+
+\bgnblockidea
+\bld{Ojo:} vamos a crear una copia del arreglo
+original, con la salvedad que cada vez que encontremos el lugar buscado,
+no lo copiamos (nos lo saltamos).
+\trmblockidea
+
+## Ciclos while: buscar y descartar {.fragile}
+
+\simpleTitle{3.- Haga una nueva lista, pero esquivando ``playa larga''}
+
+\footnotesize Se presenta una solución genérica, donde el segundo parámetro es el \ttt{lugar} a esquivar.
+
+\begin{lstlisting}[style=frame02]
+def esquivarLugar(arrCartas, buscado):
+    i = 0               # variable que irá recorriendo cada índice
+    n = len(arrCartas)  # cantidad de cartas (límite del recorrido)
+    nvoArr = []         # arreglo a retornar
+
+    # mientras queden cartas por recorrer
+    while i < n:
+        estaCarta = arrCartas[i]        # carta actual
+        # si esta carta no está en el lugar buscado, la agrego
+        if estaCarta.lugar != buscado:
+            nvoArr = nvoArr + [estaCarta]
+        i = i + 1                       # incremento el índice
+    # si llegué hasta acá, la búsqueda terminó
+    return nvoArr
+\end{lstlisting}
+
+
+## Ciclos while: contar ocurrencias {.fragile}
+
+\simpleTitle{4.- ¿Cuántos lugares distintos hay en toda la lista?}
+
+\vspace{1ex}
+\bld{Estrategia de resolución:}
+
+- Se crea un arreglo vacío:
+    - Lo llamaremos \ttt{lugaresUnicos}.
+    - Este arreglo irá guardando las cartas cuyas ciudades aún no estén en este
+    mismo arreglo.
+- Recorro el arreglo original, y para cada elemento:
+    - Si su atributo \ttt{lugar} no está aún en \ttt{lugaresUnicos}:
+        - Agrego esta carta al nuevo arreglo (la copia).
+- Terminado el recorrido, retorno la cantidad de elementos de \ttt{lugaresUnicos}.
+
+\bgnblockidea
+Para cada lugar encontrado, sólo se considera la primera vez que se encuentra.
+\trmblockidea
+
+## Ciclos while: contar ocurrencias {.fragile}
+
+\simpleTitle{4.- ¿Cuántos lugares distintos hay en toda la lista?}
+
+\begin{lstlisting}[style=frame02]
+def contarLugaresDistintos(arrCartas):
+    i = 0               # variable que irá recorriendo cada índice
+    n = len(arrCartas)  # cantidad de cartas (límite del recorrido)
+    lugaresUnicos = []  # arreglo que guardará los lugares
+
+    # mientras queden cartas por recorrer
+    while i < n:
+        estaCarta = arrCartas[i]        # carta actual
+        # si este lugar no está en el arreglo lugaresUnicos
+        if not buscarLugar(lugaresUnicos, estaCarta.lugar):
+            lugaresUnicos = lugaresUnicos + [estaCarta]
+        i = i + 1                       # incremento el índice
+    # si llegué hasta acá, la búsqueda terminó
+    # retorno la cantidad de elementos de lugaresUnicos
+    return len(lugaresUnicos)
+\end{lstlisting}
+
+
