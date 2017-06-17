@@ -1,0 +1,224 @@
+## Archivos de texto {.fragile}
+
+- Los archivos de texto nos permiten guardar datos.
+
+- Es la manera más simple de hacerlo.
+    - Se pueden leer desde cualquier lenguaje de programación.
+    - Podemos usar programas sencillos para ver su contenido.
+
+- Con los archivos de texto hay fundamentalmente dos operaciones:
+    - Abrir y escribir.
+    - Abrir y leer.
+
+## Archivos de texto {.fragile}
+
+\simpleTitle{Crear un archivo:}
+
+\begin{lstlisting}[style=frame02]
+# -*- coding: cp1252 -*-
+with open('archivo.txt', 'w') as puntero:
+    puntero.write("Estamos aprendiendo a escribir archivos.")
+    puntero.write("")
+    puntero.write("Final.")
+\end{lstlisting}
+
+\pause
+
+- Su contenido será éste:
+
+\begin{exampleFile}
+Estamos aprendiendo a escribir archivos.Final.
+\end{exampleFile}
+
+\pause
+\vfill
+
+\bgnblockdanger
+¡Nos faltó crear \bld{saltos de línea}!
+\trmblockdanger
+
+
+## Archivos de texto {.fragile}
+
+\simpleTitle{Crear un archivo:}
+
+\begin{lstlisting}[style=frame02]
+# -*- coding: cp1252 -*-
+with open('archivo.txt', 'w') as puntero:
+    puntero.write("Estamos aprendiendo a escribir archivos.\n")
+    puntero.write("\n")
+    puntero.write("Final.\n")
+\end{lstlisting}
+
+\pause
+
+- Ahora su contenido será éste:
+
+\begin{exampleFile}
+Estamos aprendiendo a escribir archivos.
+
+Final.
+\end{exampleFile}
+
+## Archivos de texto {.fragile}
+
+\simpleTitle{Leer un archivo:}
+
+\begin{lstlisting}[style=frame02]
+# -*- coding: cp1252 -*-
+with open('archivo.txt', 'r') as puntero:
+    linea = puntero.readline()
+    print(linea)
+\end{lstlisting}
+
+- Lo que nos imprimirá en pantalla la primera línea:
+
+\begin{exampleFile}
+Estamos aprendiendo a escribir archivos.
+
+\end{exampleFile}
+
+\bgnblockdanger
+He aquí un gran problema: ¿qué hacemos cuando no sabemos cuántas líneas tiene
+el archivo?.
+\trmblockdanger
+
+## Archivos de texto {.fragile}
+
+\simpleTitle{Leer un archivo:}
+
+\bgnblockdanger
+He aquí un gran problema: ¿qué hacemos cuando no sabemos cuántas líneas tiene
+el archivo?.
+\trmblockdanger
+
+\pause
+
+- Aún cuando sepamos la cantidad de líneas, si son muchas, tendremos que repetir el \nzinlinecode{readline}
+muchas veces.
+
+\pause
+
+\bgnblockidea
+Para leer archivos sin tener que saber la cantidad de líneas que tiene, podemos
+utilizar un \nzinlinecode{for}.
+\trmblockidea
+
+## Archivos de texto {.fragile}
+
+\simpleTitle{Leer un archivo:}
+
+\begin{lstlisting}[style=frame02]
+# -*- coding: cp1252 -*-
+with open('archivo.txt', 'r') as puntero:
+    for linea in puntero:
+        print(linea)
+\end{lstlisting}
+
+- Lo que nos imprimirá en pantalla algo distinto a lo esperado:
+
+\begin{exampleFile}
+Estamos aprendiendo a escribir archivos.
+
+
+
+Final.
+
+\end{exampleFile}
+
+## Archivos de texto {.fragile}
+
+\simpleTitle{Leer un archivo:}
+
+- Al leer línea por línea, leemos esa línea \bld{junto} al salto de línea.
+    - Tenemos que sacarle ese carácter.
+
+\bgnblockidea
+Para ello, usamos la función \nzinlinecode{strip} de los strings:
+\trmblockidea
+
+- \nzinlinecode{strip}: Quita los caracteres en blanco y saltos de línea tanto al inicio como al final.
+    - También quita otros caracteres, tales como tabuladores.
+
+## Archivos de texto {.fragile}
+
+\simpleTitle{Leer un archivo:}
+
+\begin{lstlisting}[style=frame02]
+# -*- coding: cp1252 -*-
+with open('archivo.txt', 'r') as puntero:
+    for linea in puntero:
+        # le sacamos los caracteres en blanco y saltos de línea
+        # tanto al inicio como al final
+        linea = linea.strip()
+        print(linea)
+\end{lstlisting}
+
+- Lo que nos imprimirá en pantalla el contenido del archivo:
+
+\begin{exampleFile}
+Estamos aprendiendo a escribir archivos.
+
+Final.
+\end{exampleFile}
+
+## Archivos de texto {.fragile}
+
+\simpleTitle{Leer un archivo: mayor control sobre las líneas}
+
+- He aquí un caso de uso muy típico:
+
+\bgnblockidea
+¿Qué pasa cuando quiero descartar la primera línea, porque es el encabezado?
+\trmblockidea
+
+\pause
+
+- La respuesta:
+
+\bgnblockdefinition
+Los archivos tienen la función \nzinlinecode{next()} que permite pasar, literalmente,
+a la línea siguiente.
+OJO: esta función retorna el texto de la línea saltada.
+\trmblockdefinition
+
+## Archivos de texto {.fragile}
+
+\simpleTitle{Leer un archivo: mayor control sobre las líneas}
+
+- Sea este archivo de texto:
+
+\begin{exampleFile}
+CODIGO:Nombre:Cantidad
+SDF32:Linterna:23
+RTK22:Pantalla:4
+TYN85:Ventilador:0
+\end{exampleFile}
+
+- Para leer su contenido, descartando el encabezado:
+
+\begin{lstlisting}[style=frame02,linebackgroundcolor={\btLstHL{3}}]
+# -*- coding: cp1252 -*-
+with open('archivo.txt', 'r') as puntero:
+    puntero.next()
+    for linea in puntero:
+        linea = linea.strip()
+        print(linea)
+\end{lstlisting}
+
+
+## Archivos de texto {.fragile}
+
+\simpleTitle{Función \nzinlinecode{open}}
+    
+- Esta función toma dos parámetros:
+    - El nombre del archivo.
+    - Un indicador del tipo de operación:
+
+\bgnblockgood
+
+- \ttt{'w'}: escribir archivo, creándolo o sobreescribiéndolo.
+- \ttt{'r'}: leer archivo, que de no existir, lanza un error.
+
+\trmblockgood
+

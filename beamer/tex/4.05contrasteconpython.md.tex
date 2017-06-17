@@ -1,0 +1,246 @@
+## Contraste con Python {.fragile}
+
+- Tanto con Python como con VBA podemos programar.
+- Sin embargo, existen algunas diferencias que veremos ahora.
+
+\pause
+
+- Esto es lo que revisaremos:
+    - Misceláneos
+    - Variables
+    - Funciones
+    - Condicionales
+    - Ciclos For
+
+## Contraste con Python {.fragile}
+
+\simpleTitle{Misceláneos:}
+
+- Comentarios dentro del código:
+
+\bgncolumns
+
+\column{.45\textwidth}
+\centering \structure{VBA:}
+\begin{lstlisting}[style=vba]
+    ' Esto es un comentario
+    ' siempre deben comenzar
+    ' con un apóstrofo
+\end{lstlisting}
+
+\column{.45\textwidth}
+\centering \structure{Python:}
+\begin{lstlisting}[style=frame03]
+    # Sin embargo, en Python
+    # los comentarios empiezan
+    # con un gato.
+\end{lstlisting}
+
+\trmcolumns
+
+## Contraste con Python {.fragile}
+
+\simpleTitle{Variables:}
+
+\bgncolumns
+
+\column{.45\textwidth}
+\centering \structure{VBA:}
+\begin{lstlisting}[style=vba]
+    Dim nombreVariable As tipoDeDato
+    nombreVariable = valorInicial
+\end{lstlisting}
+
+\column{.45\textwidth}
+\centering \structure{Python:}
+\begin{lstlisting}[style=frame03]
+    nombreVariable = valorInicial
+\end{lstlisting}
+
+\trmcolumns
+
+\vfill
+
+\simpleTitle[1ex]{Tipos de dato:}
+
+- \structure{Boolean:} booleano
+- \structure{String:} texto
+- \structure{Integer:} entero simple
+- \structure{Double:} un número real
+
+\vfill
+
+- \structure{Long:} un entero grande (muchos dígitos)
+    - Aproximadamente más que $2.147.483.648$
+- \structure{Single:} un número real (poca precisión)
+- \structure{Decimal:} un número real (mucha precisión)
+
+## Contraste con Python {.fragile}
+
+\simpleTitle{Declaración vs Inicialización:}
+
+\bgnblockdefinition
+\bld{Declaración:} es la línea que comienza con \nzinlinecode{Dim} y que \itt{declara}
+el nombre y el tipo de dato de la nueva variable.
+\trmblockdefinition
+
+\bgnblockdefinition
+\bld{Inicialización:} es cuando se le da un valor inicial a la nueva variable.
+\trmblockdefinition
+
+\pause
+\vfill
+
+\simpleTitle[1ex]{Observaciones:}
+
+- En Python sólo se hace la Inicialización.
+    - La declaración se hace de manera automática.
+- En VBA la declaración debe estar en una línea \bld{aparte} de la inicialización.
+    - Esto no es así en VB.Net.
+
+## Contraste con Python {.fragile}
+
+\simpleTitle{Ejemplos de declaración de variables:}
+
+\begin{lstlisting}[style=vba]
+    Dim nombre As String
+    Dim edad As Integer
+    Dim precio As Double
+    Dim estaListo As Boolean
+\end{lstlisting}
+
+\simpleTitle{Ejemplos de declaración e inicialización:}
+
+\begin{lstlisting}[style=vba]
+    Dim direccion As String
+    direccion = "Diagonal Paraguay con Portugal."
+    Dim puntos As Integer
+    puntos = 3
+    Dim profundidad As Double
+    profundidad = 34.6
+    Dim estaFuncionando As Boolean
+    estaFuncionando = True
+\end{lstlisting}
+
+## Contraste con Python {.fragile}
+
+\simpleTitle{Funciones:}
+
+- He aquí otra diferencia entre VBA y Python:
+
+\bgnblockdefinition
+\bld{Función:} es un grupo de instrucciones que puede recibir uno o más parámetros,
+pero que \bld{debe retornar} un valor.
+\trmblockdefinition
+
+\bgnblockdefinition
+\bld{Subrutina:} Es igual a una función, salvo que \bld{nunca retorna} un valor.
+\trmblockdefinition
+
+- En Python no existe un símil de las subrutinas, pues en este caso también son
+funciones.
+
+## Contraste con Python {.fragile}
+
+\simpleTitle{Funciones:}
+
+\centering \structure{VBA:}
+\begin{lstlisting}[style=vba]
+Function calculaPitagoras(a As Double, b As Double) As Double
+    calculaPitagoras = Math.sqr(a*a + b*b)
+End Function
+\end{lstlisting}
+
+\vfill
+\centering \structure{Python:}
+\begin{lstlisting}[style=frame03]
+import math
+
+# calculaPitagoras: num num -> float
+def calculaPitagoras(a, b):
+    return math.sqrt(a*a + b*b)
+\end{lstlisting}
+
+## Contraste con Python {.fragile}
+
+\simpleTitle{Subrutinas:}
+
+\bgncolumns
+
+\column{.55\textwidth}
+\centering \structure{Sólo en VBA:}
+\begin{lstlisting}[style=vba]
+Sub ReiniciarJuego()
+    Range("B5:D5").Select
+    With Selection
+        .Merge
+        .Value = "Palabra:"
+        .HorizontalAlignment = xlRight
+        .Font.Bold = True
+    End With
+    Range("E5:H5").Select
+    With Selection
+        .Merge
+        .Value = ""
+        .HorizontalAlignment = xlLeft
+        .Interior.Color = RGB(220, 220, 220)
+        .Borders.LineStyle = xlContinuous
+    End With
+End Sub
+\end{lstlisting}
+
+\column{.4\textwidth}
+
+\includegraphics[width=\linewidth]{img/vbaCaptura01.png}
+
+\trmcolumns
+
+## Contraste con Python {.fragile}
+
+\simpleTitle{Condicionales:}
+
+\bgncolumns
+
+\column{.45\textwidth}
+\centering \structure{VBA:}
+\begin{lstlisting}[style=vba]
+If Len(Range("E5").Value) > 0 Then
+    Range("E5").Font.Italic = True
+End If
+\end{lstlisting}
+
+\column{.45\textwidth}
+\centering \structure{Python:}
+\begin{lstlisting}[style=frame03]
+if len(palabra) > 0:
+    print(palabra)
+\end{lstlisting}
+
+\trmcolumns
+
+\vfill
+
+\simpleTitle[1ex]{Ciclos For:}
+
+\bgncolumns
+
+\column{.55\textwidth}
+\centering \structure{VBA:}
+\begin{lstlisting}[style=vba]
+Dim palabra As String
+palabra = Range("B2").Value
+For i = 1 To Len(palabra)
+    Cells(3 + i, 2).Value = Mid(palabra, i, 1)
+Next
+\end{lstlisting}
+
+\column{.35\textwidth}
+\centering \structure{Python:}
+\begin{lstlisting}[style=frame03]
+palabra = raw_input('')
+for i in range(len(palabra)):
+    print(palabra[i])
+\end{lstlisting}
+
+\trmcolumns
+
