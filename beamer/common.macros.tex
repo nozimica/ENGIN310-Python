@@ -1,16 +1,21 @@
 % \newcommand\tikzmark[2][]{%
 %   \tikz[remember picture,overlay,baseline=-.5ex] \node[#1] (#2) {};}
 
+\newcommand\tikzmarknode[3][]{%
+  \tikz[remember picture,baseline=-.8ex] \node[inner sep=0pt, #1] (#2) {#3};%
+}
+
 %% BEGIN @
 \makeatletter
 
 % http://tex.stackexchange.com/questions/75337/tikz-arrow-outside-tikzpicture-environment/75343#75343
-\newcommand*{\DrawArrow}[3][]{%
+% TODO: customized for braces
+\newcommand*{\drawArrow}[3][]{%
     % #1 = draw options
     % #2 = left point
     % #3 = right point
     \begin{tikzpicture}[overlay,remember picture]
-        \draw [-latex, #1] ($(#2)+(0.1em,0.5ex)$) to ($(#3)+(0,0.5ex)$);
+        \draw [-latex, structure, very thick, #1] ($(#2)+(0em,-2ex)$) to ($(#3)+(0,0.8ex)$);
     \end{tikzpicture}%
 }%
 
@@ -235,5 +240,59 @@
             \item Comprobar que hace lo correcto.%
         \end{enumerate}%
     \trmblockdefinition
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Closed (square) root symbol:
+% https://tex.stackexchange.com/a/29838/5185
+\makeatletter
+\let\oldr@@t\r@@t
+\def\r@@t#1#2{%
+\setbox0=\hbox{$\oldr@@t#1{#2\,}$}\dimen0=\ht0
+\advance\dimen0-0.2\ht0
+\setbox2=\hbox{\vrule height\ht0 depth -\dimen0}%
+{\box0\lower0.4pt\box2}}
+\LetLtxMacro{\oldsqrt}{\sqrt}
+\renewcommand*{\sqrt}[2][\ ]{\oldsqrt[#1]{#2}}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Miscelaneous diagrams
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% \nzArrayDiagram<>{matrixContents}
+%
+% Draws a diagram illustraing an array, with indexes and elements.
+\tikzset{
+arrayDiagram/.style={
+  matrix of nodes,
+  text height=1.6ex,
+  text depth=0.75ex,
+  column sep=-\pgflinewidth,
+  every node/.style={minimum width=4ex,line width=0.6pt,color=black!80,font=\scriptsize},
+  row 2/.style={nodes=draw},
+  anchor=west
+  }
+}
+
+\newcommand<>{\nzArrayDiagram}[2]{%
+    \vspace{1ex}%
+    \bgnblockgood[centered,wd=.95\textwidth]%
+    \vspace{-1ex}%
+    \begin{tikzpicture}[>=latex,ampersand replacement=\&]%
+    \matrix[arrayDiagram] at (0,0) (mat1)%
+    {%
+        #2%
+    };%
+    \node[font=\scriptsize, color=blue!80, left=0.5em of mat1-1-1.west] (asdf) {índices:};%
+    \node[font=\scriptsize, color=blue!80, left=0.5em of mat1-2-1.west] (asdf) {elementos:};%
+    \node[font=\small, left=6em of mat1.west] (diagTitle) {\textsc{#1}};%
+    \end{tikzpicture}%
+    \vspace{-1ex}%
+    \trmblockgood%
 }
 
