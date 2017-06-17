@@ -12,6 +12,9 @@ PANDOC=$(HOME)/.cabal/bin/pandoc -f markdown -t beamer --filter overlay_filter -
 MD_INFILES := $(wildcard tex/*.md.tex)
 MD_OUTFILES := $(MD_INFILES:.md.tex=.tex)
 
+SRC_FILES := $(wildcard ../scripts/*[^8].py)
+SRC_OUTFILES := $(SRC_FILES:.py=.utf8.py)
+
 ################################################################################
 ### Rules:
 
@@ -20,7 +23,10 @@ default: $(TEXNAME).pdf
 %.tex: %.md.tex
 	$(PANDOC) $? -o $@
 
-$(TEXNAME).pdf: $(TEXNAME).tex $(MD_OUTFILES) engin310.sty common.macros.tex
+%.utf8.py: %.py
+	/usr/bin/iconv -f cp1252 -t utf8 $? -o $@
+
+$(TEXNAME).pdf: $(TEXNAME).tex $(MD_OUTFILES) engin310.sty common.macros.tex $(SRC_OUTFILES)
 	# biber $(TEXNAME) --output_format bibtex
 	$(TEXCOMM) -no-pdf $(TEXNAME).tex && rm -f $(TEXNAME).xdv
 	# bibtex $(TEXNAME)
